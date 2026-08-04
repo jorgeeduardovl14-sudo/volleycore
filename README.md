@@ -1,10 +1,13 @@
-# VolleyCore V3.7.3 Stable
+# VolleyCore Sprint 1.1 — Familias
 
-Versión de recuperación construida sobre el núcleo comprobado de V3.6.3.
+Cambio incremental sobre v3.7.3-stable.
 
-- Restaura el arranque y autenticación estables.
-- Conserva los datos existentes en Firestore.
-- No requiere cambios de reglas.
-- Usa un archivo JavaScript versionado y reglas de no caché.
+## Alcance
+- Crear y editar grupos familiares.
+- Asociar varios usuarios y varias jugadoras a una familia.
+- Sincronizar `familyId`, `linkedUserIds` y mensualidades.
+- Vista individual de familia con saldo, usuarios y jugadoras.
+- Métricas de familias, usuarios/jugadoras sin asignar y saldo familiar.
 
-Esta versión prioriza estabilidad. Las mejoras experimentales de V3.7 se reincorporarán gradualmente después de validar este arranque.
+## Seguridad
+No modifica Firebase Authentication ni el flujo de arranque. No requiere cambios en `firestore.rules`.

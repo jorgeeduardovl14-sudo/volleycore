@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore V3.7.3 Stable</title>
+  <title>VolleyCore Sprint 1.1</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -49,7 +49,7 @@
     <div id="emailNotice" class="notice warning hidden">Tu correo todavía no está verificado. <button id="resendVerificationButton" class="link-button inline" type="button">Reenviar verificación</button></div>
 
     <section id="view-dashboard" class="view">
-      <div class="page-head"><div><span class="eyebrow">VOLLEYCORE V3.7.3 Stable</span><h2>Dashboard administrativo</h2></div><button id="newPlayerButton" class="btn primary">Nueva jugadora</button></div>
+      <div class="page-head"><div><span class="eyebrow">VOLLEYCORE SPRINT 1.1</span><h2>Dashboard administrativo</h2></div><button id="newPlayerButton" class="btn primary">Nueva jugadora</button></div>
       <div id="summaryCards" class="stats"></div>
       <div class="grid two"><article class="panel"><h3>Próximos eventos</h3><div id="upcomingEvents"></div></article><article class="panel"><h3>Jugadoras recientes</h3><div id="recentPlayers"></div></article></div>
     </section>
@@ -105,7 +105,7 @@
     </section>
 
     <section id="view-users" class="view hidden">
-      <div class="page-head"><div><span class="eyebrow">FAMILIAS</span><h2>Familias y usuarios</h2></div><button id="reconcileFamiliesButton" class="btn secondary">Reconciliar familias</button></div><div id="familiesList" class="cards-grid"></div><h3>Usuarios registrados</h3>
+      <div class="page-head"><div><span class="eyebrow">FAMILIAS</span><h2>Familias y usuarios</h2></div><div class="actions"><button id="newFamilyButton" class="btn primary">Nueva familia</button><button id="reconcileFamiliesButton" class="btn secondary">Reconciliar familias</button></div></div><div id="familiesSummary" class="stats small"></div><div id="familiesList" class="cards-grid"></div><h3>Usuarios registrados</h3>
       <div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Jugadoras vinculadas</th><th>Estado</th></tr></thead><tbody id="usersBody"></tbody></table></div><article class="panel"><h3>Solicitudes de vinculación</h3><div id="linkRequestsAdmin" class="cards-list"></div></article>
     </section>
 
@@ -154,6 +154,10 @@
 <dialog id="playerDetailDialog"><div class="dialog-head"><h3 id="playerDetailTitle">Perfil de jugadora</h3><button class="icon-button close-dialog" type="button">×</button></div><div id="playerDetailContent"></div></dialog>
 </main>
 
+<dialog id="familyDialog"><form id="familyForm"><div class="dialog-head"><h3 id="familyDialogTitle">Nueva familia</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="familyDocId" type="hidden"><div class="grid two"><label>Código familiar<input id="familyCode" required placeholder="FAM-0001"></label><label>Nombre de la familia<input id="familyName" required placeholder="Familia Vargas Molina"></label><label>Teléfono principal<input id="familyPhone"></label><label>Estado<select id="familyStatus"><option value="active">Activa</option><option value="inactive">Inactiva</option></select></label></div><label>Dirección<textarea id="familyAddress"></textarea></label><label>Observaciones<textarea id="familyNotes"></textarea></label><div class="grid two"><fieldset><legend>Usuarios de la familia</legend><div id="familyUsersEditor" class="check-list"></div></fieldset><fieldset><legend>Jugadoras de la familia</legend><div id="familyPlayersEditor" class="check-list"></div></fieldset></div><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar familia</button></div></form></dialog>
+
+<dialog id="familyDetailDialog"><div class="dialog-head dialog-pad"><div><span id="familyDetailCode" class="eyebrow"></span><h3 id="familyDetailTitle">Familia</h3></div><button class="icon-button close-dialog" type="button">×</button></div><div id="familyDetailContent" class="dialog-content"></div><div class="dialog-actions dialog-pad"><button id="editFamilyFromDetail" class="btn primary" type="button">Editar familia</button><button class="btn secondary close-dialog" type="button">Cerrar</button></div></dialog>
+
 <dialog id="playerDialog"><form id="playerForm"><div class="dialog-head"><h3 id="playerDialogTitle">Nueva jugadora</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="playerDocId" type="hidden"><div class="grid two"><label>Player ID<input id="playerCode" required placeholder="ASB-0001"></label><label>Nombre completo<input id="playerName" required></label><label>Fecha de nacimiento<input id="playerBirthdate" type="date"></label><label>Categoría principal<select id="playerCategory" required></select></label><div class="field-span"><span class="field-label">Categorías en las que participa</span><div id="playerCategoriesEditor" class="check-list"></div></div><label>Número<input id="playerNumber"></label><label>Posición<input id="playerPosition"></label><label>Cuota personalizada<input id="playerFee" type="number" min="0"></label><label>Estado<select id="playerStatus"><option value="active">Activa</option><option value="inactive">Inactiva</option></select></label></div><h4>Encargados (máximo 3)</h4><div id="guardiansEditor"></div><button id="addGuardianButton" type="button" class="btn secondary">Agregar encargado</button><h4>Usuarios familiares vinculados</h4><div id="linkedUsersEditor" class="check-list"></div><label>Observaciones<textarea id="playerNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
 
 <dialog id="categoryDialog"><form id="categoryForm"><div class="dialog-head"><h3 id="categoryDialogTitle">Nueva categoría</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="categoryDocId" type="hidden"><div class="grid two"><label>Nombre<input id="categoryName" required></label><label>Cuota mensual<input id="categoryFee" type="number" min="0" required></label><label>Día de vencimiento<input id="categoryDueDay" type="number" min="1" max="28" value="10" required></label><label>Temporada<select id="categorySeason"></select></label><label>Estado<select id="categoryStatus"><option value="active">Activa</option><option value="inactive">Inactiva</option></select></label><label>Entrenador/a principal<input id="categoryCoach"></label><label>Asistente<input id="categoryAssistant"></label><label>Horario regular<input id="categorySchedule" placeholder="Martes y viernes, 7:00 p. m."></label><label>Sede regular<select id="categoryVenue"></select></label></div><label>Información adicional<textarea id="categoryNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
@@ -179,7 +183,7 @@
 <dialog id="sinpeDialog"><form id="sinpeForm"><div class="dialog-head"><h3>Reportar pago SINPE</h3><button class="icon-button close-dialog" type="button">×</button></div><label>Mensualidad<select id="sinpeCharge" required></select></label><div class="grid two"><label>Monto<input id="sinpeAmount" type="number" min="1" required></label><label>Fecha<input id="sinpeDate" type="date" required></label><label>Hora<input id="sinpeTime" type="time" required></label><label>Banco<input id="sinpeBank" required></label><label>Teléfono de origen<input id="sinpePhone" required></label><label>Nombre del pagador<input id="sinpePayer" required></label></div><label>Número de comprobante<input id="sinpeReference" required></label><label>Observaciones<textarea id="sinpeNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Enviar reporte</button></div></form></dialog>
 
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="app-v3.7.3-stable.js?v=20260804-stable"></script>
+<script type="module" src="app-sprint-1.1-families.js?v=20260804-sprint11"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');
