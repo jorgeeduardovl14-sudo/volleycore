@@ -1,0 +1,107 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn(){ return request.auth != null; }
+    function ownUser(uid){ return signedIn() && request.auth.uid == uid; }
+    function userPath(){ return /databases/$(database)/documents/users/$(request.auth.uid); }
+    function hasProfile(){ return signedIn() && exists(userPath()); }
+    function userDoc(){ return get(userPath()); }
+    function sameOrg(){ return hasProfile() && userDoc().data.orgId == 'asbavol'; }
+    function isAdmin(){ return sameOrg() && userDoc().data.role in ['admin','treasurer']; }
+    function isPortalUser(){ return sameOrg() && userDoc().data.role == 'family'; }
+    function isGuardian(){ return isPortalUser() && (!('accountType' in userDoc().data) || userDoc().data.accountType == 'guardian'); }
+
+    match /users/{uid} {
+      allow create: if ownUser(uid)
+        && request.resource.data.orgId == 'asbavol'
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.role == 'family'
+        && request.resource.data.status == 'active'
+        && request.resource.data.accountType in ['guardian','player'];
+      allow read: if ownUser(uid) || isAdmin();
+      allow update: if isAdmin() || (ownUser(uid)
+        && request.resource.data.orgId == resource.data.orgId
+        && request.resource.data.email == resource.data.email
+        && request.resource.data.role == resource.data.role
+        && request.resource.data.status == resource.data.status
+        && request.resource.data.accountType == resource.data.accountType
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['fullName','phone','updatedAt']));
+      allow delete: if false;
+    }
+
+    match /families/{id} {
+      allow read: if isAdmin() || (isPortalUser()
+        && resource.data.orgId == 'asbavol'
+        && request.auth.uid in resource.data.memberUserIds);
+      allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow delete: if false;
+    }
+
+    match /categories/{id} {
+      allow read: if sameOrg() && resource.data.orgId == 'asbavol';
+      allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow delete: if false;
+    }
+    match /seasons/{id} {
+      allow read: if sameOrg() && resource.data.orgId == 'asbavol';
+      allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow delete: if false;
+    }
+    match /trainingSeries/{id} {
+      allow read: if sameOrg() && resource.data.orgId == 'asbavol';
+      allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow delete: if false;
+    }
+    match /trainingExceptions/{id} {
+      allow read: if sameOrg() && resource.data.orgId == 'asbavol';
+      allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow delete: if false;
+    }
+    match /venues/{id} {
+      allow read: if sameOrg() && resource.data.orgId == 'asbavol';
+      allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow delete: if false;
+    }
+    match /events/{id} {
+      allow read: if sameOrg() && resource.data.orgId == 'asbavol';
+      allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow delete: if false;
+    }
+    match /announcements/{id} {
+      allow read: if isAdmin() || (isPortalUser() && resource.data.orgId == 'asbavol' && resource.data.status == 'published');
+      allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow delete: if false;
+    }
+    match /players/{id} {
+      allow read: if isAdmin() || (isPortalUser()
+        && resource.data.orgId == 'asbavol'
+        && request.auth.uid in resource.data.linkedUserIds);
+      allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow delete: if false;
+    }
+    match /charges/{id} {
+      allow read: if isAdmin() || (isGuardian() && resource.data.orgId == 'asbavol' && request.auth.uid in resource.data.userIds);
+      allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow delete: if false;
+    }
+    match /sinpeReports/{id} {
+      allow read: if isAdmin() || (isGuardian() && resource.data.orgId == 'asbavol' && resource.data.userId == request.auth.uid);
+      allow create: if isGuardian()
+        && request.resource.data.orgId == 'asbavol'
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.status == 'reported';
+      allow update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow delete: if false;
+    }
+    match /linkRequests/{id} {
+      allow read: if isAdmin() || (isPortalUser() && resource.data.orgId == 'asbavol' && resource.data.userId == request.auth.uid);
+      allow create: if isPortalUser()
+        && request.resource.data.orgId == 'asbavol'
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.status == 'pending';
+      allow update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow delete: if false;
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}
