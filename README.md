@@ -8,3 +8,4 @@ Incremental improvement over Sprint 1.1.
 - Clickable player and user profiles.
 - Improved family cards and financial summary.
 - Authentication and startup flow unchanged.
+- Develop deployment test
