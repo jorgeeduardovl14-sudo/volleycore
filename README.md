@@ -1,13 +1,10 @@
-# VolleyCore Sprint 1.1 — Familias
+# VolleyCore Sprint 1.2 — Family UX
 
-Cambio incremental sobre v3.7.3-stable.
+Incremental improvement over Sprint 1.1.
 
-## Alcance
-- Crear y editar grupos familiares.
-- Asociar varios usuarios y varias jugadoras a una familia.
-- Sincronizar `familyId`, `linkedUserIds` y mensualidades.
-- Vista individual de familia con saldo, usuarios y jugadoras.
-- Métricas de familias, usuarios/jugadoras sin asignar y saldo familiar.
-
-## Seguridad
-No modifica Firebase Authentication ni el flujo de arranque. No requiere cambios en `firestore.rules`.
+- Visual selector for players and users; no Player ID prompts.
+- Search and category filtering.
+- Optional filter for people without a family.
+- Clickable player and user profiles.
+- Improved family cards and financial summary.
+- Authentication and startup flow unchanged.
