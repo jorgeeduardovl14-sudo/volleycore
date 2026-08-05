@@ -100,12 +100,10 @@
     </section>
 
     <section id="view-sinpeAdmin" class="view hidden">
-      <div class="page-head"><div><span class="eyebrow">CONCILIACIÓN</span><h2>Pagos reportados</h2></div><button id="exportPaymentsButton" class="btn secondary" type="button">Descargar reporte</button></div>
+      <div class="page-head"><div><span class="eyebrow">CONCILIACIÓN</span><h2>Pagos reportados</h2></div></div>
       <div class="filters finance-filters">
         <select id="sinpeCategoryFilter" aria-label="Categoría"><option value="">Todas las categorías</option></select>
         <select id="sinpeMonthFilter" aria-label="Mes"></select>
-        <input id="paymentDateFromFilter" type="date" aria-label="Fecha desde">
-        <input id="paymentDateToFilter" type="date" aria-label="Fecha hasta">
         <select id="paymentMethodFilter" aria-label="Método de pago">
           <option value="">Todos los métodos</option>
           <option value="sinpe">SINPE</option>
@@ -119,6 +117,22 @@
         </select>
       </div>
       <div id="sinpeSummary" class="stats small"></div>
+
+      <article class="panel payment-report-panel">
+        <div class="page-head compact-head"><div><span class="eyebrow">EXPORTACIÓN</span><h3>Generar reporte de pagos</h3></div></div>
+        <div class="filters finance-filters">
+          <select id="paymentReportPeriodType" aria-label="Tipo de periodo">
+            <option value="month">Por mes</option>
+            <option value="range">Por rango de fechas</option>
+          </select>
+          <select id="paymentReportMonth" aria-label="Mes del reporte"></select>
+          <input id="paymentReportDateFrom" type="date" aria-label="Fecha desde" class="hidden">
+          <input id="paymentReportDateTo" type="date" aria-label="Fecha hasta" class="hidden">
+          <button id="generatePaymentsReportButton" class="btn primary" type="button">Generar reporte</button>
+        </div>
+        <p class="muted">El reporte respeta la categoría, el método y el estado seleccionados arriba. Los ingresos contabilizados corresponden únicamente a pagos aprobados.</p>
+      </article>
+
       <div id="sinpeAdminList" class="cards-list"></div>
     </section>
 
@@ -224,7 +238,7 @@
 </dialog>
 
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="app-payments-module-v1.js?v=20260805-2100"></script>
+<script type="module" src="app-payments-report-controls-v1.js?v=20260805-2200"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');
