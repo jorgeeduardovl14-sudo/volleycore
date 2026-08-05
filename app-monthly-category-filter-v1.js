@@ -108,13 +108,6 @@ function renderFamilyTrainings(){const list=familyTrainingSeries;$('#familyTrain
 function renderEvents(){const cat=$('#eventCategoryFilter').value,tp=$('#eventTypeFilter').value,se=$('#eventSeasonFilter').value;const list=events.filter(e=>(!cat||e.categoryId===cat)&&(!tp||e.type===tp)&&(!se||e.seasonId===se));$('#eventsList').innerHTML=list.map(e=>`<article class="panel event-card"><div><span class="eyebrow">${typeLabel(e.type)} · ${esc(catName(e.categoryId))} · ${esc(seasonName(e.seasonId))}</span><h3>${esc(e.title)}</h3><p><strong>${esc(e.date)}</strong> · ${esc(e.startTime||'')} ${e.endTime?'– '+esc(e.endTime):''}</p><p>${esc(venueName(e.venueId))}${e.opponent?' · Rival: '+esc(e.opponent):''}</p>${venueLinks(e.venueId)}<p class="muted">${esc(e.notes||'')}</p></div><div><span class="badge ${e.status}">${statusLabel(e.status)}</span><button class="action" data-edit-event="${e.id}">Editar</button></div></article>`).join('')||'<p class="muted">No hay eventos.</p>'}
 function renderVenues(){$('#venuesList').innerHTML=venues.map(v=>`<article class="panel"><h3>${esc(v.name)}</h3><p>${esc(v.address)}</p><p class="muted">${esc(v.directions||'')}</p>${venueLinks(v.id)}<button class="action" data-edit-venue="${v.id}">Editar</button></article>`).join('')||'<p class="muted">No hay lugares registrados.</p>'}
 function renderAnnouncements(){$('#announcementsList').innerHTML=announcements.map(a=>`<article class="panel"><div class="page-head compact-head"><div><span class="eyebrow">${a.categoryId?esc(catName(a.categoryId)):'Todas las categorías'}</span><h3>${esc(a.title)}</h3></div><span class="badge ${a.status}">${statusLabel(a.status)}</span></div><p>${esc(a.body)}</p><button class="action" data-edit-announcement="${a.id}">Editar</button></article>`).join('')||'<p class="muted">No hay comunicados.</p>'}
-function chargeDueState(c){
-  if(['paid','exempt'].includes(c.status))return c.status;
-  const month=c.month||'';
-  if(!/^\d{4}-\d{2}$/.test(month))return c.status||'pending';
-  const due=`${month}-15`;
-  return today()>due?'overdue':(c.status||'pending');
-}
 function renderCharges(){
   const mo=$('#chargeMonthFilter').value,cat=$('#chargeCategoryFilter').value,st=$('#chargeStatusFilter').value;
   const list=charges.filter(c=>{
