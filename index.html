@@ -116,7 +116,13 @@
     </section>
 
     <section id="view-users" class="view hidden">
-      <div class="page-head"><div><span class="eyebrow">FAMILIAS</span><h2>Familias y usuarios</h2></div><div class="actions"><button id="newFamilyButton" class="btn primary">Nueva familia</button><button id="reconcileFamiliesButton" class="btn secondary">Reconciliar familias</button></div></div><div id="familiesSummary" class="stats small"></div><div id="familiesList" class="cards-grid"></div><h3>Usuarios registrados</h3>
+      <div class="page-head"><div><span class="eyebrow">FAMILIAS</span><h2>Familias y usuarios</h2></div><div class="actions"><button id="newFamilyButton" class="btn primary">Nueva familia</button><button id="reconcileFamiliesButton" class="btn secondary">Reconciliar familias</button></div></div>
+      <div class="filters">
+        <select id="familyCategoryFilter" aria-label="Filtrar familias por categoría">
+          <option value="">Todas las categorías</option>
+        </select>
+      </div>
+      <div id="familiesSummary" class="stats small"></div><div id="familiesList" class="cards-grid"></div><h3>Usuarios registrados</h3>
       <div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Jugadoras vinculadas</th><th>Estado</th></tr></thead><tbody id="usersBody"></tbody></table></div><article class="panel"><h3>Solicitudes de vinculación</h3><div id="linkRequestsAdmin" class="cards-list"></div></article>
     </section>
 
@@ -211,7 +217,7 @@
 </dialog>
 
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="app-sinpe-filters-v1.js?v=20260805-1825"></script>
+<script type="module" src="app-family-category-filter-v1.js?v=20260805-1935"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');
