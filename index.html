@@ -39,7 +39,7 @@
     <div class="top-actions"><span id="roleBadge" class="badge">Familia</span><button id="logoutButton" class="btn secondary">Cerrar sesión</button></div>
   </header>
   <nav id="adminNav" class="nav hidden">
-    <button data-view="dashboard" class="active">Inicio</button><button data-view="players">Jugadoras</button><button data-view="categories">Categorías</button><button data-view="seasons">Temporadas</button><button data-view="trainings">Entrenamientos</button><button data-view="events">Eventos</button><button data-view="venues">Gimnasios</button><button data-view="announcements">Comunicados</button><button data-view="finances">Mensualidades</button><button data-view="sinpeAdmin">SINPE</button><button data-view="users">Familias</button><button data-view="reports">Reportes</button><button data-view="import">Importar V2</button><button data-view="about">Acerca de</button><button data-view="profile">Mi perfil</button>
+    <button data-view="dashboard" class="active">Inicio</button><button data-view="players">Jugadoras</button><button data-view="categories">Categorías</button><button data-view="seasons">Temporadas</button><button data-view="trainings">Entrenamientos</button><button data-view="events">Eventos</button><button data-view="venues">Gimnasios</button><button data-view="announcements">Comunicados</button><button data-view="finances">Mensualidades</button><button data-view="sinpeAdmin">Pagos</button><button data-view="users">Familias</button><button data-view="reports">Reportes</button><button data-view="import">Importar V2</button><button data-view="about">Acerca de</button><button data-view="profile">Mi perfil</button>
   </nav>
   <nav id="familyNav" class="nav hidden">
     <button data-view="familyHome" class="active">Inicio</button><button data-view="familyLink">Vincular jugadora</button><button data-view="familyTrainings">Entrenamientos</button><button data-view="familyEvents">Eventos</button><button data-view="familyPayments">Mensualidades</button><button data-view="familyAnnouncements">Comunicados</button><button data-view="profile">Mi perfil</button>
@@ -100,10 +100,17 @@
     </section>
 
     <section id="view-sinpeAdmin" class="view hidden">
-      <div class="page-head"><div><span class="eyebrow">CONCILIACIÓN</span><h2>Reportes SINPE</h2></div></div>
+      <div class="page-head"><div><span class="eyebrow">CONCILIACIÓN</span><h2>Pagos reportados</h2></div><button id="exportPaymentsButton" class="btn secondary" type="button">Descargar reporte</button></div>
       <div class="filters finance-filters">
         <select id="sinpeCategoryFilter" aria-label="Categoría"><option value="">Todas las categorías</option></select>
         <select id="sinpeMonthFilter" aria-label="Mes"></select>
+        <input id="paymentDateFromFilter" type="date" aria-label="Fecha desde">
+        <input id="paymentDateToFilter" type="date" aria-label="Fecha hasta">
+        <select id="paymentMethodFilter" aria-label="Método de pago">
+          <option value="">Todos los métodos</option>
+          <option value="sinpe">SINPE</option>
+          <option value="transfer">Transferencia bancaria</option>
+        </select>
         <select id="sinpeStatusFilter" aria-label="Estado">
           <option value="">Todos los estados</option>
           <option value="reported">Pendiente de revisión</option>
@@ -158,7 +165,7 @@
       <div id="familyEventsList" class="cards-list"></div>
     </section>
 
-    <section id="view-familyPayments" class="view hidden"><div class="page-head"><div><span class="eyebrow">FINANZAS</span><h2>Mis mensualidades</h2></div><button id="openSinpeButton" class="btn primary">Reportar SINPE</button></div><div id="familyChargesList" class="cards-list"></div></section>
+    <section id="view-familyPayments" class="view hidden"><div class="page-head"><div><span class="eyebrow">FINANZAS</span><h2>Mis mensualidades</h2></div><button id="openSinpeButton" class="btn primary">Reportar pago</button></div><div id="familyChargesList" class="cards-list"></div></section>
     <section id="view-familyAnnouncements" class="view hidden"><div class="page-head"><div><span class="eyebrow">INFORMACIÓN</span><h2>Comunicados</h2></div></div><div id="familyAnnouncementsList" class="cards-list"></div></section>
 
     <section id="view-about" class="view hidden"><div class="page-head"><div><span class="eyebrow">SISTEMA</span><h2>Acerca de VolleyCore</h2></div></div><article class="panel"><p><strong>Versión:</strong> 3.6</p><p><strong>Build:</strong> 2026-08-04</p><p><strong>Organización:</strong> ASBAVOL</p><p><strong>Base de datos:</strong> Firebase Firestore</p></article></section>
@@ -201,7 +208,7 @@
 
 <dialog id="generateDialog"><form id="generateForm"><div class="dialog-head"><h3>Generar mensualidades</h3><button class="icon-button close-dialog" type="button">×</button></div><label>Mes<input id="generateMonth" type="month" required></label><label>Categoría<select id="generateCategory"><option value="">Todas las categorías</option></select></label><p class="muted">Solo se crearán cargos que todavía no existan para la jugadora y el mes seleccionados.</p><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Generar</button></div></form></dialog>
 
-<dialog id="sinpeDialog"><form id="sinpeForm"><div class="dialog-head"><h3>Reportar pago SINPE</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="sinpeCharge" type="hidden"><div class="grid two"><label>Jugadora<select id="sinpePlayer" required></select></label><label>Mes que desea pagar<select id="sinpeMonth" required></select></label><label>Monto<input id="sinpeAmount" type="number" min="1" required></label><label>Fecha<input id="sinpeDate" type="date" required></label><label>Hora<input id="sinpeTime" type="time" required></label><label>Banco<input id="sinpeBank" required></label><label>Teléfono de origen<input id="sinpePhone" required></label><label>Nombre del pagador<input id="sinpePayer" required></label></div><label>Número de comprobante<input id="sinpeReference" required></label><label>Observaciones<textarea id="sinpeNotes"></textarea></label><p class="notice info">Cada pago se aplica a una única jugadora y un único mes. Los meses pagados o con un reporte pendiente no pueden seleccionarse nuevamente.</p><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button id="sinpeSubmitButton" class="btn primary" type="submit">Enviar reporte</button></div></form></dialog>
+<dialog id="sinpeDialog"><form id="sinpeForm"><div class="dialog-head"><h3>Reportar pago</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="sinpeCharge" type="hidden"><div class="grid two"><label>Método de pago<select id="paymentMethod" required><option value="sinpe">SINPE</option><option value="transfer">Transferencia bancaria</option></select></label><label>Jugadora<select id="sinpePlayer" required></select></label><label>Mes que desea pagar<select id="sinpeMonth" required></select></label><label>Monto<input id="sinpeAmount" type="number" min="1" required></label><label>Fecha<input id="sinpeDate" type="date" required></label><label>Hora<input id="sinpeTime" type="time" required></label><label>Banco<input id="sinpeBank" required></label><label>Teléfono de origen<input id="sinpePhone"></label><label>Nombre del pagador<input id="sinpePayer" required></label></div><label>Número de comprobante<input id="sinpeReference" required></label><label>Observaciones<textarea id="sinpeNotes"></textarea></label><p class="notice info">Cada pago se aplica a una única jugadora y un único mes. Los meses pagados o con un reporte pendiente no pueden seleccionarse nuevamente.</p><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button id="sinpeSubmitButton" class="btn primary" type="submit">Enviar reporte</button></div></form></dialog>
 
 
 <dialog id="confirmDialog" class="confirm-dialog">
@@ -217,7 +224,7 @@
 </dialog>
 
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="app-family-category-filter-v1.js?v=20260805-1935"></script>
+<script type="module" src="app-payments-module-v1.js?v=20260805-2100"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');
