@@ -101,6 +101,17 @@
 
     <section id="view-sinpeAdmin" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">CONCILIACIÓN</span><h2>Reportes SINPE</h2></div></div>
+      <div class="filters finance-filters">
+        <select id="sinpeCategoryFilter" aria-label="Categoría"><option value="">Todas las categorías</option></select>
+        <select id="sinpeMonthFilter" aria-label="Mes"></select>
+        <select id="sinpeStatusFilter" aria-label="Estado">
+          <option value="">Todos los estados</option>
+          <option value="reported">Pendiente de revisión</option>
+          <option value="approved">Aprobado</option>
+          <option value="rejected">Rechazado</option>
+        </select>
+      </div>
+      <div id="sinpeSummary" class="stats small"></div>
       <div id="sinpeAdminList" class="cards-list"></div>
     </section>
 
@@ -200,7 +211,7 @@
 </dialog>
 
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="app-monthly-category-filter-v1.js?v=20260805-1205"></script>
+<script type="module" src="app-sinpe-filters-v1.js?v=20260805-1825"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');
