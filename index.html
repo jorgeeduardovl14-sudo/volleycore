@@ -94,9 +94,9 @@
 
     <section id="view-finances" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">FINANZAS</span><h2>Mensualidades</h2></div><button id="generateChargesButton" class="btn primary">Generar mensualidades</button></div>
-      <div class="filters"><input id="chargeMonthFilter" type="month"><select id="chargeStatusFilter"><option value="">Todos los estados</option><option value="pending">Pendiente</option><option value="paid">Pagado</option><option value="partial">Parcial</option><option value="exempt">Exonerado</option></select></div>
+      <div class="filters finance-filters"><input id="chargeMonthFilter" type="month" aria-label="Mes"><select id="chargeCategoryFilter" aria-label="Categoría"><option value="">Todas las categorías</option></select><select id="chargeStatusFilter" aria-label="Estado"><option value="">Todos los estados</option><option value="overdue">Morosos</option><option value="pending">Pendiente dentro del plazo</option><option value="partial">Parcial</option><option value="paid">Pagado</option><option value="exempt">Exonerado</option></select></div>
       <div id="financeSummary" class="stats small"></div>
-      <div class="table-wrap"><table><thead><tr><th>Jugadora</th><th>Mes</th><th>Monto</th><th>Pagado</th><th>Estado</th><th></th></tr></thead><tbody id="chargesBody"></tbody></table></div>
+      <div class="table-wrap"><table><thead><tr><th>Jugadora</th><th>Categoría</th><th>Mes</th><th>Monto</th><th>Pagado</th><th>Estado</th><th></th></tr></thead><tbody id="chargesBody"></tbody></table></div>
     </section>
 
     <section id="view-sinpeAdmin" class="view hidden">
@@ -200,7 +200,7 @@
 </dialog>
 
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="app-family-payments-v1.js?v=20260805-1615"></script>
+<script type="module" src="app-monthly-category-filter-v1.js?v=20260805-1745"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');

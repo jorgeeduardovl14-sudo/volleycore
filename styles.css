@@ -19,3 +19,6 @@
 
 /* Family payments */
 .family-charge-card{display:grid;gap:.65rem}.charge-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem}.charge-values span{background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:.7rem;display:flex;flex-direction:column;gap:.2rem}.payment-meta{margin:0;font-size:.9rem}.pending-review{color:#92400e}.badge.overdue{background:#fee2e2;color:#991b1b}@media(max-width:700px){.charge-values{grid-template-columns:1fr}}
+
+/* Sprint 1.7 - filtros de mensualidades */
+.finance-filters{grid-template-columns:1fr 1fr 1fr}.badge.overdue{background:#fee2e2;color:#991b1b}@media(max-width:800px){.finance-filters{grid-template-columns:1fr}}
