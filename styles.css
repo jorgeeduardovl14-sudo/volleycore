@@ -16,3 +16,6 @@
 .confirm-dialog .dialog-content{padding:10px 24px 6px;font-size:1rem;line-height:1.55;color:#334155}
 .confirm-dialog .dialog-actions{display:flex;justify-content:flex-end;gap:12px}
 #saveFamilyMembersButton:disabled{opacity:.68;cursor:wait}
+
+/* Family payments */
+.family-charge-card{display:grid;gap:.65rem}.charge-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem}.charge-values span{background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:.7rem;display:flex;flex-direction:column;gap:.2rem}.payment-meta{margin:0;font-size:.9rem}.pending-review{color:#92400e}.badge.overdue{background:#fee2e2;color:#991b1b}@media(max-width:700px){.charge-values{grid-template-columns:1fr}}

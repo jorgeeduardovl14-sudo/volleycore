@@ -184,7 +184,7 @@
 
 <dialog id="generateDialog"><form id="generateForm"><div class="dialog-head"><h3>Generar mensualidades</h3><button class="icon-button close-dialog" type="button">×</button></div><label>Mes<input id="generateMonth" type="month" required></label><label>Categoría<select id="generateCategory"><option value="">Todas las categorías</option></select></label><p class="muted">Solo se crearán cargos que todavía no existan para la jugadora y el mes seleccionados.</p><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Generar</button></div></form></dialog>
 
-<dialog id="sinpeDialog"><form id="sinpeForm"><div class="dialog-head"><h3>Reportar pago SINPE</h3><button class="icon-button close-dialog" type="button">×</button></div><label>Mensualidad<select id="sinpeCharge" required></select></label><div class="grid two"><label>Monto<input id="sinpeAmount" type="number" min="1" required></label><label>Fecha<input id="sinpeDate" type="date" required></label><label>Hora<input id="sinpeTime" type="time" required></label><label>Banco<input id="sinpeBank" required></label><label>Teléfono de origen<input id="sinpePhone" required></label><label>Nombre del pagador<input id="sinpePayer" required></label></div><label>Número de comprobante<input id="sinpeReference" required></label><label>Observaciones<textarea id="sinpeNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Enviar reporte</button></div></form></dialog>
+<dialog id="sinpeDialog"><form id="sinpeForm"><div class="dialog-head"><h3>Reportar pago SINPE</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="sinpeCharge" type="hidden"><div class="grid two"><label>Jugadora<select id="sinpePlayer" required></select></label><label>Mes que desea pagar<select id="sinpeMonth" required></select></label><label>Monto<input id="sinpeAmount" type="number" min="1" required></label><label>Fecha<input id="sinpeDate" type="date" required></label><label>Hora<input id="sinpeTime" type="time" required></label><label>Banco<input id="sinpeBank" required></label><label>Teléfono de origen<input id="sinpePhone" required></label><label>Nombre del pagador<input id="sinpePayer" required></label></div><label>Número de comprobante<input id="sinpeReference" required></label><label>Observaciones<textarea id="sinpeNotes"></textarea></label><p class="notice info">Cada pago se aplica a una única jugadora y un único mes. Los meses pagados o con un reporte pendiente no pueden seleccionarse nuevamente.</p><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button id="sinpeSubmitButton" class="btn primary" type="submit">Enviar reporte</button></div></form></dialog>
 
 
 <dialog id="confirmDialog" class="confirm-dialog">
@@ -200,7 +200,7 @@
 </dialog>
 
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="app-family-dialogs-v1.js?v=20260805-0945"></script>
+<script type="module" src="app-family-payments-v1.js?v=20260805-1615"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');
