@@ -60,10 +60,18 @@
     <div class="top-actions"><span id="roleBadge" class="badge">Familia</span><button id="logoutButton" class="btn secondary">Cerrar sesión</button></div>
   </header>
   <nav id="adminNav" class="nav hidden">
-    <button data-view="dashboard" class="active">Inicio</button><button data-view="players">Jugadoras</button><button data-view="categories">Categorías</button><button data-view="seasons">Temporadas</button><button data-view="trainings">Entrenamientos</button><button data-view="events">Eventos</button><button data-view="venues">Gimnasios</button><button data-view="announcements">Comunicados</button><button data-view="finances">Mensualidades</button><button data-view="sinpeAdmin">Pagos</button><button data-view="users">Familias</button><button data-view="reports">Reportes</button><button data-view="import">Importar V2</button><button data-view="about">Acerca de</button><button data-view="profile">Mi perfil</button>
+    <button data-view="dashboard" class="active">Inicio</button><button data-view="players">Jugadoras</button><button data-view="categories">Categorías</button><button data-view="seasons">Temporadas</button><button data-view="trainings">Entrenamientos</button><button data-view="events">Eventos</button><button data-view="venues">Gimnasios</button><button data-view="announcements">Comunicados</button><button data-view="finances">Mensualidades</button><button data-view="sinpeAdmin">Pagos</button><button data-view="users">Familias</button><button data-view="trainers">Entrenadores</button><button data-view="reports">Reportes</button><button data-view="import">Importar V2</button><button data-view="about">Acerca de</button><button data-view="profile">Mi perfil</button>
   </nav>
   <nav id="familyNav" class="nav hidden">
     <button data-view="familyHome" class="active">Inicio</button><button data-view="familyLink">Vincular jugadora</button><button data-view="familyTrainings">Entrenamientos</button><button data-view="familyEvents">Eventos</button><button data-view="familyPayments">Mensualidades</button><button data-view="familyAnnouncements">Comunicados</button><button data-view="profile">Mi perfil</button>
+  </nav>
+  <nav id="trainerNav" class="nav hidden">
+    <button data-view="trainerHome" class="active">Inicio</button>
+    <button data-view="trainerPlayers">Mi equipo</button>
+    <button data-view="trainerTrainings">Entrenamientos</button>
+    <button data-view="trainerEvents">Eventos</button>
+    <button data-view="trainerAnnouncements">Comunicados</button>
+    <button data-view="profile">Mi perfil</button>
   </nav>
 
   <section class="container">
@@ -214,6 +222,45 @@
 
     <section id="view-about" class="view hidden"><div class="page-head"><div><span class="eyebrow">SISTEMA</span><h2>Acerca de VolleyCore</h2></div></div><article class="panel"><p><strong>Versión:</strong> 3.6</p><p><strong>Build:</strong> 2026-08-04</p><p><strong>Organización:</strong> ASBAVOL</p><p><strong>Base de datos:</strong> Firebase Firestore</p></article></section>
 
+    <section id="view-trainers" class="view hidden">
+      <div class="page-head">
+        <div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2>Entrenadores y permisos</h2></div>
+        <button id="newTrainerButton" class="btn primary" type="button">Asignar entrenador</button>
+      </div>
+      <div id="trainersSummary" class="stats small"></div>
+      <div id="trainersList" class="cards-list"></div>
+    </section>
+
+    <section id="view-trainerHome" class="view hidden">
+      <div class="page-head"><div><span class="eyebrow">PORTAL DE ENTRENADOR</span><h2 id="trainerWelcome">Mi equipo</h2></div></div>
+      <div id="trainerSummary" class="stats"></div>
+      <div class="grid two">
+        <article class="panel"><h3>Próximos entrenamientos</h3><div id="trainerUpcomingTrainings"></div></article>
+        <article class="panel"><h3>Próximos eventos</h3><div id="trainerUpcomingEvents"></div></article>
+      </div>
+    </section>
+
+    <section id="view-trainerPlayers" class="view hidden">
+      <div class="page-head"><div><span class="eyebrow">MI EQUIPO</span><h2>Jugadoras asignadas</h2></div></div>
+      <div class="filters"><input id="trainerPlayerSearch" type="search" placeholder="Buscar jugadora"><select id="trainerPlayerCategory"><option value="">Todas mis categorías</option></select></div>
+      <div id="trainerPlayersList" class="cards-list"></div>
+    </section>
+
+    <section id="view-trainerTrainings" class="view hidden">
+      <div class="page-head"><div><span class="eyebrow">AGENDA</span><h2>Entrenamientos asignados</h2></div></div>
+      <div id="trainerTrainingsList" class="cards-list"></div>
+    </section>
+
+    <section id="view-trainerEvents" class="view hidden">
+      <div class="page-head"><div><span class="eyebrow">COMPETENCIA</span><h2>Eventos de mis categorías</h2></div></div>
+      <div id="trainerEventsList" class="cards-list"></div>
+    </section>
+
+    <section id="view-trainerAnnouncements" class="view hidden">
+      <div class="page-head"><div><span class="eyebrow">COMUNICACIÓN</span><h2>Comunicados</h2></div></div>
+      <div id="trainerAnnouncementsList" class="cards-list"></div>
+    </section>
+
     <section id="view-profile" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">CUENTA</span><h2>Mi perfil</h2></div></div>
       <div class="grid two"><article class="panel"><dl class="details"><div><dt>Nombre</dt><dd id="profileName">—</dd></div><div><dt>Correo</dt><dd id="profileEmail">—</dd></div><div><dt>Teléfono</dt><dd id="profilePhone">—</dd></div><div><dt>Rol</dt><dd id="profileRole">—</dd></div></dl></article><article class="panel"><form id="profileForm"><label>Nombre completo<input id="editFullName" required></label><label>Teléfono<input id="editPhone" required></label><button class="btn primary">Guardar cambios</button></form></article></div>
@@ -241,6 +288,23 @@
 <dialog id="familyMemberPickerDialog"><div class="dialog-head dialog-pad"><div><span class="eyebrow">GRUPO FAMILIAR</span><h3 id="familyMemberPickerTitle">Gestionar miembros</h3></div><button class="icon-button close-dialog" type="button">×</button></div><div class="dialog-content"><div class="picker-toolbar"><label>Buscar<input id="familyMemberSearch" type="search" placeholder="Nombre, correo, teléfono o Player ID"></label><label>Categoría<select id="familyMemberCategory"><option value="">Todas las categorías</option></select></label><label class="picker-check"><input id="familyMemberOnlyUnassigned" type="checkbox"> Solo mostrar personas sin familia</label></div><div class="grid two picker-columns"><fieldset><legend>Jugadoras</legend><div id="familyMemberPlayers" class="picker-list"></div></fieldset><fieldset><legend>Usuarios</legend><div id="familyMemberUsers" class="picker-list"></div></fieldset></div><p class="notice info">Marca las personas que deben pertenecer a esta familia. Si una persona ya está en otro grupo, VolleyCore pedirá confirmación antes de moverla.</p></div><div class="dialog-actions dialog-pad"><button class="btn secondary close-dialog" type="button">Cancelar</button><button id="saveFamilyMembersButton" class="btn primary" type="button">Guardar miembros</button></div></dialog>
 
 <dialog id="userDetailDialog"><div class="dialog-head dialog-pad"><h3 id="userDetailTitle">Perfil de usuario</h3><button class="icon-button close-dialog" type="button">×</button></div><div id="userDetailContent" class="dialog-content"></div><div class="dialog-actions dialog-pad"><button class="btn secondary close-dialog" type="button">Cerrar</button></div></dialog>
+<dialog id="trainerDialog">
+  <form id="trainerForm">
+    <div class="dialog-head"><h3>Asignar perfil de entrenador</h3><button class="icon-button close-dialog" type="button">×</button></div>
+    <label>Usuario<select id="trainerUserId" required></select></label>
+    <div class="grid two">
+      <label>Nivel<select id="trainerLevel"><option value="head">Entrenador principal</option><option value="assistant">Asistente</option><option value="coordinator">Coordinador deportivo</option></select></label>
+      <label>Estado<select id="trainerStatus"><option value="active">Activo</option><option value="inactive">Inactivo</option></select></label>
+    </div>
+    <fieldset><legend>Categorías asignadas</legend><div id="trainerCategoriesEditor" class="check-list"></div></fieldset>
+    <fieldset><legend>Privilegios</legend>
+      <label class="check-inline"><input id="trainerViewContacts" type="checkbox"> Ver teléfonos y correos de encargados</label>
+      <label class="check-inline"><input id="trainerViewFinancial" type="checkbox"> Ver únicamente estado financiero general</label>
+    </fieldset>
+    <p class="notice info">El entrenador no tendrá acceso a montos, comprobantes, aprobación de pagos, familias ni configuración administrativa.</p>
+    <div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar perfil</button></div>
+  </form>
+</dialog>
 <dialog id="playerDialog"><form id="playerForm"><div class="dialog-head"><h3 id="playerDialogTitle">Nueva jugadora</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="playerDocId" type="hidden"><div class="grid two"><label>Player ID<input id="playerCode" required placeholder="ASB-0001"></label><label>Nombre completo<input id="playerName" required></label><label>Fecha de nacimiento<input id="playerBirthdate" type="date"></label><label>Categoría principal<select id="playerCategory" required></select></label><div class="field-span"><span class="field-label">Categorías en las que participa</span><div id="playerCategoriesEditor" class="check-list"></div></div><label>Número<input id="playerNumber"></label><label>Posición<input id="playerPosition"></label><label>Cuota personalizada<input id="playerFee" type="number" min="0"></label><label>Estado<select id="playerStatus"><option value="active">Activa</option><option value="inactive">Inactiva</option></select></label></div><h4>Encargados (máximo 3)</h4><div id="guardiansEditor"></div><button id="addGuardianButton" type="button" class="btn secondary">Agregar encargado</button><h4>Usuarios familiares vinculados</h4><div id="linkedUsersEditor" class="check-list"></div><label>Observaciones<textarea id="playerNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
 
 <dialog id="categoryDialog"><form id="categoryForm"><div class="dialog-head"><h3 id="categoryDialogTitle">Nueva categoría</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="categoryDocId" type="hidden"><div class="grid two"><label>Nombre<input id="categoryName" required></label><label>Cuota mensual<input id="categoryFee" type="number" min="0" required></label><label>Día de vencimiento<input id="categoryDueDay" type="number" min="1" max="28" value="10" required></label><label>Temporada<select id="categorySeason"></select></label><label>Estado<select id="categoryStatus"><option value="active">Activa</option><option value="inactive">Inactiva</option></select></label><label>Entrenador/a principal<input id="categoryCoach"></label><label>Asistente<input id="categoryAssistant"></label><label>Horario regular<input id="categorySchedule" placeholder="Martes y viernes, 7:00 p. m."></label><label>Sede regular<select id="categoryVenue"></select></label></div><label>Información adicional<textarea id="categoryNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
@@ -279,7 +343,7 @@
 </dialog>
 
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="app-payment-and-monthly-reports-v1.js?v=20260806-1200"></script>
+<script type="module" src="app-trainer-role-v1.js?v=20260806-1430"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');

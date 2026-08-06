@@ -9,6 +9,11 @@ service cloud.firestore {
     function sameOrg(){ return hasProfile() && userDoc().data.orgId == 'asbavol'; }
     function isAdmin(){ return sameOrg() && userDoc().data.role in ['admin','treasurer']; }
     function isPortalUser(){ return sameOrg() && userDoc().data.role == 'family'; }
+    function isTrainer(){ return sameOrg() && userDoc().data.role == 'trainer' && userDoc().data.status == 'active'; }
+    function trainerCategories(){ return isTrainer() && ('assignedCategoryIds' in userDoc().data) ? userDoc().data.assignedCategoryIds : []; }
+    function trainerHasCategory(categoryId){ return isTrainer() && categoryId in trainerCategories(); }
+    function trainerHasAnyCategory(categoryIds){ return isTrainer() && categoryIds.hasAny(trainerCategories()); }
+    function trainerCanSeeFinancial(){ return isTrainer() && ('permissions' in userDoc().data) && userDoc().data.permissions.viewFinancialStatus == true; }
     function isGuardian(){ return isPortalUser() && (!('accountType' in userDoc().data) || userDoc().data.accountType == 'guardian'); }
 
     match /users/{uid} {
@@ -30,13 +35,10 @@ service cloud.firestore {
     }
 
     match /families/{id} {
-      allow read: if isAdmin() || (isPortalUser()
-        && resource.data.orgId == 'asbavol'
-        && request.auth.uid in resource.data.memberUserIds);
+      allow read: if isAdmin() || (isPortalUser() && resource.data.orgId == 'asbavol' && request.auth.uid in resource.data.memberUserIds);
       allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
       allow delete: if false;
     }
-
     match /categories/{id} {
       allow read: if sameOrg() && resource.data.orgId == 'asbavol';
       allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
@@ -48,7 +50,7 @@ service cloud.firestore {
       allow delete: if false;
     }
     match /trainingSeries/{id} {
-      allow read: if sameOrg() && resource.data.orgId == 'asbavol';
+      allow read: if (isAdmin() || trainerHasCategory(resource.data.categoryId) || isPortalUser()) && resource.data.orgId == 'asbavol';
       allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
       allow delete: if false;
     }
@@ -63,24 +65,28 @@ service cloud.firestore {
       allow delete: if false;
     }
     match /events/{id} {
-      allow read: if sameOrg() && resource.data.orgId == 'asbavol';
+      allow read: if (isAdmin() || trainerHasCategory(resource.data.categoryId) || isPortalUser()) && resource.data.orgId == 'asbavol';
       allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
       allow delete: if false;
     }
     match /announcements/{id} {
-      allow read: if isAdmin() || (isPortalUser() && resource.data.orgId == 'asbavol' && resource.data.status == 'published');
+      allow read: if isAdmin()
+        || (isPortalUser() && resource.data.orgId == 'asbavol' && resource.data.status == 'published')
+        || (isTrainer() && resource.data.orgId == 'asbavol' && resource.data.status == 'published' && trainerHasCategory(resource.data.categoryId));
       allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
       allow delete: if false;
     }
     match /players/{id} {
-      allow read: if isAdmin() || (isPortalUser()
-        && resource.data.orgId == 'asbavol'
-        && request.auth.uid in resource.data.linkedUserIds);
+      allow read: if isAdmin()
+        || (isPortalUser() && resource.data.orgId == 'asbavol' && request.auth.uid in resource.data.linkedUserIds)
+        || (isTrainer() && resource.data.orgId == 'asbavol' && trainerHasAnyCategory(resource.data.categoryIds));
       allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
       allow delete: if false;
     }
     match /charges/{id} {
-      allow read: if isAdmin() || (isGuardian() && resource.data.orgId == 'asbavol' && request.auth.uid in resource.data.userIds);
+      allow read: if isAdmin()
+        || (isGuardian() && resource.data.orgId == 'asbavol' && request.auth.uid in resource.data.userIds)
+        || (trainerCanSeeFinancial() && resource.data.orgId == 'asbavol' && trainerHasCategory(resource.data.categoryId));
       allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
       allow delete: if false;
     }
