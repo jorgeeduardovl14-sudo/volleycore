@@ -126,6 +126,10 @@
       <article class="panel payment-report-panel">
         <div class="page-head compact-head"><div><span class="eyebrow">REPORTES</span><h3>Generar reporte de pagos</h3></div></div>
         <div class="filters finance-filters">
+          <select id="paymentReportType" aria-label="Tipo de reporte">
+            <option value="payments">Pagos recibidos</option>
+            <option value="charges">Estado de mensualidades</option>
+          </select>
           <select id="paymentReportCategory" aria-label="Categoría"><option value="">Todas las categorías</option></select>
           <select id="paymentReportPeriodType" aria-label="Tipo de periodo">
             <option value="months">Por meses</option>
@@ -151,12 +155,7 @@
             <option value="sinpe">SINPE</option>
             <option value="transfer">Transferencia bancaria</option>
           </select>
-          <select id="paymentReportStatus" aria-label="Estado">
-            <option value="">Todos los estados</option>
-            <option value="reported">Pendiente de revisión</option>
-            <option value="approved">Aprobado</option>
-            <option value="rejected">Rechazado</option>
-          </select>
+          <select id="paymentReportStatus" aria-label="Estado"></select>
           <button id="generatePaymentsReportButton" class="btn primary" type="button">Generar reporte</button>
           <button id="downloadPaymentsReportButton" class="btn secondary" type="button" disabled>Descargar reporte</button>
         </div>
@@ -280,7 +279,7 @@
 </dialog>
 
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="app-payments-month-dropdown-v1.js?v=20260806-1135"></script>
+<script type="module" src="app-payment-and-monthly-reports-v1.js?v=20260806-1200"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');
