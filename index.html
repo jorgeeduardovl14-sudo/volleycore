@@ -66,7 +66,7 @@
     <section id="view-players" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">ATLETAS</span><h2>Jugadoras</h2></div><button id="newPlayerButton2" class="btn primary">Nueva jugadora</button></div>
       <div class="filters"><input id="playerSearch" placeholder="Buscar por Player ID, nombre, encargado o teléfono"><select id="playerCategoryFilter"><option value="">Todas las categorías</option></select><select id="playerStatusFilter"><option value="">Todos los estados</option><option value="active">Activas</option><option value="inactive">Inactivas</option></select></div>
-      <div class="table-wrap"><table><thead><tr><th>Player ID</th><th>Jugadora</th><th>Categoría</th><th>Encargados</th><th>Usuarios vinculados</th><th>Cuota</th><th>Estado</th><th></th></tr></thead><tbody id="playersBody"></tbody></table></div>
+      <div class="table-wrap"><table><thead><tr><th>Player ID</th><th>Jugadora</th><th>Categoría</th><th>Encargados</th><th>Usuarios vinculados</th><th>Cuota</th><th>Estado financiero</th><th>Estado</th><th></th></tr></thead><tbody id="playersBody"></tbody></table></div>
     </section>
 
     <section id="view-categories" class="view hidden">
@@ -204,6 +204,17 @@
     </section>
   </section>
 <dialog id="playerDetailDialog"><div class="dialog-head"><h3 id="playerDetailTitle">Perfil de jugadora</h3><button class="icon-button close-dialog" type="button">×</button></div><div id="playerDetailContent"></div></dialog>
+<dialog id="playerFinancialDialog">
+  <div class="dialog-head dialog-pad">
+    <div><span class="eyebrow">ESTADO FINANCIERO</span><h3 id="playerFinancialTitle">Mensualidades</h3></div>
+    <button class="icon-button close-dialog" type="button">×</button>
+  </div>
+  <div id="playerFinancialSummary" class="stats small dialog-content"></div>
+  <div id="playerFinancialContent" class="dialog-content"></div>
+  <div class="dialog-actions dialog-pad">
+    <button class="btn secondary close-dialog" type="button">Cerrar</button>
+  </div>
+</dialog>
 </main>
 
 <dialog id="familyDialog"><form id="familyForm"><div class="dialog-head"><h3 id="familyDialogTitle">Nueva familia</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="familyDocId" type="hidden"><div class="grid two"><label>Código familiar<input id="familyCode" required placeholder="FAM-0001"></label><label>Nombre de la familia<input id="familyName" required placeholder="Familia Vargas Molina"></label><label>Teléfono principal<input id="familyPhone"></label><label>Estado<select id="familyStatus"><option value="active">Activa</option><option value="inactive">Inactiva</option></select></label></div><label>Dirección<textarea id="familyAddress"></textarea></label><label>Observaciones<textarea id="familyNotes"></textarea></label><div class="grid two"><fieldset><legend>Usuarios de la familia</legend><div id="familyUsersEditor" class="check-list"></div></fieldset><fieldset><legend>Jugadoras de la familia</legend><div id="familyPlayersEditor" class="check-list"></div></fieldset></div><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar familia</button></div></form></dialog>
@@ -252,7 +263,7 @@
 </dialog>
 
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="app-payments-multi-month-v1.js?v=20260806-0015"></script>
+<script type="module" src="app-player-financial-status-v1.js?v=20260806-0835"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');
