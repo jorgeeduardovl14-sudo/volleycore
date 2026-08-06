@@ -15,6 +15,18 @@
 .month-check-item input{width:auto}
 </style>
 
+
+<style>
+.multi-select{position:relative;min-width:280px}
+.multi-select-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid #d6d9df;border-radius:12px;background:#fff;font:inherit;cursor:pointer}
+.multi-select-menu{position:absolute;z-index:50;top:calc(100% + 6px);left:0;right:0;max-height:340px;overflow:auto;padding:12px;border:1px solid #d6d9df;border-radius:14px;background:#fff;box-shadow:0 18px 45px rgba(15,23,42,.16)}
+.multi-select-actions{display:flex;gap:8px;padding-bottom:10px;margin-bottom:8px;border-bottom:1px solid #eceff3}
+.multi-select-options{display:grid;gap:6px}
+.multi-select-option{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:9px;cursor:pointer}
+.multi-select-option:hover{background:#f5f6f8}
+.multi-select-option input{width:auto}
+</style>
+
 </head>
 <body>
 <main id="bootScreen" class="screen auth-screen"><section class="auth-card loading-card"><div class="brand"><div class="brand-mark">VC</div><div><span>VOLLEYCORE</span><h1>ASBAVOL</h1></div></div><div class="spinner" aria-hidden="true"></div><h2>Cargando sesión…</h2><p class="muted">Estamos sincronizando tu información con Firebase.</p></section></main>
@@ -119,14 +131,19 @@
             <option value="months">Por meses</option>
             <option value="range">Por rango de fechas</option>
           </select>
-          <fieldset id="paymentReportMonthsBox" class="month-checkbox-panel">
-            <legend>Meses a incluir</legend>
-            <div id="paymentReportMonths" class="month-checkbox-grid"></div>
-            <div class="actions">
-              <button id="selectAllReportMonthsButton" class="action" type="button">Seleccionar todos</button>
-              <button id="clearReportMonthsButton" class="action" type="button">Limpiar selección</button>
+          <div id="paymentReportMonthsBox" class="multi-select">
+            <button id="paymentReportMonthsToggle" class="multi-select-toggle" type="button" aria-expanded="false">
+              <span id="paymentReportMonthsLabel">Seleccionar meses</span>
+              <span aria-hidden="true">▾</span>
+            </button>
+            <div id="paymentReportMonthsMenu" class="multi-select-menu hidden">
+              <div class="multi-select-actions">
+                <button id="selectAllReportMonthsButton" class="action" type="button">Seleccionar todos</button>
+                <button id="clearReportMonthsButton" class="action" type="button">Limpiar</button>
+              </div>
+              <div id="paymentReportMonths" class="multi-select-options"></div>
             </div>
-          </fieldset>
+          </div>
           <input id="paymentReportDateFrom" type="date" aria-label="Fecha desde" class="hidden">
           <input id="paymentReportDateTo" type="date" aria-label="Fecha hasta" class="hidden">
           <select id="paymentReportMethod" aria-label="Método de pago">
@@ -263,7 +280,7 @@
 </dialog>
 
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="app-player-financial-status-v1.js?v=20260806-0835"></script>
+<script type="module" src="app-payments-month-dropdown-v1.js?v=20260806-1135"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');
