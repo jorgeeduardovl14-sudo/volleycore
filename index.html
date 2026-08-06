@@ -129,17 +129,42 @@
     </section>
 
     <section id="view-sinpeAdmin" class="view hidden">
-      <div class="page-head"><div><span class="eyebrow">CONCILIACIÓN</span><h2>Pagos reportados</h2></div></div>
+      <div class="page-head">
+        <div><span class="eyebrow">CONCILIACIÓN</span><h2>Pagos</h2></div>
+      </div>
+
+      <article class="panel">
+        <div class="page-head compact-head">
+          <div><span class="eyebrow">BANDEJA OPERATIVA</span><h3>Pagos pendientes de revisión</h3></div>
+          <span id="paymentsInboxCount" class="badge reported">0 pendientes</span>
+        </div>
+        <div class="filters finance-filters">
+          <input id="paymentsInboxSearch" type="search" placeholder="Buscar jugadora, familia, comprobante o pagador">
+          <select id="paymentsInboxCategory"><option value="">Todas las categorías</option></select>
+          <select id="paymentsInboxMethod">
+            <option value="">Todos los métodos</option>
+            <option value="sinpe">SINPE</option>
+            <option value="transfer">Transferencia bancaria</option>
+          </select>
+          <select id="paymentsInboxStatus">
+            <option value="reported">Pendientes de revisión</option>
+            <option value="">Todos los estados</option>
+            <option value="approved">Aprobados</option>
+            <option value="rejected">Rechazados</option>
+          </select>
+        </div>
+        <div id="paymentsInboxList" class="cards-list"></div>
+      </article>
 
       <article class="panel payment-report-panel">
-        <div class="page-head compact-head"><div><span class="eyebrow">REPORTES</span><h3>Generar reporte de pagos</h3></div></div>
+        <div class="page-head compact-head"><div><span class="eyebrow">REPORTES</span><h3>Generar reporte</h3></div></div>
         <div class="filters finance-filters">
-          <select id="paymentReportType" aria-label="Tipo de reporte">
+          <select id="paymentReportType">
             <option value="payments">Pagos recibidos</option>
             <option value="charges">Estado de mensualidades</option>
           </select>
-          <select id="paymentReportCategory" aria-label="Categoría"><option value="">Todas las categorías</option></select>
-          <select id="paymentReportPeriodType" aria-label="Tipo de periodo">
+          <select id="paymentReportCategory"><option value="">Todas las categorías</option></select>
+          <select id="paymentReportPeriodType">
             <option value="months">Por meses</option>
             <option value="range">Por rango de fechas</option>
           </select>
@@ -156,18 +181,18 @@
               <div id="paymentReportMonths" class="multi-select-options"></div>
             </div>
           </div>
-          <input id="paymentReportDateFrom" type="date" aria-label="Fecha desde" class="hidden">
-          <input id="paymentReportDateTo" type="date" aria-label="Fecha hasta" class="hidden">
-          <select id="paymentReportMethod" aria-label="Método de pago">
+          <input id="paymentReportDateFrom" type="date" class="hidden">
+          <input id="paymentReportDateTo" type="date" class="hidden">
+          <select id="paymentReportMethod">
             <option value="">Todos los métodos</option>
             <option value="sinpe">SINPE</option>
             <option value="transfer">Transferencia bancaria</option>
           </select>
-          <select id="paymentReportStatus" aria-label="Estado"></select>
+          <select id="paymentReportStatus"></select>
           <button id="generatePaymentsReportButton" class="btn primary" type="button">Generar reporte</button>
           <button id="downloadPaymentsReportButton" class="btn secondary" type="button" disabled>Descargar reporte</button>
         </div>
-        <p class="muted">Primero genera el reporte para verlo en pantalla. Después podrás descargar exactamente ese resultado.</p>
+        <p class="muted">La bandeja de revisión permanece siempre visible. Los reportes se generan de forma independiente.</p>
       </article>
 
       <div id="sinpeSummary" class="stats small"></div>
@@ -343,7 +368,7 @@
 </dialog>
 
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="app-trainer-role-v1.js?v=20260806-1430"></script>
+<script type="module" src="app-payments-inbox-v1.js?v=20260806-1515"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');
