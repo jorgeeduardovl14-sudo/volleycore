@@ -108,6 +108,10 @@ service cloud.firestore {
       allow update: if isAdmin() && request.resource.data.orgId == 'asbavol';
       allow delete: if false;
     }
+    match /categoryVideos/{id} {
+      allow read: if sameOrg() && resource.data.orgId == 'asbavol';
+      allow create, update, delete: if isAdmin();
+    }
     match /{document=**} { allow read, write: if false; }
   }
 }

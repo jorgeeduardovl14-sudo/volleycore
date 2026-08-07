@@ -33,6 +33,9 @@
 .danger-action:hover{background:#ffe4e6}
 </style>
 
+<style>
+.category-detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.category-section{margin-top:22px}.category-video-card{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.category-link{word-break:break-word}
+</style>
 </head>
 <body>
 <main id="bootScreen" class="screen auth-screen"><section class="auth-card loading-card"><div class="brand"><div class="brand-mark">VC</div><div><span>VOLLEYCORE</span><h1>ASBAVOL</h1></div></div><div class="spinner" aria-hidden="true"></div><h2>Cargando sesión…</h2><p class="muted">Estamos sincronizando tu información con Firebase.</p></section></main>
@@ -69,7 +72,7 @@
     <button data-view="dashboard" class="active">Inicio</button><button data-view="players">Jugadoras</button><button data-view="categories">Categorías</button><button data-view="seasons">Temporadas</button><button data-view="trainings">Entrenamientos</button><button data-view="events">Eventos</button><button data-view="venues">Gimnasios</button><button data-view="announcements">Comunicados</button><button data-view="finances">Mensualidades</button><button data-view="sinpeAdmin">Pagos</button><button data-view="users">Familias</button><button data-view="trainers">Entrenadores</button><button data-view="reports">Reportes</button><button data-view="import">Importar V2</button><button data-view="about">Acerca de</button><button data-view="profile">Mi perfil</button>
   </nav>
   <nav id="familyNav" class="nav hidden">
-    <button data-view="familyHome" class="active">Inicio</button><button data-view="familyLink">Vincular jugadora</button><button data-view="familyTrainings">Entrenamientos</button><button data-view="familyEvents">Eventos</button><button data-view="familyPayments">Mensualidades</button><button data-view="familyAnnouncements">Comunicados</button><button data-view="profile">Mi perfil</button>
+    <button data-view="familyHome" class="active">Inicio</button><button data-view="familyCategories">Mis categorías</button><button data-view="familyLink">Vincular jugadora</button><button data-view="familyTrainings">Entrenamientos</button><button data-view="familyEvents">Eventos</button><button data-view="familyPayments">Mensualidades</button><button data-view="familyAnnouncements">Comunicados</button><button data-view="profile">Mi perfil</button>
   </nav>
   <nav id="trainerNav" class="nav hidden">
     <button data-view="trainerHome" class="active">Inicio</button>
@@ -233,6 +236,11 @@
     </section>
 
 
+    <section id="view-familyCategories" class="view hidden">
+      <div class="page-head"><div><span class="eyebrow">MIS EQUIPOS</span><h2>Mis categorías</h2></div></div>
+      <div id="familyCategoriesList" class="cards-grid"></div>
+    </section>
+
     <section id="view-familyLink" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">VINCULACIÓN</span><h2>Vincular una jugadora</h2></div></div>
       <article class="panel"><p>Ingresa los datos que conoces. Por seguridad no se muestra un directorio completo de jugadoras.</p><form id="linkRequestForm"><div class="grid two"><label>Player ID<input id="linkPlayerCode" placeholder="ASB-0001"></label><label>Nombre completo de la jugadora<input id="linkPlayerName" required></label><label>Categoría conocida<select id="linkCategory"><option value="">No estoy seguro/a</option></select></label><label>Relación con la jugadora<input id="linkRelationship" placeholder="Madre, padre, encargado/a"></label></div><label>Observaciones<textarea id="linkNotes"></textarea></label><button class="btn primary" type="submit">Enviar solicitud</button></form></article><article class="panel"><h3>Mis solicitudes</h3><div id="familyLinkRequests"></div></article>
@@ -338,6 +346,20 @@
 </dialog>
 <dialog id="playerDialog"><form id="playerForm"><div class="dialog-head"><h3 id="playerDialogTitle">Nueva jugadora</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="playerDocId" type="hidden"><div class="grid two"><label>Player ID<input id="playerCode" required placeholder="ASB-0001"></label><label>Nombre completo<input id="playerName" required></label><label>Fecha de nacimiento<input id="playerBirthdate" type="date"></label><label>Categoría principal<select id="playerCategory" required></select></label><div class="field-span"><span class="field-label">Categorías en las que participa</span><div id="playerCategoriesEditor" class="check-list"></div></div><label>Número<input id="playerNumber"></label><label>Posición<input id="playerPosition"></label><label>Cuota personalizada<input id="playerFee" type="number" min="0"></label><label>Estado<select id="playerStatus"><option value="active">Activa</option><option value="inactive">Inactiva</option></select></label></div><h4>Encargados (máximo 3)</h4><div id="guardiansEditor"></div><button id="addGuardianButton" type="button" class="btn secondary">Agregar encargado</button><h4>Usuarios familiares vinculados</h4><div id="linkedUsersEditor" class="check-list"></div><label>Observaciones<textarea id="playerNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
 
+<dialog id="categoryDetailDialog">
+  <div class="dialog-head dialog-pad"><div><span class="eyebrow">FICHA DE CATEGORÍA</span><h3 id="categoryDetailTitle">Categoría</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
+  <div id="categoryDetailContent" class="dialog-content"></div>
+  <div class="dialog-actions dialog-pad"><button id="addCategoryVideoButton" class="btn primary" type="button">Agregar video</button><button class="btn secondary close-dialog" type="button">Cerrar</button></div>
+</dialog>
+<dialog id="categoryVideoDialog">
+  <form id="categoryVideoForm">
+    <div class="dialog-head"><h3>Partido grabado</h3><button class="icon-button close-dialog" type="button">×</button></div>
+    <input id="categoryVideoDocId" type="hidden"><input id="categoryVideoCategoryId" type="hidden">
+    <div class="grid two"><label>Título<input id="categoryVideoTitle" required></label><label>Fecha<input id="categoryVideoDate" type="date" required></label><label>Rival<input id="categoryVideoOpponent"></label><label>Torneo / evento<input id="categoryVideoTournament"></label></div>
+    <label>Enlace del video<input id="categoryVideoUrl" type="url" required placeholder="https://..."></label><label>Observaciones<textarea id="categoryVideoNotes"></textarea></label>
+    <div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar video</button></div>
+  </form>
+</dialog>
 <dialog id="categoryDialog"><form id="categoryForm"><div class="dialog-head"><h3 id="categoryDialogTitle">Nueva categoría</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="categoryDocId" type="hidden"><div class="grid two"><label>Nombre<input id="categoryName" required></label><label>Cuota mensual<input id="categoryFee" type="number" min="0" required></label><label>Día de vencimiento<input id="categoryDueDay" type="number" min="1" max="28" value="10" required></label><label>Temporada<select id="categorySeason"></select></label><label>Estado<select id="categoryStatus"><option value="active">Activa</option><option value="inactive">Inactiva</option></select></label><label>Entrenador/a principal<input id="categoryCoach"></label><label>Asistente<input id="categoryAssistant"></label><label>Horario regular<input id="categorySchedule" placeholder="Martes y viernes, 7:00 p. m."></label><label>Sede regular<select id="categoryVenue"></select></label></div><label>Información adicional<textarea id="categoryNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
 
 <dialog id="venueDialog"><form id="venueForm"><div class="dialog-head"><h3 id="venueDialogTitle">Nuevo lugar</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="venueDocId" type="hidden"><label>Nombre<input id="venueName" required></label><label>Dirección<textarea id="venueAddress" required></textarea></label><label>Enlace de Google Maps<input id="venueMapUrl" type="url" placeholder="https://maps.google.com/..."></label><label>Indicaciones<textarea id="venueDirections"></textarea></label><label>Estado<select id="venueStatus"><option value="active">Activo</option><option value="inactive">Inactivo</option></select></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
@@ -374,7 +396,7 @@
 </dialog>
 
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="app-delete-events-v1.js?v=20260806-1605"></script>
+<script type="module" src="app-category-hub-v1.js?v=20260807-0830"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');
