@@ -650,3 +650,345 @@ html[data-theme="dark"] .vc-club-wordmark small{color:#fff!important}
   .nav:not(.hidden){top:76px!important}
   .vc-sidebar-brand{display:none!important}
 }
+
+
+/* =========================================================
+   VolleyCore UI 2.0 — approved exact layout
+   ========================================================= */
+:root{
+  --vc-sidebar:236px;
+  --vc-header-height:136px;
+  --vc-page-max:1460px;
+}
+body{background:#f7f8fa!important}
+#appScreen:not(.hidden){min-height:100vh;background:#f7f8fa!important}
+
+/* Sidebar owns the full left edge from top to bottom */
+.nav:not(.hidden){
+  position:fixed!important;
+  top:0!important;
+  left:0!important;
+  bottom:0!important;
+  width:var(--vc-sidebar)!important;
+  height:100vh!important;
+  z-index:200!important;
+  padding:18px 14px 88px!important;
+  background:linear-gradient(180deg,#0d0f12 0%,#070809 100%)!important;
+  border-right:0!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  box-shadow:none!important;
+}
+.nav::-webkit-scrollbar{width:5px}
+.nav::-webkit-scrollbar-thumb{background:#444;border-radius:6px}
+.vc-sidebar-brand{
+  min-height:210px!important;
+  padding:2px 8px 18px!important;
+  margin:0 0 8px!important;
+  gap:8px!important;
+  border-bottom:0!important;
+}
+.vc-sidebar-brand img{
+  width:86px!important;
+  height:104px!important;
+  margin:0 auto 3px!important;
+  object-fit:contain!important;
+}
+.vc-sidebar-wordmark strong{
+  font-family:"Barlow Condensed",Impact,"Arial Narrow",sans-serif!important;
+  font-size:1.85rem!important;
+  line-height:.82!important;
+  letter-spacing:.035em!important;
+  color:#fff!important;
+  text-shadow:none!important;
+}
+.vc-sidebar-wordmark span{
+  position:relative;
+  margin-top:10px!important;
+  font-size:.59rem!important;
+  letter-spacing:.18em!important;
+  color:#e51d25!important;
+}
+.vc-sidebar-wordmark span::before,
+.vc-sidebar-wordmark span::after{
+  content:"";display:inline-block;width:28px;height:2px;background:#e51d25;vertical-align:middle;margin:0 7px 2px;
+}
+.vc-sidebar-wordmark small{
+  margin-top:7px!important;
+  color:#fff!important;
+  font-size:.62rem!important;
+  letter-spacing:.43em!important;
+}
+.nav-section-label{
+  color:#9da2ab!important;
+  padding:15px 12px 7px!important;
+  font-size:.67rem!important;
+  letter-spacing:.09em!important;
+}
+.nav button{
+  min-height:42px!important;
+  border-radius:7px!important;
+  padding:9px 12px!important;
+  color:#f5f6f8!important;
+  font-size:.90rem!important;
+  font-weight:500!important;
+  gap:8px!important;
+}
+.nav button:hover{transform:none!important;background:rgba(255,255,255,.055)!important}
+.nav button.active{
+  background:linear-gradient(90deg,#ef1d24,#d60d16)!important;
+  box-shadow:none!important;
+  color:#fff!important;
+}
+.nav button[data-view="attendance"].active,
+.nav button[data-view="trainerAttendance"].active{
+  background:linear-gradient(90deg,#ef1d24,#d60d16)!important;
+  color:#fff!important;
+}
+.nav-icon{width:22px!important;margin-right:0!important;color:#fff!important}
+.vc-sidebar-user{
+  position:absolute;
+  left:0;right:0;bottom:0;
+  min-height:78px;
+  display:grid;
+  grid-template-columns:42px 1fr auto;
+  gap:10px;
+  align-items:center;
+  padding:13px 15px;
+  border-top:1px solid rgba(255,255,255,.12);
+  background:#090a0c;
+  color:#fff;
+}
+.vc-sidebar-avatar{
+  display:grid;place-items:center;width:42px;height:42px;border-radius:50%;
+  background:linear-gradient(135deg,#1d232a,#3a4652);border:1px solid rgba(255,255,255,.2);
+  font-weight:800;
+}
+.vc-sidebar-user div:nth-child(2){display:grid;gap:3px}
+.vc-sidebar-user strong{font-size:.86rem;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vc-sidebar-user small{font-size:.70rem;color:#ef1d24;font-weight:700}
+
+/* White header occupies only the workspace, exactly like the approved image */
+.vc-brand-header{
+  position:fixed!important;
+  top:0!important;
+  left:var(--vc-sidebar)!important;
+  right:0!important;
+  width:auto!important;
+  height:var(--vc-header-height)!important;
+  min-height:var(--vc-header-height)!important;
+  z-index:180!important;
+  padding:18px 28px!important;
+  background:#fff!important;
+  border-bottom:1px solid #e5e7eb!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+.vc-club-lockup{
+  height:100%;
+  display:flex!important;
+  align-items:center!important;
+  gap:15px!important;
+  overflow:visible!important;
+}
+.vc-header-shield{
+  width:66px!important;
+  height:82px!important;
+  object-fit:contain!important;
+  flex:0 0 auto!important;
+}
+.vc-club-wordmark{
+  min-width:330px!important;
+  max-width:360px;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:0!important;
+}
+.vc-club-wordmark strong{
+  font-family:"Barlow Condensed",Impact,"Arial Narrow",sans-serif!important;
+  font-size:2.38rem!important;
+  letter-spacing:.012em!important;
+  line-height:.90!important;
+  color:#dd242a!important;
+  white-space:nowrap!important;
+  text-shadow:none!important;
+}
+.vc-club-wordmark span{
+  width:100%!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:9px;
+  margin-top:8px!important;
+  color:#dd242a!important;
+  font-size:.72rem!important;
+  font-weight:900!important;
+  letter-spacing:.28em!important;
+  white-space:nowrap!important;
+}
+.vc-club-wordmark span i{display:block;flex:1;height:2px;background:#dd242a}
+.vc-club-wordmark small{
+  margin-top:7px!important;
+  color:#111!important;
+  font-size:.69rem!important;
+  letter-spacing:.44em!important;
+}
+.vc-brand-divider{height:74px!important;margin:0 10px!important;background:#d9dce2!important}
+.vc-product-wordmark{min-width:190px!important}
+.vc-product-wordmark b,.vc-product-wordmark strong{
+  font-size:2.10rem!important;
+  line-height:.90!important;
+  font-weight:800!important;
+}
+.vc-product-wordmark b{color:#111!important}
+.vc-product-wordmark strong{color:#db1f26!important}
+.vc-product-wordmark span{
+  margin-top:11px!important;
+  color:#737983!important;
+  font-size:.66rem!important;
+  letter-spacing:.12em!important;
+  font-weight:600!important;
+}
+.top-actions{margin-left:auto!important;gap:16px!important}
+.ui-theme-toggle{
+  width:84px!important;height:42px!important;border-radius:22px!important;
+  color:#111!important;background:#fff!important;border:1px solid #d8dce2!important;
+  font-size:1.05rem!important;
+}
+.vc-notification{position:relative;font-size:1.5rem;color:#222;width:34px;text-align:center}
+.vc-notification span{position:absolute;top:-3px;right:-1px;color:#e71920;font-size:1.2rem}
+.vc-top-user{display:flex;align-items:center;gap:10px;min-width:130px}
+.vc-top-user>div:last-child{display:grid}
+.vc-top-user strong{font-size:.79rem;color:#111}
+.vc-top-user small{font-size:.67rem;color:#555}
+.vc-user-bubble{width:42px!important;height:42px!important;background:#111!important}
+.vc-role-hidden{display:none!important}
+.vc-logout-link{border:0;background:transparent;color:#555;font-weight:650;cursor:pointer;padding:8px}
+
+/* Workspace */
+.container{
+  margin-left:var(--vc-sidebar)!important;
+  padding:calc(var(--vc-header-height) + 28px) 26px 32px!important;
+  max-width:none!important;
+  min-height:100vh;
+}
+#emailNotice{max-width:var(--vc-page-max);margin:0 auto 15px}
+.vc-dashboard{
+  max-width:var(--vc-page-max)!important;
+  grid-template-columns:minmax(0,1fr) 320px!important;
+  gap:18px!important;
+  margin:0 auto!important;
+}
+.vc-dashboard-main,.vc-dashboard-rail{gap:16px!important}
+.vc-welcome-row{padding:0 4px 3px!important}
+.vc-welcome-row h2{
+  font-size:1.62rem!important;
+  line-height:1.05!important;
+  margin:0 0 7px!important;
+  color:#111!important;
+  font-weight:800!important;
+}
+.vc-welcome-row .page-subtitle{font-size:.88rem!important;color:#333!important}
+.vc-date-chip{
+  background:transparent!important;border:0!important;padding:0!important;
+  font-size:.78rem!important;font-weight:500!important;color:#222!important
+}
+
+/* Exact card proportions */
+.vc-kpi-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:14px!important}
+.vc-kpi-card{
+  min-height:148px!important;
+  border:1px solid #e2e4e8!important;
+  border-radius:14px!important;
+  box-shadow:0 4px 14px rgba(15,23,42,.055)!important;
+  padding:18px 16px!important;
+  grid-template-columns:52px 1fr!important;
+}
+.vc-kpi-card>.vc-round-icon{width:52px!important;height:52px!important}
+.vc-kpi-card div span{font-size:.63rem!important;color:#1a1d22!important}
+.vc-kpi-card div strong{font-size:2.25rem!important;color:#090a0c!important}
+.vc-kpi-card div small{font-size:.72rem!important;color:#e31e25!important}
+.vc-feature-grid{grid-template-columns:1fr 1fr!important;gap:14px!important}
+.vc-feature-card{
+  min-height:288px!important;
+  border-radius:14px!important;
+  border:1px solid #e2e4e8!important;
+  box-shadow:0 4px 15px rgba(15,23,42,.05)!important;
+  padding:22px 24px!important;
+}
+.vc-feature-card::before{height:4px!important}
+.vc-feature-title{font-size:.78rem!important;color:#111!important}
+.vc-feature-highlight{font-size:1.58rem!important}
+.vc-feature-lines{font-size:.84rem!important;gap:10px!important}
+.vc-dashboard-table-card{
+  border-radius:14px!important;
+  border:1px solid #e2e4e8!important;
+  box-shadow:0 4px 15px rgba(15,23,42,.045)!important;
+}
+.vc-dashboard-rail .panel{
+  border-radius:14px!important;
+  border:1px solid #e2e4e8!important;
+  box-shadow:0 4px 15px rgba(15,23,42,.045)!important;
+}
+.vc-dashboard-rail .panel:first-child{min-height:325px}
+.vc-event-row{padding:12px 0!important}
+.vc-activity-row{padding:12px 0!important}
+.vc-quick-action{min-height:92px!important;background:#fff!important}
+
+/* Footer from approved concept */
+.vc-dashboard-footer{
+  max-width:var(--vc-page-max);
+  margin:18px auto 0;
+  display:flex;justify-content:space-between;gap:20px;
+  padding:0 2px;
+  color:#777;font-size:.68rem;
+}
+
+/* Other modules begin at the same aligned workspace */
+.view:not(#view-dashboard){max-width:var(--vc-page-max);margin:0 auto}
+.panel,.table-wrap,.filters{box-shadow:0 4px 15px rgba(15,23,42,.045)!important}
+html[data-theme="dark"] body,
+html[data-theme="dark"] #appScreen:not(.hidden){background:#111318!important}
+html[data-theme="dark"] .vc-brand-header{background:#fff!important}
+html[data-theme="dark"] .vc-club-wordmark small,
+html[data-theme="dark"] .vc-product-wordmark b,
+html[data-theme="dark"] .vc-top-user strong{color:#111!important}
+
+/* Tablet/mobile */
+@media(max-width:1100px){
+  .vc-club-wordmark{min-width:245px!important}
+  .vc-club-wordmark strong{font-size:1.9rem!important}
+  .vc-product-wordmark{min-width:150px!important}
+  .vc-product-wordmark b,.vc-product-wordmark strong{font-size:1.6rem!important}
+  .vc-dashboard{grid-template-columns:1fr!important}
+  .vc-dashboard-rail{grid-template-columns:repeat(3,1fr)!important}
+}
+@media(max-width:920px){
+  :root{--vc-sidebar:0px;--vc-header-height:78px}
+  .vc-brand-header{
+    position:sticky!important;left:0!important;width:100%!important;
+    height:78px!important;min-height:78px!important;padding:10px 14px!important
+  }
+  .vc-header-shield{width:45px!important;height:56px!important}
+  .vc-club-wordmark{display:none!important}
+  .vc-brand-divider{height:48px!important}
+  .vc-product-wordmark b,.vc-product-wordmark strong{font-size:1.45rem!important}
+  .vc-product-wordmark span{display:none!important}
+  .nav:not(.hidden){
+    position:sticky!important;top:0!important;left:0!important;bottom:auto!important;
+    width:100%!important;height:auto!important;min-height:54px;
+    flex-direction:row!important;padding:8px 10px!important;overflow-x:auto!important
+  }
+  .vc-sidebar-brand,.nav-section-label,.vc-sidebar-user{display:none!important}
+  .nav button{width:auto!important;min-width:max-content!important}
+  .container{margin-left:0!important;padding:20px 14px 35px!important}
+  .vc-dashboard-rail{grid-template-columns:1fr!important}
+}
+@media(max-width:680px){
+  .vc-feature-grid,.vc-kpi-grid{grid-template-columns:1fr!important}
+  .vc-top-user,.vc-notification,.vc-logout-link{display:none!important}
+  .vc-brand-divider{display:none!important}
+  .vc-dashboard-footer{flex-direction:column}
+}

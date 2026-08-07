@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore UI Refresh 1.1.2</title>
+  <title>VolleyCore UI 2.0</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260807-ui10">
 
@@ -101,7 +101,7 @@
       <img src="santa-barbara-shield-red.png" class="vc-header-shield" alt="Escudo Santa Bárbara">
       <div class="vc-club-wordmark">
         <strong>SANTA BÁRBARA</strong>
-        <span>LA GRAN FAMILIA</span>
+        <span><i></i>LA GRAN FAMILIA<i></i></span>
         <small>ASBAVOL</small>
       </div>
       <div class="vc-brand-divider"></div>
@@ -109,9 +109,13 @@
     </div>
     <div class="top-actions">
       <button id="themeToggleButton" class="icon-button ui-theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema">◐</button>
-      <span id="roleBadge" class="badge">Familia</span>
-      <div class="vc-user-bubble" aria-hidden="true">VC</div>
-      <button id="logoutButton" class="btn secondary">Cerrar sesión</button>
+      <div class="vc-notification" aria-hidden="true">♢<span>•</span></div>
+      <div class="vc-top-user">
+        <div class="vc-user-bubble" aria-hidden="true">VC</div>
+        <div><strong class="vc-session-user-name">Usuario</strong><small class="vc-session-user-role">Perfil</small></div>
+      </div>
+      <span id="roleBadge" class="badge vc-role-hidden">Familia</span>
+      <button id="logoutButton" class="vc-logout-link" type="button">Salir</button>
     </div>
   </header>
   <nav id="adminNav" class="nav hidden">
@@ -144,7 +148,11 @@
     <button data-view="import"><span class="nav-icon">⇧</span>Importar jugadoras</button>
     <button data-view="about"><span class="nav-icon">ⓘ</span>Acerca de</button>
     <button data-view="profile"><span class="nav-icon">⚙</span>Mi perfil</button>
-  </nav>
+  <div class="vc-sidebar-user">
+      <div class="vc-sidebar-avatar">VC</div>
+      <div><strong class="vc-session-user-name">Usuario</strong><small class="vc-session-user-role">Perfil</small></div>
+      <span>⌄</span>
+    </div></nav>
   <nav id="familyNav" class="nav hidden"><div class="vc-sidebar-brand">
       <img src="santa-barbara-shield-white.png" alt="Escudo Santa Bárbara">
       <div class="vc-sidebar-wordmark">
@@ -154,7 +162,11 @@
       </div>
     </div>
     <button data-view="familyHome" class="active">Inicio</button><button data-view="familyCategories">Mis categorías</button><button data-view="familyLink">Vincular jugadora</button><button data-view="familyTrainings">Entrenamientos</button><button data-view="familyEvents">Eventos</button><button data-view="familyPayments">Mensualidades</button><button data-view="familyAnnouncements">Comunicados</button><button data-view="profile">Mi perfil</button>
-  </nav>
+  <div class="vc-sidebar-user">
+      <div class="vc-sidebar-avatar">VC</div>
+      <div><strong class="vc-session-user-name">Usuario</strong><small class="vc-session-user-role">Perfil</small></div>
+      <span>⌄</span>
+    </div></nav>
   <nav id="trainerNav" class="nav hidden"><div class="vc-sidebar-brand">
       <img src="santa-barbara-shield-white.png" alt="Escudo Santa Bárbara">
       <div class="vc-sidebar-wordmark">
@@ -170,7 +182,11 @@
     <button data-view="trainerEvents">Eventos</button>
     <button data-view="trainerAnnouncements">Comunicados</button>
     <button data-view="profile">Mi perfil</button>
-  </nav>
+  <div class="vc-sidebar-user">
+      <div class="vc-sidebar-avatar">VC</div>
+      <div><strong class="vc-session-user-name">Usuario</strong><small class="vc-session-user-role">Perfil</small></div>
+      <span>⌄</span>
+    </div></nav>
 
   <section class="container">
     <div id="emailNotice" class="notice warning hidden">Tu correo todavía no está verificado. <button id="resendVerificationButton" class="link-button inline" type="button">Reenviar verificación</button></div>
@@ -180,7 +196,6 @@
         <div class="vc-dashboard-main">
           <div class="vc-welcome-row">
             <div>
-              <span class="eyebrow">VOLLEYCORE</span>
               <h2 id="dashboardGreeting">¡Bienvenido!</h2>
               <p class="page-subtitle">Aquí tienes un resumen de lo más importante del club.</p>
             </div>
@@ -228,7 +243,7 @@
           </article>
         </aside>
       </div>
-    </section>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.0</span></div>
 
     <section id="view-players" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">ATLETAS</span><h2>Jugadoras</h2></div><button id="newPlayerButton2" class="btn primary">Nueva jugadora</button></div>
@@ -720,7 +735,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-refresh-1.1.2.js?v=20260807-stable342"></script>
+<script type="module" src="app-ui-2.0.js?v=20260807-stable342"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');
