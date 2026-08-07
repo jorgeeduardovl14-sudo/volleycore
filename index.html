@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore UI Refresh 1.1.1</title>
+  <title>VolleyCore UI Refresh 1.1.2</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260807-ui10">
 
@@ -116,8 +116,12 @@
   </header>
   <nav id="adminNav" class="nav hidden">
     <div class="vc-sidebar-brand">
-      <img src="santa-barbara-shield-white.png" alt="Santa Bárbara">
-      <div><strong>SANTA<br>BÁRBARA</strong><span>la gran familia</span></div>
+      <img src="santa-barbara-shield-white.png" alt="Escudo Santa Bárbara">
+      <div class="vc-sidebar-wordmark">
+        <strong>SANTA<br>BÁRBARA</strong>
+        <span>LA GRAN FAMILIA</span>
+        <small>ASBAVOL</small>
+      </div>
     </div>
     <button data-view="dashboard" class="active"><span class="nav-icon">⌂</span>Inicio</button>
     <div class="nav-section-label">DEPORTIVO</div>
@@ -141,10 +145,24 @@
     <button data-view="about"><span class="nav-icon">ⓘ</span>Acerca de</button>
     <button data-view="profile"><span class="nav-icon">⚙</span>Mi perfil</button>
   </nav>
-  <nav id="familyNav" class="nav hidden"><div class="vc-sidebar-brand"><img src="santa-barbara-shield-white.png" alt="Santa Bárbara"><div><strong>SANTA<br>BÁRBARA</strong><span>la gran familia</span></div></div>
+  <nav id="familyNav" class="nav hidden"><div class="vc-sidebar-brand">
+      <img src="santa-barbara-shield-white.png" alt="Escudo Santa Bárbara">
+      <div class="vc-sidebar-wordmark">
+        <strong>SANTA<br>BÁRBARA</strong>
+        <span>LA GRAN FAMILIA</span>
+        <small>ASBAVOL</small>
+      </div>
+    </div>
     <button data-view="familyHome" class="active">Inicio</button><button data-view="familyCategories">Mis categorías</button><button data-view="familyLink">Vincular jugadora</button><button data-view="familyTrainings">Entrenamientos</button><button data-view="familyEvents">Eventos</button><button data-view="familyPayments">Mensualidades</button><button data-view="familyAnnouncements">Comunicados</button><button data-view="profile">Mi perfil</button>
   </nav>
-  <nav id="trainerNav" class="nav hidden"><div class="vc-sidebar-brand"><img src="santa-barbara-shield-white.png" alt="Santa Bárbara"><div><strong>SANTA<br>BÁRBARA</strong><span>la gran familia</span></div></div>
+  <nav id="trainerNav" class="nav hidden"><div class="vc-sidebar-brand">
+      <img src="santa-barbara-shield-white.png" alt="Escudo Santa Bárbara">
+      <div class="vc-sidebar-wordmark">
+        <strong>SANTA<br>BÁRBARA</strong>
+        <span>LA GRAN FAMILIA</span>
+        <small>ASBAVOL</small>
+      </div>
+    </div>
     <button data-view="trainerHome" class="active">Inicio</button>
     <button data-view="trainerPlayers">Mi equipo</button>
     <button data-view="trainerTrainings">Entrenamientos</button>
@@ -702,7 +720,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-refresh-1.1.1.js?v=20260807-stable342"></script>
+<script type="module" src="app-ui-refresh-1.1.2.js?v=20260807-stable342"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');

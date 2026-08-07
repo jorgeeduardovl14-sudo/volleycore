@@ -493,3 +493,160 @@ html[data-theme="dark"] .vc-club-wordmark small{color:#fff}
   .vc-user-bubble{display:none}
   .vc-dashboard{gap:14px}
 }
+
+
+/* =========================================================
+   VolleyCore UI Refresh 1.1.2 — Branding visibility hotfix
+   ========================================================= */
+.vc-brand-header{
+  min-height:104px!important;
+  height:104px!important;
+  overflow:visible!important;
+}
+.vc-club-lockup{
+  overflow:visible!important;
+  min-height:84px;
+  align-items:center!important;
+}
+.vc-header-shield{
+  width:62px!important;
+  height:76px!important;
+  object-fit:contain!important;
+  flex:0 0 auto;
+  image-rendering:auto;
+}
+.vc-club-wordmark{
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  align-items:center!important;
+  overflow:visible!important;
+  min-width:310px;
+  padding:4px 0 2px;
+  line-height:1!important;
+}
+.vc-club-wordmark strong{
+  font-family:"Barlow Condensed",Impact,"Arial Narrow",sans-serif!important;
+  font-size:2.15rem!important;
+  font-weight:900!important;
+  letter-spacing:.018em!important;
+  line-height:.96!important;
+  color:#D1262B!important;
+  white-space:nowrap!important;
+  text-rendering:geometricPrecision;
+  -webkit-font-smoothing:antialiased;
+}
+.vc-club-wordmark span{
+  display:block!important;
+  width:100%!important;
+  margin-top:5px!important;
+  font-family:Inter,Arial,sans-serif!important;
+  font-size:.70rem!important;
+  font-weight:900!important;
+  letter-spacing:.34em!important;
+  line-height:1.15!important;
+  color:#D1262B!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+}
+.vc-club-wordmark small{
+  display:block!important;
+  margin-top:6px!important;
+  font-family:Inter,Arial,sans-serif!important;
+  font-size:.68rem!important;
+  font-weight:900!important;
+  letter-spacing:.44em!important;
+  line-height:1.2!important;
+  color:var(--vc-text)!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+}
+html[data-theme="dark"] .vc-club-wordmark small{color:#fff!important}
+
+.nav:not(.hidden){
+  top:104px!important;
+}
+.vc-sidebar-brand{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:8px!important;
+  min-height:190px!important;
+  padding:10px 10px 20px!important;
+  margin-bottom:10px!important;
+  overflow:visible!important;
+  border-bottom:1px solid rgba(255,255,255,.12)!important;
+}
+.vc-sidebar-brand img{
+  width:72px!important;
+  height:88px!important;
+  object-fit:contain!important;
+  flex:0 0 auto;
+  image-rendering:auto;
+}
+.vc-sidebar-wordmark{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%;
+  overflow:visible!important;
+  line-height:1!important;
+}
+.vc-sidebar-wordmark strong{
+  font-family:"Barlow Condensed",Impact,"Arial Narrow",sans-serif!important;
+  color:#fff!important;
+  font-size:1.62rem!important;
+  font-weight:900!important;
+  letter-spacing:.03em!important;
+  line-height:.84!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+  text-rendering:geometricPrecision;
+  -webkit-font-smoothing:antialiased;
+}
+.vc-sidebar-wordmark span{
+  display:block!important;
+  margin-top:9px!important;
+  color:#D1262B!important;
+  font-family:Inter,Arial,sans-serif!important;
+  font-size:.57rem!important;
+  font-weight:900!important;
+  letter-spacing:.20em!important;
+  line-height:1.15!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+}
+.vc-sidebar-wordmark small{
+  display:block!important;
+  margin-top:7px!important;
+  color:#fff!important;
+  font-family:Inter,Arial,sans-serif!important;
+  font-size:.62rem!important;
+  font-weight:900!important;
+  letter-spacing:.42em!important;
+  line-height:1.2!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+}
+.vc-product-wordmark{
+  overflow:visible!important;
+  min-width:150px;
+}
+.vc-product-wordmark b,.vc-product-wordmark strong{
+  line-height:.95!important;
+}
+.vc-product-wordmark span{
+  line-height:1.2!important;
+  white-space:nowrap!important;
+}
+
+@media(max-width:920px){
+  :root{--vc-header-height:76px}
+  .vc-brand-header{height:76px!important;min-height:76px!important}
+  .vc-header-shield{width:44px!important;height:54px!important}
+  .vc-club-wordmark{display:none!important}
+  .nav:not(.hidden){top:76px!important}
+  .vc-sidebar-brand{display:none!important}
+}
