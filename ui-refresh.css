@@ -348,3 +348,148 @@ html[data-theme="dark"] .month-checkbox-panel,
 html[data-theme="dark"] .month-check-item,
 html[data-theme="dark"] .multi-select-menu,
 html[data-theme="dark"] .multi-select-option{background:var(--vc-surface)!important;border-color:var(--vc-border)!important}
+
+
+/* =========================================================
+   VolleyCore UI Refresh 1.1 — Approved Dashboard Direction
+   ========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --vc-header-height:96px;
+  --vc-sidebar:238px;
+}
+body{font-family:Inter,ui-sans-serif,system-ui,sans-serif!important}
+.vc-brand-header{
+  height:var(--vc-header-height);
+  min-height:var(--vc-header-height);
+  background:rgba(255,255,255,.98)!important;
+  color:var(--vc-text)!important;
+  border-bottom:1px solid var(--vc-border)!important;
+  box-shadow:0 2px 14px rgba(17,19,24,.04)!important;
+}
+html[data-theme="dark"] .vc-brand-header{background:rgba(21,24,30,.98)!important}
+.vc-club-lockup{display:flex;align-items:center;gap:13px;min-width:0}
+.vc-header-shield{height:68px;width:auto}
+.vc-club-wordmark{display:grid;line-height:.92}
+.vc-club-wordmark strong{
+  font-family:"Barlow Condensed",Impact,sans-serif;
+  font-size:2rem;letter-spacing:.025em;color:#D1262B;font-weight:900;white-space:nowrap
+}
+.vc-club-wordmark span{font-family:"Barlow Condensed",sans-serif;color:#D1262B;font-weight:800;letter-spacing:.28em;font-size:.75rem;text-align:center}
+.vc-club-wordmark small{font-size:.66rem;font-weight:900;letter-spacing:.42em;color:var(--vc-black);text-align:center;margin-top:4px}
+html[data-theme="dark"] .vc-club-wordmark small{color:#fff}
+.vc-brand-divider{width:1px;height:58px;background:var(--vc-border);margin:0 7px}
+.vc-product-wordmark{display:grid;line-height:1}
+.vc-product-wordmark b,.vc-product-wordmark strong{font-size:1.7rem;letter-spacing:-.05em}
+.vc-product-wordmark b{color:var(--vc-text)}
+.vc-product-wordmark strong{color:#D1262B}
+.vc-product-wordmark span{font-size:.62rem;letter-spacing:.13em;color:var(--vc-muted);font-weight:700;margin-top:7px}
+.vc-user-bubble{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#111318;color:#fff;font-weight:850;border:2px solid rgba(209,38,43,.35)}
+
+.nav:not(.hidden){top:var(--vc-header-height)!important;padding-top:14px!important}
+.vc-sidebar-brand{
+  display:flex;align-items:center;gap:12px;
+  padding:5px 11px 18px;margin-bottom:6px;
+  border-bottom:1px solid rgba(255,255,255,.10)
+}
+.vc-sidebar-brand img{width:49px;height:61px;object-fit:contain}
+.vc-sidebar-brand div{display:grid;line-height:.86}
+.vc-sidebar-brand strong{font-family:"Barlow Condensed",Impact,sans-serif;color:#fff;font-size:1.35rem;letter-spacing:.04em}
+.vc-sidebar-brand span{color:#d8dbe2;font-size:.71rem;margin-top:6px}
+.nav-section-label{
+  color:#858B96;font-size:.67rem;font-weight:800;letter-spacing:.13em;
+  padding:14px 13px 6px;margin-top:2px
+}
+.nav-icon{display:inline-grid;place-items:center;width:24px;font-size:1.1rem;margin-right:6px}
+.nav button{gap:4px}
+.container{padding-top:30px!important}
+
+/* Dashboard geometry */
+.vc-dashboard{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:20px;max-width:1500px;margin:0 auto}
+.vc-dashboard-main,.vc-dashboard-rail{display:grid;gap:18px;align-content:start}
+.vc-welcome-row{display:flex;align-items:end;justify-content:space-between;gap:18px;padding:3px 2px 4px}
+.vc-welcome-row h2{font-size:1.75rem;margin:.2rem 0;color:var(--vc-text)}
+.vc-date-chip{font-size:.84rem;font-weight:650;color:var(--vc-text);padding:9px 12px;border-radius:10px;background:var(--vc-surface);border:1px solid var(--vc-border)}
+.vc-kpi-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.vc-kpi-card{display:grid!important;grid-template-columns:54px 1fr;gap:13px;align-items:center;cursor:pointer;min-height:132px}
+.vc-kpi-card::before{display:none!important}
+.vc-kpi-card div{display:grid;min-width:0}
+.vc-kpi-card div span{font-size:.66rem;letter-spacing:.04em;color:var(--vc-muted);font-weight:750}
+.vc-kpi-card div strong{font-size:2.25rem!important;line-height:1.05;margin:5px 0;color:var(--vc-text)!important}
+.vc-kpi-card div small{font-size:.75rem;color:#D1262B;font-weight:700}
+.vc-round-icon{
+  display:inline-grid;place-items:center;flex:0 0 auto;
+  width:44px;height:44px;border-radius:50%;font-size:1.25rem;font-weight:900;color:#fff
+}
+.vc-kpi-card>.vc-round-icon{width:54px;height:54px}
+.vc-round-icon.red{background:linear-gradient(135deg,#E51C23,#C61B21)}
+.vc-round-icon.cyan{background:linear-gradient(135deg,#26A9C5,#12859E)}
+.vc-round-icon.green{background:linear-gradient(135deg,#38B65A,#1E9641)}
+
+.vc-feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.vc-feature-card{position:relative;overflow:hidden;min-height:270px;padding:22px!important}
+.vc-feature-card::before{content:"";position:absolute;left:0;right:0;top:0;height:4px}
+.vc-feature-training::before{background:#1A9DB8}
+.vc-feature-match::before{background:#D81F26}
+.vc-feature-title{display:flex;align-items:center;gap:10px;font-size:.8rem;letter-spacing:.02em}
+.vc-feature-highlight{font-size:1.65rem!important;margin:18px 0 5px!important}
+.cyan-text{color:#118BA4}.red-text{color:#D1262B}
+.vc-opponent{font-size:1.05rem;margin:0 0 15px}
+.vc-feature-lines{display:grid;gap:11px;margin:15px 0 22px;color:var(--vc-text);font-size:.9rem}
+.vc-feature-card .btn{float:right}
+.vc-cyan-button{background:linear-gradient(135deg,#26A9C5,#158AA3)!important;color:#fff!important;border:0!important}
+.vc-feature-training::after{
+  content:"◯";position:absolute;right:34px;bottom:53px;font-size:8rem;color:rgba(17,139,164,.07);font-weight:100;pointer-events:none
+}
+
+.vc-section-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px}
+.vc-section-heading h3{margin:0;font-size:1rem}
+.vc-section-heading .link-button{color:#D1262B!important;font-size:.76rem!important}
+.vc-dashboard-table-card{padding:18px!important}
+.vc-embedded-table{box-shadow:none!important;border:0!important;border-radius:0!important}
+.vc-embedded-table thead th{font-size:.64rem!important}
+.vc-embedded-table th,.vc-embedded-table td{padding:10px 8px!important;font-size:.82rem}
+
+.vc-dashboard-rail .panel{padding:17px!important}
+.vc-event-row,.vc-activity-row{display:grid;grid-template-columns:auto 1fr;gap:11px;align-items:center;padding:11px 0;border-bottom:1px solid var(--vc-border)}
+.vc-event-row:last-child,.vc-activity-row:last-child{border-bottom:0}
+.vc-event-row strong,.vc-activity-row strong{font-size:.83rem}
+.vc-event-row small,.vc-activity-row small{display:block;color:var(--vc-muted);font-size:.72rem;margin-top:3px}
+.vc-date-box{display:grid;place-items:center;width:46px;border:1px solid var(--vc-border);border-radius:9px;overflow:hidden;background:var(--vc-surface)}
+.vc-date-box span{grid-row:1;background:#D1262B;color:#fff;width:100%;text-align:center;font-size:.59rem;font-weight:800;padding:3px}
+.vc-date-box b{grid-row:2;font-size:1rem;padding:4px}
+.vc-quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.vc-quick-action{
+  min-height:88px;padding:10px 7px;border:1px solid var(--vc-border);border-radius:12px;
+  background:var(--vc-surface);color:var(--vc-text);font-weight:700;font-size:.72rem;cursor:pointer;
+  transition:.15s ease
+}
+.vc-quick-action:hover{transform:translateY(-2px);box-shadow:var(--vc-shadow)}
+.vc-quick-action span{display:block;color:#D1262B;font-size:1.55rem;margin-bottom:5px}
+
+/* Preserve the dashboard while adapting the rest of the product. */
+#view-dashboard .panel:hover{transform:none}
+#view-dashboard .stat:hover{transform:translateY(-2px)}
+
+@media(max-width:1200px){
+  .vc-dashboard{grid-template-columns:1fr}
+  .vc-dashboard-rail{grid-template-columns:repeat(3,1fr)}
+  .vc-kpi-grid{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:920px){
+  :root{--vc-header-height:74px}
+  .vc-club-wordmark,.vc-brand-divider{display:none}
+  .vc-header-shield{height:50px}
+  .vc-product-wordmark b,.vc-product-wordmark strong{font-size:1.35rem}
+  .nav:not(.hidden){top:var(--vc-header-height)!important}
+  .vc-sidebar-brand,.nav-section-label{display:none}
+  .vc-dashboard-rail{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  .vc-feature-grid,.vc-kpi-grid{grid-template-columns:1fr!important}
+  .vc-welcome-row{align-items:flex-start;flex-direction:column}
+  .vc-product-wordmark span{display:none}
+  .vc-user-bubble{display:none}
+  .vc-dashboard{gap:14px}
+}

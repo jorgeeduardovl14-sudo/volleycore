@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore UI Refresh 1.0</title>
+  <title>VolleyCore UI Refresh 1.1</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260807-ui10">
 
@@ -96,17 +96,55 @@
 </main>
 
 <main id="appScreen" class="hidden">
-  <header class="topbar">
-    <div class="brand compact"><div class="brand-mark">VC</div><div><span>VOLLEYCORE</span><h1>ASBAVOL</h1></div></div>
-    <div class="top-actions"><button id="themeToggleButton" class="icon-button ui-theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema">◐</button><span id="roleBadge" class="badge">Familia</span><button id="logoutButton" class="btn secondary">Cerrar sesión</button></div>
+  <header class="topbar vc-brand-header">
+    <div class="vc-club-lockup">
+      <img src="santa-barbara-shield-red.png" class="vc-header-shield" alt="Escudo Santa Bárbara">
+      <div class="vc-club-wordmark">
+        <strong>SANTA BÁRBARA</strong>
+        <span>LA GRAN FAMILIA</span>
+        <small>ASBAVOL</small>
+      </div>
+      <div class="vc-brand-divider"></div>
+      <div class="vc-product-wordmark"><b>Volley</b><strong>Core</strong><span>PLATAFORMA DE GESTIÓN</span></div>
+    </div>
+    <div class="top-actions">
+      <button id="themeToggleButton" class="icon-button ui-theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema">◐</button>
+      <span id="roleBadge" class="badge">Familia</span>
+      <div class="vc-user-bubble" aria-hidden="true">VC</div>
+      <button id="logoutButton" class="btn secondary">Cerrar sesión</button>
+    </div>
   </header>
   <nav id="adminNav" class="nav hidden">
-    <button data-view="dashboard" class="active">Inicio</button><button data-view="players">Jugadoras</button><button data-view="categories">Categorías</button><button data-view="seasons">Temporadas</button><button data-view="trainings">Entrenamientos</button><button data-view="attendance">Asistencia</button><button data-view="events">Eventos</button><button data-view="venues">Gimnasios</button><button data-view="announcements">Comunicados</button><button data-view="finances">Mensualidades</button><button data-view="sinpeAdmin">Pagos</button><button data-view="users">Familias</button><button data-view="trainers">Entrenadores</button><button data-view="reports">Reportes</button><button data-view="import">Importar jugadoras</button><button data-view="about">Acerca de</button><button data-view="profile">Mi perfil</button>
+    <div class="vc-sidebar-brand">
+      <img src="santa-barbara-shield-white.png" alt="Santa Bárbara">
+      <div><strong>SANTA<br>BÁRBARA</strong><span>la gran familia</span></div>
+    </div>
+    <button data-view="dashboard" class="active"><span class="nav-icon">⌂</span>Inicio</button>
+    <div class="nav-section-label">DEPORTIVO</div>
+    <button data-view="categories"><span class="nav-icon">◉</span>Categorías</button>
+    <button data-view="players"><span class="nav-icon">♙</span>Jugadoras</button>
+    <button data-view="trainers"><span class="nav-icon">♟</span>Entrenadores</button>
+    <button data-view="attendance"><span class="nav-icon">☑</span>Asistencia</button>
+    <button data-view="trainings"><span class="nav-icon">◷</span>Entrenamientos</button>
+    <button data-view="events"><span class="nav-icon">□</span>Eventos</button>
+    <button data-view="seasons"><span class="nav-icon">◫</span>Temporadas</button>
+    <button data-view="venues"><span class="nav-icon">⌖</span>Gimnasios</button>
+    <div class="nav-section-label">FINANZAS</div>
+    <button data-view="sinpeAdmin"><span class="nav-icon">▣</span>Pagos</button>
+    <button data-view="finances"><span class="nav-icon">₡</span>Mensualidades</button>
+    <button data-view="reports"><span class="nav-icon">▥</span>Reportes</button>
+    <div class="nav-section-label">FAMILIAS</div>
+    <button data-view="users"><span class="nav-icon">♣</span>Familias</button>
+    <div class="nav-section-label">ADMINISTRACIÓN</div>
+    <button data-view="announcements"><span class="nav-icon">✦</span>Comunicados</button>
+    <button data-view="import"><span class="nav-icon">⇧</span>Importar jugadoras</button>
+    <button data-view="about"><span class="nav-icon">ⓘ</span>Acerca de</button>
+    <button data-view="profile"><span class="nav-icon">⚙</span>Mi perfil</button>
   </nav>
-  <nav id="familyNav" class="nav hidden">
+  <nav id="familyNav" class="nav hidden"><div class="vc-sidebar-brand"><img src="santa-barbara-shield-white.png" alt="Santa Bárbara"><div><strong>SANTA<br>BÁRBARA</strong><span>la gran familia</span></div></div>
     <button data-view="familyHome" class="active">Inicio</button><button data-view="familyCategories">Mis categorías</button><button data-view="familyLink">Vincular jugadora</button><button data-view="familyTrainings">Entrenamientos</button><button data-view="familyEvents">Eventos</button><button data-view="familyPayments">Mensualidades</button><button data-view="familyAnnouncements">Comunicados</button><button data-view="profile">Mi perfil</button>
   </nav>
-  <nav id="trainerNav" class="nav hidden">
+  <nav id="trainerNav" class="nav hidden"><div class="vc-sidebar-brand"><img src="santa-barbara-shield-white.png" alt="Santa Bárbara"><div><strong>SANTA<br>BÁRBARA</strong><span>la gran familia</span></div></div>
     <button data-view="trainerHome" class="active">Inicio</button>
     <button data-view="trainerPlayers">Mi equipo</button>
     <button data-view="trainerTrainings">Entrenamientos</button>
@@ -120,9 +158,58 @@
     <div id="emailNotice" class="notice warning hidden">Tu correo todavía no está verificado. <button id="resendVerificationButton" class="link-button inline" type="button">Reenviar verificación</button></div>
 
     <section id="view-dashboard" class="view">
-      <div class="page-head dashboard-head"><div><span class="eyebrow">VOLLEYCORE UI REFRESH 1.0</span><h2>Panel del club</h2><p class="page-subtitle">Jugadoras, entrenamientos, asistencia, eventos y finanzas en un solo lugar.</p></div><button id="newPlayerButton" class="btn primary">＋ Nueva jugadora</button></div>
-      <div id="summaryCards" class="stats"></div>
-      <div class="grid two"><article class="panel"><h3>Próximos eventos</h3><div id="upcomingEvents"></div></article><article class="panel"><h3>Jugadoras recientes</h3><div id="recentPlayers"></div></article></div>
+      <div class="vc-dashboard">
+        <div class="vc-dashboard-main">
+          <div class="vc-welcome-row">
+            <div>
+              <span class="eyebrow">VOLLEYCORE</span>
+              <h2 id="dashboardGreeting">¡Bienvenido!</h2>
+              <p class="page-subtitle">Aquí tienes un resumen de lo más importante del club.</p>
+            </div>
+            <div id="dashboardToday" class="vc-date-chip">Hoy</div>
+          </div>
+
+          <div id="summaryCards" class="stats vc-kpi-grid"></div>
+
+          <div class="vc-feature-grid">
+            <article class="panel vc-feature-card vc-feature-training">
+              <div class="vc-feature-title"><span class="vc-round-icon cyan">◉</span><strong>PRÓXIMO ENTRENAMIENTO</strong></div>
+              <div id="dashboardNextTraining"></div>
+            </article>
+            <article class="panel vc-feature-card vc-feature-match">
+              <div class="vc-feature-title"><span class="vc-round-icon red">▣</span><strong>PRÓXIMO PARTIDO</strong></div>
+              <div id="dashboardNextMatch"></div>
+            </article>
+          </div>
+
+          <article class="panel vc-dashboard-table-card">
+            <div class="vc-section-heading"><h3>Pagos pendientes recientes</h3><button id="dashboardOpenPayments" class="link-button" type="button">Ver todos →</button></div>
+            <div id="dashboardPendingPayments"></div>
+          </article>
+        </div>
+
+        <aside class="vc-dashboard-rail">
+          <article class="panel">
+            <div class="vc-section-heading"><h3>Próximos eventos</h3><button id="dashboardOpenEvents" class="link-button" type="button">Ver calendario →</button></div>
+            <div id="upcomingEvents"></div>
+          </article>
+
+          <article class="panel">
+            <div class="vc-section-heading"><h3>Actividad reciente</h3></div>
+            <div id="recentPlayers"></div>
+          </article>
+
+          <article class="panel">
+            <div class="vc-section-heading"><h3>Acciones rápidas</h3></div>
+            <div class="vc-quick-grid">
+              <button id="dashboardNewPlayer" class="vc-quick-action" type="button"><span>♙+</span>Nueva jugadora</button>
+              <button id="dashboardRegisterPayment" class="vc-quick-action" type="button"><span>▣</span>Registrar pago</button>
+              <button id="dashboardNewEvent" class="vc-quick-action" type="button"><span>□</span>Nuevo evento</button>
+              <button id="dashboardOpenReports" class="vc-quick-action" type="button"><span>▥</span>Generar reporte</button>
+            </div>
+          </article>
+        </aside>
+      </div>
     </section>
 
     <section id="view-players" class="view hidden">
