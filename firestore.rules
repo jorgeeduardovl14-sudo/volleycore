@@ -112,6 +112,16 @@ service cloud.firestore {
       allow read: if sameOrg() && resource.data.orgId == 'asbavol';
       allow create, update, delete: if isAdmin();
     }
+    match /attendanceRecords/{id} {
+      allow read: if isAdmin()
+        || (isTrainer() && resource.data.orgId == 'asbavol' && trainerHasCategory(resource.data.categoryId));
+      allow create: if (isAdmin() || trainerHasCategory(request.resource.data.categoryId))
+        && request.resource.data.orgId == 'asbavol';
+      allow update: if (isAdmin() || trainerHasCategory(resource.data.categoryId))
+        && request.resource.data.orgId == 'asbavol'
+        && request.resource.data.categoryId == resource.data.categoryId;
+      allow delete: if isAdmin();
+    }
     match /{document=**} { allow read, write: if false; }
   }
 }

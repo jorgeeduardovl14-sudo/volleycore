@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore Stable 3.3</title>
+  <title>VolleyCore Stable 3.4</title>
   <link rel="stylesheet" href="styles.css">
 
 <style>
@@ -57,6 +57,16 @@
 .badge.insured{background:#ecfdf5;color:#047857}
 .badge.uninsured{background:#fff7ed;color:#c2410c}
 </style>
+
+<style>
+.attendance-list{display:grid;gap:10px;margin-top:16px}
+.attendance-row{display:grid;grid-template-columns:minmax(220px,1.5fr) auto minmax(220px,1fr);gap:12px;align-items:center;padding:12px;border:1px solid #e5e7eb;border-radius:12px;background:#fff}
+.attendance-actions{display:flex;gap:8px;flex-wrap:wrap}
+.attendance-choice{display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid #d1d5db;border-radius:999px;background:#fafafa}
+.attendance-absence{display:grid;grid-template-columns:1fr 1.5fr;gap:8px}
+.import-status-valid{color:#047857;font-weight:700}.import-status-duplicate{color:#b45309;font-weight:700}.import-status-error{color:#b91c1c;font-weight:700}
+@media(max-width:800px){.attendance-row{grid-template-columns:1fr}.attendance-absence{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <main id="bootScreen" class="screen auth-screen"><section class="auth-card loading-card"><div class="brand"><div class="brand-mark">VC</div><div><span>VOLLEYCORE</span><h1>ASBAVOL</h1></div></div><div class="spinner" aria-hidden="true"></div><h2>Cargando sesión…</h2><p class="muted">Estamos sincronizando tu información con Firebase.</p></section></main>
@@ -90,7 +100,7 @@
     <div class="top-actions"><span id="roleBadge" class="badge">Familia</span><button id="logoutButton" class="btn secondary">Cerrar sesión</button></div>
   </header>
   <nav id="adminNav" class="nav hidden">
-    <button data-view="dashboard" class="active">Inicio</button><button data-view="players">Jugadoras</button><button data-view="categories">Categorías</button><button data-view="seasons">Temporadas</button><button data-view="trainings">Entrenamientos</button><button data-view="events">Eventos</button><button data-view="venues">Gimnasios</button><button data-view="announcements">Comunicados</button><button data-view="finances">Mensualidades</button><button data-view="sinpeAdmin">Pagos</button><button data-view="users">Familias</button><button data-view="trainers">Entrenadores</button><button data-view="reports">Reportes</button><button data-view="import">Importar V2</button><button data-view="about">Acerca de</button><button data-view="profile">Mi perfil</button>
+    <button data-view="dashboard" class="active">Inicio</button><button data-view="players">Jugadoras</button><button data-view="categories">Categorías</button><button data-view="seasons">Temporadas</button><button data-view="trainings">Entrenamientos</button><button data-view="attendance">Asistencia</button><button data-view="events">Eventos</button><button data-view="venues">Gimnasios</button><button data-view="announcements">Comunicados</button><button data-view="finances">Mensualidades</button><button data-view="sinpeAdmin">Pagos</button><button data-view="users">Familias</button><button data-view="trainers">Entrenadores</button><button data-view="reports">Reportes</button><button data-view="import">Importar jugadoras</button><button data-view="about">Acerca de</button><button data-view="profile">Mi perfil</button>
   </nav>
   <nav id="familyNav" class="nav hidden">
     <button data-view="familyHome" class="active">Inicio</button><button data-view="familyCategories">Mis categorías</button><button data-view="familyLink">Vincular jugadora</button><button data-view="familyTrainings">Entrenamientos</button><button data-view="familyEvents">Eventos</button><button data-view="familyPayments">Mensualidades</button><button data-view="familyAnnouncements">Comunicados</button><button data-view="profile">Mi perfil</button>
@@ -99,6 +109,7 @@
     <button data-view="trainerHome" class="active">Inicio</button>
     <button data-view="trainerPlayers">Mi equipo</button>
     <button data-view="trainerTrainings">Entrenamientos</button>
+    <button data-view="trainerAttendance">Asistencia</button>
     <button data-view="trainerEvents">Eventos</button>
     <button data-view="trainerAnnouncements">Comunicados</button>
     <button data-view="profile">Mi perfil</button>
@@ -108,7 +119,7 @@
     <div id="emailNotice" class="notice warning hidden">Tu correo todavía no está verificado. <button id="resendVerificationButton" class="link-button inline" type="button">Reenviar verificación</button></div>
 
     <section id="view-dashboard" class="view">
-      <div class="page-head"><div><span class="eyebrow">VOLLEYCORE SPRINT 1.1</span><h2>Dashboard administrativo</h2></div><button id="newPlayerButton" class="btn primary">Nueva jugadora</button></div>
+      <div class="page-head"><div><span class="eyebrow">VOLLEYCORE STABLE 3.4</span><h2>Dashboard administrativo</h2></div><button id="newPlayerButton" class="btn primary">Nueva jugadora</button></div>
       <div id="summaryCards" class="stats"></div>
       <div class="grid two"><article class="panel"><h3>Próximos eventos</h3><div id="upcomingEvents"></div></article><article class="panel"><h3>Jugadoras recientes</h3><div id="recentPlayers"></div></article></div>
     </section>
@@ -121,7 +132,7 @@
 
     <section id="view-categories" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">CONFIGURACIÓN</span><h2>Categorías</h2></div><button id="newCategoryButton" class="btn primary">Nueva categoría</button></div>
-      <div class="table-wrap"><table><thead><tr><th>Categoría</th><th>Entrenador/a</th><th>Horario</th><th>Sede</th><th>Cuota</th><th>Estado</th><th></th></tr></thead><tbody id="categoriesBody"></tbody></table></div>
+      <div class="table-wrap"><table><thead><tr><th>Categoría</th><th>Grupo</th><th>Entrenador/a</th><th>Horario</th><th>Sede</th><th>Cuota</th><th>Estado</th><th></th></tr></thead><tbody id="categoriesBody"></tbody></table></div>
     </section>
 
     <section id="view-seasons" class="view hidden">
@@ -240,14 +251,72 @@
       <div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Jugadoras vinculadas</th><th>Estado</th></tr></thead><tbody id="usersBody"></tbody></table></div><article class="panel"><h3>Solicitudes de vinculación</h3><div id="linkRequestsAdmin" class="cards-list"></div></article>
     </section>
 
+    <section id="view-attendance" class="view hidden">
+      <div class="page-head"><div><span class="eyebrow">CONTROL DE EQUIPO</span><h2>Asistencia</h2></div></div>
+      <article class="panel">
+        <div class="filters finance-filters">
+          <select id="attendanceCategory"><option value="">Selecciona categoría</option></select>
+          <input id="attendanceDate" type="date">
+          <button id="loadAttendanceButton" class="btn secondary" type="button">Cargar roster</button>
+          <button id="markAllPresentButton" class="btn secondary" type="button">Marcar todas presentes</button>
+          <button id="saveAttendanceButton" class="btn primary" type="button">Guardar asistencia</button>
+        </div>
+        <div id="attendanceRoster" class="attendance-list"></div>
+      </article>
+      <article class="panel">
+        <div class="page-head compact-head"><div><h3>Resumen mensual</h3></div><div class="actions"><input id="attendanceSummaryMonth" type="month"><button id="exportAttendanceButton" class="btn secondary" type="button">Descargar CSV</button></div></div>
+        <div id="attendanceSummary"></div>
+      </article>
+    </section>
+
+    <section id="view-trainerAttendance" class="view hidden">
+      <div class="page-head"><div><span class="eyebrow">MI EQUIPO</span><h2>Asistencia</h2></div></div>
+      <article class="panel">
+        <div class="filters finance-filters">
+          <select id="trainerAttendanceCategory"><option value="">Selecciona categoría</option></select>
+          <input id="trainerAttendanceDate" type="date">
+          <button id="trainerLoadAttendanceButton" class="btn secondary" type="button">Cargar roster</button>
+          <button id="trainerMarkAllPresentButton" class="btn secondary" type="button">Marcar todas presentes</button>
+          <button id="trainerSaveAttendanceButton" class="btn primary" type="button">Guardar asistencia</button>
+        </div>
+        <div id="trainerAttendanceRoster" class="attendance-list"></div>
+      </article>
+      <article class="panel">
+        <div class="page-head compact-head"><div><h3>Resumen mensual</h3></div><input id="trainerAttendanceSummaryMonth" type="month"></div>
+        <div id="trainerAttendanceSummary"></div>
+      </article>
+    </section>
+
     <section id="view-reports" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">EXPORTACIÓN</span><h2>Reportes</h2></div></div>
       <div class="cards-grid"><article class="panel"><h3>Jugadoras</h3><p>Exporta el roster completo con categoría y encargados.</p><button id="exportPlayersButton" class="btn secondary">Descargar CSV</button></article><article class="panel"><h3>Mensualidades</h3><p>Exporta cargos y estados de pago.</p><button id="exportChargesButton" class="btn secondary">Descargar CSV</button></article><article class="panel"><h3>Eventos</h3><p>Exporta partidos y actividades especiales.</p><button id="exportEventsButton" class="btn secondary">Descargar CSV</button><hr><h3>Entrenamientos</h3><p>Exporta las series recurrentes.</p><button id="exportTrainingsButton" class="btn secondary">Descargar CSV</button></article></div>
     </section>
 
     <section id="view-import" class="view hidden">
-      <div class="page-head"><div><span class="eyebrow">MIGRACIÓN</span><h2>Importar respaldo V2</h2></div></div>
-      <article class="panel"><p>Carga el archivo JSON exportado desde ASBAVOL Gestión V2. Se importarán categorías y jugadoras, evitando duplicados por Player ID.</p><input id="v2File" type="file" accept="application/json,.json"><button id="importV2Button" class="btn primary">Importar a Firestore</button><div id="importResult" class="notice info hidden"></div></article>
+      <div class="page-head"><div><span class="eyebrow">CARGA MASIVA</span><h2>Importar jugadoras</h2></div></div>
+      <article class="panel">
+        <div class="page-head compact-head">
+          <div><h3>Excel o CSV</h3><p class="muted">Carga un roster completo. Antes de guardar, VolleyCore mostrará una vista previa y posibles duplicados.</p></div>
+          <button id="downloadPlayerTemplateButton" class="btn secondary" type="button">Descargar plantilla Excel</button>
+        </div>
+        <div class="grid two">
+          <label>Categoría principal por defecto<select id="importDefaultCategory"><option value="">Usar la categoría del archivo</option></select></label>
+          <label>Archivo<input id="playerImportFile" type="file" accept=".xlsx,.xls,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv"></label>
+        </div>
+        <div class="actions">
+          <button id="previewPlayerImportButton" class="btn primary" type="button">Revisar archivo</button>
+          <button id="confirmPlayerImportButton" class="btn secondary" type="button" disabled>Importar registros válidos</button>
+        </div>
+        <div id="playerImportSummary" class="stats small"></div>
+        <div id="playerImportPreview" class="table-wrap"></div>
+      </article>
+      <article class="panel">
+        <h3>Importación antigua V2</h3>
+        <p class="muted">Se mantiene únicamente por compatibilidad con respaldos JSON anteriores.</p>
+        <input id="v2File" type="file" accept="application/json,.json">
+        <button id="importV2Button" class="btn secondary">Importar respaldo V2</button>
+        <div id="importResult" class="notice info hidden"></div>
+      </article>
     </section>
 
     <section id="view-familyHome" class="view hidden">
@@ -280,7 +349,7 @@
     <section id="view-familyPayments" class="view hidden"><div class="page-head"><div><span class="eyebrow">FINANZAS</span><h2>Mis mensualidades</h2></div><button id="openSinpeButton" class="btn primary">Reportar pago</button></div><div id="familyChargesList" class="cards-list"></div></section>
     <section id="view-familyAnnouncements" class="view hidden"><div class="page-head"><div><span class="eyebrow">INFORMACIÓN</span><h2>Comunicados</h2></div></div><div id="familyAnnouncementsList" class="cards-list"></div></section>
 
-    <section id="view-about" class="view hidden"><div class="page-head"><div><span class="eyebrow">SISTEMA</span><h2>Acerca de VolleyCore</h2></div></div><article class="panel"><p><strong>Versión:</strong> Stable 3.3</p><p><strong>Build:</strong> 2026-08-07 · Stability Audit</p><p><strong>Organización:</strong> ASBAVOL</p><p><strong>Base de datos:</strong> Firebase Firestore</p></article></section>
+    <section id="view-about" class="view hidden"><div class="page-head"><div><span class="eyebrow">SISTEMA</span><h2>Acerca de VolleyCore</h2></div></div><article class="panel"><p><strong>Versión:</strong> Stable 3.4</p><p><strong>Build:</strong> 2026-08-07 · Gestión Deportiva</p><p><strong>Organización:</strong> ASBAVOL</p><p><strong>Base de datos:</strong> Firebase Firestore</p></article></section>
 
     <section id="view-trainers" class="view hidden">
       <div class="page-head">
@@ -461,6 +530,8 @@
     <h4>Información general</h4>
     <div class="grid two">
       <label>Nombre<input id="categoryName" required></label>
+      <label>Grupo de edad<input id="categoryAgeGroup" placeholder="Ej. U-17"></label>
+      <label>Color / grupo<input id="categoryTeamColor" placeholder="Ej. Rojo, Negro"></label>
       <label>Temporada<select id="categorySeason"></select></label>
       <label>Estado<select id="categoryStatus"><option value="active">Activa</option><option value="inactive">Inactiva</option></select></label>
       <label>Entrenador/a principal<input id="categoryCoach"></label>
@@ -542,7 +613,8 @@
 </dialog>
 
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="app-stable-3.3.js?v=20260807-stable33"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script type="module" src="app-stable-3.4.js?v=20260807-stable34"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');
