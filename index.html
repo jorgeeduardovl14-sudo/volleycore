@@ -4,8 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore Stable 3.4.2</title>
+  <title>VolleyCore UI Refresh 1.0</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="ui-refresh.css?v=20260807-ui10">
 
 <style>
 .month-checkbox-panel{grid-column:1/-1;border:1px solid #d6d9df;border-radius:14px;padding:14px;background:#fff}
@@ -97,7 +98,7 @@
 <main id="appScreen" class="hidden">
   <header class="topbar">
     <div class="brand compact"><div class="brand-mark">VC</div><div><span>VOLLEYCORE</span><h1>ASBAVOL</h1></div></div>
-    <div class="top-actions"><span id="roleBadge" class="badge">Familia</span><button id="logoutButton" class="btn secondary">Cerrar sesión</button></div>
+    <div class="top-actions"><button id="themeToggleButton" class="icon-button ui-theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema">◐</button><span id="roleBadge" class="badge">Familia</span><button id="logoutButton" class="btn secondary">Cerrar sesión</button></div>
   </header>
   <nav id="adminNav" class="nav hidden">
     <button data-view="dashboard" class="active">Inicio</button><button data-view="players">Jugadoras</button><button data-view="categories">Categorías</button><button data-view="seasons">Temporadas</button><button data-view="trainings">Entrenamientos</button><button data-view="attendance">Asistencia</button><button data-view="events">Eventos</button><button data-view="venues">Gimnasios</button><button data-view="announcements">Comunicados</button><button data-view="finances">Mensualidades</button><button data-view="sinpeAdmin">Pagos</button><button data-view="users">Familias</button><button data-view="trainers">Entrenadores</button><button data-view="reports">Reportes</button><button data-view="import">Importar jugadoras</button><button data-view="about">Acerca de</button><button data-view="profile">Mi perfil</button>
@@ -119,7 +120,7 @@
     <div id="emailNotice" class="notice warning hidden">Tu correo todavía no está verificado. <button id="resendVerificationButton" class="link-button inline" type="button">Reenviar verificación</button></div>
 
     <section id="view-dashboard" class="view">
-      <div class="page-head"><div><span class="eyebrow">VOLLEYCORE STABLE 3.4.2</span><h2>Dashboard administrativo</h2></div><button id="newPlayerButton" class="btn primary">Nueva jugadora</button></div>
+      <div class="page-head dashboard-head"><div><span class="eyebrow">VOLLEYCORE UI REFRESH 1.0</span><h2>Panel del club</h2><p class="page-subtitle">Jugadoras, entrenamientos, asistencia, eventos y finanzas en un solo lugar.</p></div><button id="newPlayerButton" class="btn primary">＋ Nueva jugadora</button></div>
       <div id="summaryCards" class="stats"></div>
       <div class="grid two"><article class="panel"><h3>Próximos eventos</h3><div id="upcomingEvents"></div></article><article class="panel"><h3>Jugadoras recientes</h3><div id="recentPlayers"></div></article></div>
     </section>
@@ -627,4 +628,29 @@ setTimeout(function(){
   }
 },12000);
 </script>
+
+<script>
+(() => {
+  const storageKey = 'volleycore-theme';
+  const root = document.documentElement;
+  const apply = theme => {
+    root.dataset.theme = theme;
+    const button = document.getElementById('themeToggleButton');
+    if (button) {
+      button.textContent = theme === 'dark' ? '☀' : '◐';
+      button.title = theme === 'dark' ? 'Usar modo claro' : 'Usar modo oscuro';
+    }
+  };
+  const stored = localStorage.getItem(storageKey);
+  apply(stored === 'dark' ? 'dark' : 'light');
+  document.addEventListener('click', e => {
+    if (e.target.closest('#themeToggleButton')) {
+      const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem(storageKey, next);
+      apply(next);
+    }
+  });
+})();
+</script>
+
 </body></html>
