@@ -36,6 +36,27 @@
 <style>
 .category-detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.category-section{margin-top:22px}.category-video-card{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.category-link{word-break:break-word}
 </style>
+
+<style>
+.wide-dialog{width:min(980px,94vw);max-width:980px}
+.category-editor-section{padding:16px 0;border-bottom:1px solid #e7e9ee}
+.category-editor-section:last-of-type{border-bottom:0}
+.category-roster-editor{max-height:280px;overflow:auto;padding:4px}
+.compact-list .panel{padding:12px 14px;margin-bottom:8px}
+.sticky-actions{position:sticky;bottom:0;background:#fff;padding-top:14px;border-top:1px solid #e7e9ee}
+</style>
+
+
+<style>
+.player-editor-section{padding:16px 0;border-bottom:1px solid #e7e9ee}
+.profile-label-row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 16px}
+.profile-data-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.profile-data-list div{padding:10px;border:1px solid #e7e9ee;border-radius:10px;background:#fafafa}
+.profile-data-list strong{display:block;font-size:.78rem;text-transform:uppercase;color:#64748b;margin-bottom:4px}
+.badge.first-division{background:#eef2ff;color:#3730a3}
+.badge.insured{background:#ecfdf5;color:#047857}
+.badge.uninsured{background:#fff7ed;color:#c2410c}
+</style>
 </head>
 <body>
 <main id="bootScreen" class="screen auth-screen"><section class="auth-card loading-card"><div class="brand"><div class="brand-mark">VC</div><div><span>VOLLEYCORE</span><h1>ASBAVOL</h1></div></div><div class="spinner" aria-hidden="true"></div><h2>Cargando sesión…</h2><p class="muted">Estamos sincronizando tu información con Firebase.</p></section></main>
@@ -344,7 +365,78 @@
     <div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar perfil</button></div>
   </form>
 </dialog>
-<dialog id="playerDialog"><form id="playerForm"><div class="dialog-head"><h3 id="playerDialogTitle">Nueva jugadora</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="playerDocId" type="hidden"><div class="grid two"><label>Player ID<input id="playerCode" required placeholder="ASB-0001"></label><label>Nombre completo<input id="playerName" required></label><label>Fecha de nacimiento<input id="playerBirthdate" type="date"></label><label>Categoría principal<select id="playerCategory" required></select></label><div class="field-span"><span class="field-label">Categorías en las que participa</span><div id="playerCategoriesEditor" class="check-list"></div></div><label>Número<input id="playerNumber"></label><label>Posición<input id="playerPosition"></label><label>Cuota personalizada<input id="playerFee" type="number" min="0"></label><label>Estado<select id="playerStatus"><option value="active">Activa</option><option value="inactive">Inactiva</option></select></label></div><h4>Encargados (máximo 3)</h4><div id="guardiansEditor"></div><button id="addGuardianButton" type="button" class="btn secondary">Agregar encargado</button><h4>Usuarios familiares vinculados</h4><div id="linkedUsersEditor" class="check-list"></div><label>Observaciones<textarea id="playerNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
+<dialog id="playerDialog" class="wide-dialog">
+<form id="playerForm">
+  <div class="dialog-head"><div><span class="eyebrow">JUGADORA</span><h3 id="playerDialogTitle">Nueva jugadora</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
+  <input id="playerDocId" type="hidden">
+
+  <section class="player-editor-section">
+    <h4>Información deportiva</h4>
+    <div class="grid two">
+      <label>Player ID<input id="playerCode" required placeholder="ASB-0001"></label>
+      <label>Nombre completo<input id="playerName" required></label>
+      <label>Fecha de nacimiento<input id="playerBirthdate" type="date"></label>
+      <label>Tipo de jugadora<select id="playerType"><option value="minor">Menor de edad</option><option value="adult">Mayor de edad</option></select></label>
+      <label>Categoría principal<select id="playerCategory" required></select></label>
+      <label>Número<input id="playerNumber"></label>
+      <label>Posición<input id="playerPosition"></label>
+      <label>Estado<select id="playerStatus"><option value="active">Activa</option><option value="inactive">Inactiva</option><option value="injured">Lesionada</option></select></label>
+    </div>
+    <div class="field-span">
+      <span class="field-label">Categorías a las que refuerza</span>
+      <p class="muted">La categoría principal se administra arriba. Aquí solo selecciona categorías adicionales donde juega como refuerzo.</p>
+      <div id="playerCategoriesEditor" class="check-list"></div>
+    </div>
+    <label class="check-inline"><input id="playerPermanentReinforcement" type="checkbox"> Refuerzo permanente</label>
+  </section>
+
+  <section class="player-editor-section">
+    <h4>Información personal</h4>
+    <div class="grid two">
+      <label>Teléfono de la jugadora<input id="playerPhone" type="tel"></label>
+      <label>Correo electrónico<input id="playerEmail" type="email"></label>
+      <label>Provincia<input id="playerProvince"></label>
+      <label>Cantón / distrito<input id="playerCantonDistrict"></label>
+    </div>
+    <label>Dirección / lugar de residencia<textarea id="playerAddress"></textarea></label>
+    <div class="grid two">
+      <label>Contacto de emergencia<input id="playerEmergencyName"></label>
+      <label>Teléfono de emergencia<input id="playerEmergencyPhone" type="tel"></label>
+    </div>
+  </section>
+
+  <section class="player-editor-section">
+    <h4>Seguro médico</h4>
+    <label class="check-inline"><input id="playerInsured" type="checkbox"> Asegurada</label>
+    <div id="playerInsuranceFields" class="grid two">
+      <label>Aseguradora<input id="playerInsurer"></label>
+      <label>Número de póliza<input id="playerPolicyNumber"></label>
+      <label>Fecha de vencimiento<input id="playerInsuranceExpiry" type="date"></label>
+      <label>Observaciones del seguro<input id="playerInsuranceNotes"></label>
+    </div>
+  </section>
+
+  <section class="player-editor-section">
+    <h4>Información financiera</h4>
+    <p id="firstDivisionFinancialNotice" class="notice info hidden">La categoría principal es Primera División. Esta jugadora no genera mensualidad.</p>
+    <label>Cuota personalizada<input id="playerFee" type="number" min="0" placeholder="Dejar vacío para usar la cuota de la categoría"></label>
+  </section>
+
+  <section class="player-editor-section">
+    <h4>Encargados <span class="muted">(opcionales para jugadoras adultas / Primera División)</span></h4>
+    <div id="guardiansEditor"></div>
+    <button id="addGuardianButton" type="button" class="btn secondary">Agregar encargado</button>
+  </section>
+
+  <section class="player-editor-section">
+    <h4>Usuarios familiares vinculados</h4>
+    <div id="linkedUsersEditor" class="check-list"></div>
+  </section>
+
+  <label>Observaciones<textarea id="playerNotes"></textarea></label>
+  <div class="dialog-actions sticky-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div>
+</form>
+</dialog>
 
 <dialog id="categoryDetailDialog">
   <div class="dialog-head dialog-pad"><div><span class="eyebrow">FICHA DE CATEGORÍA</span><h3 id="categoryDetailTitle">Categoría</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
@@ -360,7 +452,61 @@
     <div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar video</button></div>
   </form>
 </dialog>
-<dialog id="categoryDialog"><form id="categoryForm"><div class="dialog-head"><h3 id="categoryDialogTitle">Nueva categoría</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="categoryDocId" type="hidden"><div class="grid two"><label>Nombre<input id="categoryName" required></label><label>Cuota mensual<input id="categoryFee" type="number" min="0" required></label><label>Día de vencimiento<input id="categoryDueDay" type="number" min="1" max="28" value="10" required></label><label>Temporada<select id="categorySeason"></select></label><label>Estado<select id="categoryStatus"><option value="active">Activa</option><option value="inactive">Inactiva</option></select></label><label>Entrenador/a principal<input id="categoryCoach"></label><label>Asistente<input id="categoryAssistant"></label><label>Horario regular<input id="categorySchedule" placeholder="Martes y viernes, 7:00 p. m."></label><label>Sede regular<select id="categoryVenue"></select></label></div><label>Información adicional<textarea id="categoryNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
+<dialog id="categoryDialog" class="wide-dialog">
+<form id="categoryForm">
+  <div class="dialog-head"><div><span class="eyebrow">ADMINISTRAR CATEGORÍA</span><h3 id="categoryDialogTitle">Nueva categoría</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
+  <input id="categoryDocId" type="hidden">
+
+  <section class="category-editor-section">
+    <h4>Información general</h4>
+    <div class="grid two">
+      <label>Nombre<input id="categoryName" required></label>
+      <label>Temporada<select id="categorySeason"></select></label>
+      <label>Estado<select id="categoryStatus"><option value="active">Activa</option><option value="inactive">Inactiva</option></select></label>
+      <label>Entrenador/a principal<input id="categoryCoach"></label>
+      <label>Asistente<input id="categoryAssistant"></label>
+      <label>Sede regular<select id="categoryVenue"></select></label>
+      <label>Horario regular<input id="categorySchedule" placeholder="Martes y viernes, 7:00 p. m."></label>
+      <label>Cuota mensual<input id="categoryFee" type="number" min="0" required></label>
+      <label>Día de vencimiento<input id="categoryDueDay" type="number" min="1" max="28" value="15" required></label>
+    </div>
+    <label>Información adicional<textarea id="categoryNotes"></textarea></label>
+  </section>
+
+  <section id="categoryRosterEditorSection" class="category-editor-section">
+    <div class="page-head compact-head"><div><h4>Jugadoras / roster</h4><p class="muted">Marca las jugadoras que pertenecen a esta categoría.</p></div></div>
+    <div id="categoryRosterEditor" class="check-list category-roster-editor"></div>
+  </section>
+
+  <section id="categoryScheduleEditorSection" class="category-editor-section">
+    <div class="page-head compact-head">
+      <div><h4>Entrenamientos</h4><p class="muted">Horarios que aparecerán en la ficha.</p></div>
+      <button id="addTrainingFromCategoryButton" class="btn secondary" type="button">Agregar entrenamiento</button>
+    </div>
+    <div id="categoryTrainingsEditorList" class="cards-list compact-list"></div>
+  </section>
+
+  <section id="categoryEventsEditorSection" class="category-editor-section">
+    <div class="page-head compact-head">
+      <div><h4>Calendario de juegos y eventos</h4><p class="muted">Partidos, torneos, festivales y otras actividades.</p></div>
+      <button id="addEventFromCategoryButton" class="btn secondary" type="button">Agregar evento</button>
+    </div>
+    <div id="categoryEventsEditorList" class="cards-list compact-list"></div>
+  </section>
+
+  <section id="categoryVideosEditorSection" class="category-editor-section">
+    <div class="page-head compact-head">
+      <div><h4>Videos de partidos</h4><p class="muted">Enlaces de YouTube u otras plataformas.</p></div>
+      <button id="addVideoFromCategoryButton" class="btn secondary" type="button">Agregar video</button>
+    </div>
+    <div id="categoryVideosEditorList" class="cards-list compact-list"></div>
+  </section>
+
+  <p id="categorySaveFirstNotice" class="notice info hidden">Guarda primero la categoría para poder agregar entrenamientos, eventos y videos.</p>
+
+  <div class="dialog-actions sticky-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar categoría</button></div>
+</form>
+</dialog>
 
 <dialog id="venueDialog"><form id="venueForm"><div class="dialog-head"><h3 id="venueDialogTitle">Nuevo lugar</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="venueDocId" type="hidden"><label>Nombre<input id="venueName" required></label><label>Dirección<textarea id="venueAddress" required></textarea></label><label>Enlace de Google Maps<input id="venueMapUrl" type="url" placeholder="https://maps.google.com/..."></label><label>Indicaciones<textarea id="venueDirections"></textarea></label><label>Estado<select id="venueStatus"><option value="active">Activo</option><option value="inactive">Inactivo</option></select></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
 
@@ -396,7 +542,7 @@
 </dialog>
 
 <div id="toast" class="toast hidden"></div>
-<script type="module" src="app-category-hub-v1.js?v=20260807-0830"></script>
+<script type="module" src="app-player-profile-v1.js?v=20260807-1015"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');
