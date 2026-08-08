@@ -185,3 +185,5 @@ html[data-theme="dark"] .auth-card :where(h1,h2,h3,p,label,strong,span){color:va
 html[data-theme="dark"] .auth-card .muted,
 html[data-theme="dark"] .auth-card .subtitle{color:var(--dm-muted)!important}
 html[data-theme="dark"] .auth-card :where(input,select,textarea){background:var(--dm-surface-2)!important;color:var(--dm-text)!important;border-color:var(--dm-border)!important}
+
+html[data-theme="dark"] .notification-panel,html[data-theme="dark"] .notification-item,html[data-theme="dark"] .photo-preview,html[data-theme="dark"] .team-photo-preview{background:var(--vc-surface)!important;color:var(--vc-text)!important;border-color:var(--vc-border)!important}html[data-theme="dark"] .notification-item:hover{background:var(--vc-surface-2)!important}

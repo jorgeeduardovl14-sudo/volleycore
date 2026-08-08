@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore UI 2.5</title>
+  <title>VolleyCore UI 2.6</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260807-ui10">
 
@@ -110,7 +110,7 @@
     </div>
     <div class="top-actions">
       <button id="themeToggleButton" class="icon-button ui-theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema">◐</button>
-      <div class="vc-notification" aria-hidden="true">♢<span>•</span></div>
+      <button id="notificationBellButton" class="vc-notification vc-notification-button" type="button" aria-label="Notificaciones" title="Notificaciones">🔔<span id="notificationCount" class="notification-count hidden">0</span></button>
       <div class="vc-top-user">
         <div class="vc-user-bubble" aria-hidden="true">VC</div>
         <div><strong class="vc-session-user-name">Usuario</strong><small class="vc-session-user-role">Perfil</small></div>
@@ -119,6 +119,11 @@
       <button id="logoutButton" class="vc-logout-link" type="button">Salir</button>
     </div>
   </header>
+  <aside id="notificationPanel" class="notification-panel hidden" aria-label="Centro de notificaciones">
+    <div class="notification-panel-head"><div><span class="eyebrow">NOTIFICACIONES</span><h3>Actividad de tus categorías</h3></div><button id="closeNotificationPanel" class="icon-button" type="button">×</button></div>
+    <div id="notificationList" class="notification-list"></div>
+    <div class="notification-panel-actions"><button id="markAllNotificationsRead" class="btn secondary" type="button">Marcar todas como leídas</button></div>
+  </aside>
   <nav id="adminNav" class="nav hidden">
     <div class="vc-sidebar-brand">
       <img src="santa-barbara-shield-white.png" alt="Escudo Santa Bárbara">
@@ -250,7 +255,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.5</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.6</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div></div>
@@ -598,6 +603,10 @@
 
   <section class="player-editor-section">
     <h4>Información personal</h4>
+    <div class="photo-editor-row">
+      <div id="playerPhotoPreview" class="photo-preview"><span>Sin foto</span></div>
+      <label class="photo-upload-control">Foto de perfil<input id="playerPhotoFile" type="file" accept="image/*"><small>Máximo 5 MB.</small></label>
+    </div>
     <div class="grid two">
       <label>Teléfono de la jugadora<input id="playerPhone" type="tel"></label>
       <label>Correo electrónico<input id="playerEmail" type="email"></label>
@@ -666,6 +675,10 @@
 
   <section class="category-editor-section">
     <h4>Información general</h4>
+    <div class="team-photo-editor">
+      <div id="categoryPhotoPreview" class="team-photo-preview"><span>Sin foto del equipo</span></div>
+      <label class="photo-upload-control">Foto oficial del equipo<input id="categoryPhotoFile" type="file" accept="image/*"><small>Se mostrará en la ficha de la categoría.</small></label>
+    </div>
     <div class="grid two">
       <label>Nombre<input id="categoryName" required></label>
       <label>Grupo de edad<input id="categoryAgeGroup" placeholder="Ej. U-17"></label>
@@ -758,7 +771,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.5.js?v=20260807-stable342"></script>
+<script type="module" src="app-ui-2.6.js?v=20260807-stable342"></script>
 
 
 <script>

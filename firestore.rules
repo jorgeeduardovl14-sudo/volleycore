@@ -81,6 +81,12 @@ service cloud.firestore {
             && trainerHasCategory(request.resource.data.categoryId)));
       allow delete: if false;
     }
+    match /notifications/{id} {
+      allow read: if sameOrg() && resource.data.orgId == 'asbavol';
+      allow create: if request.resource.data.orgId == 'asbavol' && (isAdmin() || (isTrainer() && (request.resource.data.categoryId == '' || trainerHasCategory(request.resource.data.categoryId))));
+      allow update: if sameOrg() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['readBy']) && request.resource.data.readBy.hasAll(resource.data.readBy) && request.auth.uid in request.resource.data.readBy;
+      allow delete: if false;
+    }
     match /announcements/{id} {
       allow read: if isAdmin()
         || (isPortalUser() && resource.data.orgId == 'asbavol' && resource.data.status == 'published')
