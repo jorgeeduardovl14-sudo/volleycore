@@ -9,7 +9,7 @@ service cloud.firestore {
     function sameOrg(){ return hasProfile() && userDoc().data.orgId == 'asbavol'; }
     function isAdmin(){ return sameOrg() && userDoc().data.role in ['admin','treasurer']; }
     function isPortalUser(){ return sameOrg() && userDoc().data.role == 'family'; }
-    function isTrainer(){ return sameOrg() && userDoc().data.role == 'trainer' && userDoc().data.status == 'active'; }
+    function isTrainer(){ return sameOrg() && userDoc().data.role in ['trainer','assistant'] && userDoc().data.status == 'active'; }
     function trainerCategories(){ return isTrainer() && ('assignedCategoryIds' in userDoc().data) ? userDoc().data.assignedCategoryIds : []; }
     function trainerHasCategory(categoryId){ return isTrainer() && categoryId in trainerCategories(); }
     function trainerHasAnyCategory(categoryIds){ return isTrainer() && categoryIds.hasAny(trainerCategories()); }
@@ -23,7 +23,11 @@ service cloud.firestore {
         && (
           (request.resource.data.role == 'family' && request.resource.data.status == 'active' && request.resource.data.accountType in ['guardian','player'])
           ||
-          (request.resource.data.role == 'pendingTrainer' && request.resource.data.status == 'pending' && request.resource.data.accountType == 'trainer')
+          (
+            (request.resource.data.role == 'pendingTrainer' && request.resource.data.status == 'pending' && request.resource.data.accountType == 'trainer')
+            ||
+            (request.resource.data.role == 'pendingAssistant' && request.resource.data.status == 'pending' && request.resource.data.accountType == 'assistant')
+          )
         );
       allow read: if ownUser(uid) || isAdmin();
       allow update: if isAdmin() || (ownUser(uid)
