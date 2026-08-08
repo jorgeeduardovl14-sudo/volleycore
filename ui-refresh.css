@@ -1112,3 +1112,81 @@ html[data-theme="dark"] .vc-top-user small{color:#555!important}
   background:rgba(47,175,199,.07);transform:translateX(2px)
 }
 .event-location-link{word-break:break-all}
+
+
+/* =========================================================
+   VolleyCore UI 2.3 — full internal dark-mode audit
+   ========================================================= */
+html[data-theme="dark"] .player-editor-section,
+html[data-theme="dark"] .category-editor-section,
+html[data-theme="dark"] .profile-data-list div,
+html[data-theme="dark"] .guardian-row,
+html[data-theme="dark"] .check-item,
+html[data-theme="dark"] .person-row,
+html[data-theme="dark"] .recent-item,
+html[data-theme="dark"] .member-list,
+html[data-theme="dark"] .trainer-request-card,
+html[data-theme="dark"] .category-video-card,
+html[data-theme="dark"] .category-detail-grid > *,
+html[data-theme="dark"] .family-detail-grid > *,
+html[data-theme="dark"] .sticky-actions,
+html[data-theme="dark"] .dialog-actions,
+html[data-theme="dark"] .dialog-head,
+html[data-theme="dark"] fieldset,
+html[data-theme="dark"] .attendance-choice,
+html[data-theme="dark"] .multi-select-option,
+html[data-theme="dark"] .month-check-item{
+  background:var(--vc-surface)!important;
+  color:var(--vc-text)!important;
+  border-color:var(--vc-border)!important;
+}
+html[data-theme="dark"] .player-editor-section *,
+html[data-theme="dark"] .category-editor-section *,
+html[data-theme="dark"] .profile-data-list *,
+html[data-theme="dark"] .guardian-row *,
+html[data-theme="dark"] .check-item *,
+html[data-theme="dark"] .person-row *,
+html[data-theme="dark"] .recent-item *,
+html[data-theme="dark"] .trainer-request-card *,
+html[data-theme="dark"] dialog .grid *,
+html[data-theme="dark"] dialog .field-span *,
+html[data-theme="dark"] dialog fieldset *,
+html[data-theme="dark"] dialog .dialog-head *,
+html[data-theme="dark"] dialog .dialog-actions *{
+  color:inherit;
+}
+html[data-theme="dark"] dialog h3,
+html[data-theme="dark"] dialog h4,
+html[data-theme="dark"] dialog label,
+html[data-theme="dark"] dialog span:not(.badge):not(.eyebrow),
+html[data-theme="dark"] dialog strong,
+html[data-theme="dark"] dialog p{
+  color:var(--vc-text)!important;
+}
+html[data-theme="dark"] dialog .muted,
+html[data-theme="dark"] dialog small{
+  color:var(--vc-muted)!important;
+}
+html[data-theme="dark"] dialog input,
+html[data-theme="dark"] dialog select,
+html[data-theme="dark"] dialog textarea,
+html[data-theme="dark"] .guardian-grid input{
+  background:#20242c!important;
+  color:#f7f8fa!important;
+  border-color:#353c47!important;
+}
+html[data-theme="dark"] dialog option{background:#20242c;color:#f7f8fa}
+html[data-theme="dark"] .close-dialog,
+html[data-theme="dark"] .icon-button{
+  color:#f7f8fa!important;
+  background:#242932!important;
+  border-color:#353c47!important;
+}
+html[data-theme="dark"] .link-button{color:#64d4e7!important}
+html[data-theme="dark"] .notice.info{background:#102b33!important;color:#bceef6!important;border-color:#245866!important}
+html[data-theme="dark"] .notice.warning{background:#302611!important;color:#f8dda1!important;border-color:#5a481f!important}
+html[data-theme="dark"] .notice.error{background:#351619!important;color:#ffc4c8!important;border-color:#633036!important}
+html[data-theme="dark"] .badge.neutral{background:#292f38!important;color:#e7ebf0!important}
+html[data-theme="dark"] .trainer-event-card{background:var(--vc-surface)!important;color:var(--vc-text)!important}
+.trainer-event-card{cursor:pointer}
+.trainer-event-card:hover{transform:translateY(-1px)}
