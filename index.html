@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore UI 2.0</title>
+  <title>VolleyCore UI 2.1</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260807-ui10">
 
@@ -86,7 +86,7 @@
     <form id="registerPanel" class="auth-panel">
       <div class="grid two"><label>Nombre<input id="regFirstName" required></label><label>Primer apellido<input id="regLastName1" required></label></div>
       <label>Segundo apellido<input id="regLastName2" required></label>
-      <label>Tipo de perfil<select id="regAccountType" required><option value="guardian">Padre, madre o encargado</option><option value="player">Jugadora</option></select></label><label>Teléfono<input id="regPhone" required></label>
+      <label>Tipo de perfil<select id="regAccountType" required><option value="guardian">Padre, madre o encargado</option><option value="player">Jugadora</option><option value="trainer">Entrenador/a</option></select></label><label>Teléfono<input id="regPhone" required></label>
       <label>Correo electrónico<input id="regEmail" type="email" required></label>
       <label>Contraseña<input id="regPassword" type="password" minlength="8" required></label>
       <label>Confirmar contraseña<input id="regPassword2" type="password" minlength="8" required></label>
@@ -186,7 +186,13 @@
       <div class="vc-sidebar-avatar">VC</div>
       <div><strong class="vc-session-user-name">Usuario</strong><small class="vc-session-user-role">Perfil</small></div>
       <span>⌄</span>
-    </div></nav>
+    </div></nav><nav id="pendingTrainerNav" class="nav hidden"><div class="vc-sidebar-brand">
+      <img src="santa-barbara-shield-white.png" alt="Escudo Santa Bárbara">
+      <div class="vc-sidebar-wordmark"><strong>SANTA<br>BÁRBARA</strong><span>LA GRAN FAMILIA</span><small>ASBAVOL</small></div>
+    </div>
+    <button data-view="trainerPending" class="active"><span class="nav-icon">◷</span>Solicitud</button>
+    <button data-view="profile"><span class="nav-icon">⚙</span>Mi perfil</button>
+  </nav>
 
   <section class="container">
     <div id="emailNotice" class="notice warning hidden">Tu correo todavía no está verificado. <button id="resendVerificationButton" class="link-button inline" type="button">Reenviar verificación</button></div>
@@ -243,7 +249,15 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.0</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.1</span></div>
+
+    <section id="view-trainerPending" class="view hidden">
+      <div class="page-head"><div><span class="eyebrow">PERFIL DE ENTRENADOR</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar el perfil de entrenador y asignarte las categorías correspondientes.</p></div></div>
+      <article class="panel trainer-pending-card">
+        <div class="vc-round-icon cyan">◷</div>
+        <div><h3 id="trainerPendingStatus">Pendiente de aprobación</h3><p>Cuando tu solicitud sea aprobada, tendrás acceso automáticamente a Mi equipo, Entrenamientos, Asistencia, Eventos y Comunicados de las categorías que te asignen.</p><p class="muted">No necesitas crear otra cuenta.</p></div>
+      </article>
+    </section>
 
     <section id="view-players" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">ATLETAS</span><h2>Jugadoras</h2></div><button id="newPlayerButton2" class="btn primary">Nueva jugadora</button></div>
@@ -735,7 +749,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.0.js?v=20260807-stable342"></script>
+<script type="module" src="app-ui-2.1.js?v=20260807-stable342"></script>
 <script>
 setTimeout(function(){
   var boot=document.getElementById('bootScreen');

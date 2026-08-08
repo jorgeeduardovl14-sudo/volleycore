@@ -992,3 +992,9 @@ html[data-theme="dark"] .vc-top-user strong{color:#111!important}
   .vc-brand-divider{display:none!important}
   .vc-dashboard-footer{flex-direction:column}
 }
+
+/* UI 2.1 — trainer registration / approval */
+.trainer-pending-card{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;max-width:760px;padding:28px!important}
+.trainer-pending-card h3{margin:2px 0 8px}.trainer-request-section{display:grid;gap:12px;margin-bottom:24px}
+.trainer-request-card{display:flex;align-items:center;justify-content:space-between;gap:18px}.trainer-request-card h3{margin:8px 0 5px}.trainer-request-card p{margin:4px 0}
+@media(max-width:700px){.trainer-request-card{align-items:flex-start;flex-direction:column}.trainer-request-card .actions{width:100%}.trainer-request-card .actions .btn{flex:1}.trainer-pending-card{grid-template-columns:1fr}}

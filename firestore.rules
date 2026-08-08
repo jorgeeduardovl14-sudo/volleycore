@@ -20,9 +20,11 @@ service cloud.firestore {
       allow create: if ownUser(uid)
         && request.resource.data.orgId == 'asbavol'
         && request.resource.data.email == request.auth.token.email
-        && request.resource.data.role == 'family'
-        && request.resource.data.status == 'active'
-        && request.resource.data.accountType in ['guardian','player'];
+        && (
+          (request.resource.data.role == 'family' && request.resource.data.status == 'active' && request.resource.data.accountType in ['guardian','player'])
+          ||
+          (request.resource.data.role == 'pendingTrainer' && request.resource.data.status == 'pending' && request.resource.data.accountType == 'trainer')
+        );
       allow read: if ownUser(uid) || isAdmin();
       allow update: if isAdmin() || (ownUser(uid)
         && request.resource.data.orgId == resource.data.orgId
