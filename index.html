@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore UI 2.1.2</title>
+  <title>VolleyCore UI 2.2</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260807-ui10">
 
@@ -249,7 +249,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.1.2</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.2</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div></div>
@@ -261,7 +261,7 @@
 
     <section id="view-players" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">ATLETAS</span><h2>Jugadoras</h2></div><button id="newPlayerButton2" class="btn primary">Nueva jugadora</button></div>
-      <div class="filters"><input id="playerSearch" placeholder="Buscar por Player ID, nombre, encargado o teléfono"><select id="playerCategoryFilter"><option value="">Todas las categorías</option></select><select id="playerStatusFilter"><option value="">Todos los estados</option><option value="active">Activas</option><option value="inactive">Inactivas</option></select></div>
+      <div class="filters"><input id="playerSearch" placeholder="Buscar por Player ID, nombre, encargado o teléfono"><select id="playerCategoryFilter"><option value="">Selecciona una categoría</option><option value="__all__">Todas las categorías</option></select><select id="playerStatusFilter"><option value="">Todos los estados</option><option value="active">Activas</option><option value="inactive">Inactivas</option></select></div>
       <div class="table-wrap"><table><thead><tr><th>Player ID</th><th>Jugadora</th><th>Categoría</th><th>Encargados</th><th>Usuarios vinculados</th><th>Cuota</th><th>Estado financiero</th><th>Estado</th><th></th></tr></thead><tbody id="playersBody"></tbody></table></div>
     </section>
 
@@ -717,7 +717,13 @@
 
 <dialog id="venueDialog"><form id="venueForm"><div class="dialog-head"><h3 id="venueDialogTitle">Nuevo lugar</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="venueDocId" type="hidden"><label>Nombre<input id="venueName" required></label><label>Dirección<textarea id="venueAddress" required></textarea></label><label>Enlace de Google Maps<input id="venueMapUrl" type="url" placeholder="https://maps.google.com/..."></label><label>Indicaciones<textarea id="venueDirections"></textarea></label><label>Estado<select id="venueStatus"><option value="active">Activo</option><option value="inactive">Inactivo</option></select></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
 
-<dialog id="eventDialog"><form id="eventForm"><div class="dialog-head"><h3 id="eventDialogTitle">Nuevo evento</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="eventDocId" type="hidden"><div class="grid two"><label>Categoría<select id="eventCategory" required></select></label><label>Temporada<select id="eventSeason" required></select></label><label>Tipo<select id="eventType"><option value="match">Partido</option><option value="tournament">Torneo</option><option value="festival">Festival</option><option value="meeting">Reunión</option><option value="trip">Gira</option><option value="other">Otra actividad</option></select></label><label>Título<input id="eventTitle" required></label><label>Rival<input id="eventOpponent"></label><label>Fecha<input id="eventDate" type="date" required></label><label>Hora de inicio<input id="eventStart" type="time" required></label><label>Hora final<input id="eventEnd" type="time"></label><label>Casa / visita<select id="eventHomeAway"><option value="">No aplica</option><option value="home">Casa</option><option value="away">Visita</option></select></label><label>Lugar<select id="eventVenue"></select></label><label>Estado<select id="eventStatus"><option value="scheduled">Programado</option><option value="changed">Modificado</option><option value="cancelled">Cancelado</option><option value="completed">Completado</option></select></label></div><label>Observaciones<textarea id="eventNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
+<dialog id="eventDialog"><form id="eventForm"><div class="dialog-head"><h3 id="eventDialogTitle">Nuevo evento</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="eventDocId" type="hidden"><div class="grid two"><label>Categoría<select id="eventCategory" required></select></label><label>Temporada<select id="eventSeason" required></select></label><label>Tipo<select id="eventType"><option value="match">Partido</option><option value="tournament">Torneo</option><option value="festival">Festival</option><option value="meeting">Reunión</option><option value="trip">Gira</option><option value="other">Otra actividad</option></select></label><label>Título<input id="eventTitle" required></label><label>Rival<input id="eventOpponent"></label><label>Fecha<input id="eventDate" type="date" required></label><label>Hora de inicio<input id="eventStart" type="time" required></label><label>Hora final<input id="eventEnd" type="time"></label><label>Casa / visita<select id="eventHomeAway"><option value="">No aplica</option><option value="home">Casa</option><option value="away">Visita</option></select></label><label>Lugar<select id="eventVenue"></select></label><label>Enlace de ubicación<input id="eventLocationUrl" type="url" placeholder="https://waze.com/… o https://maps.google.com/…"></label><label>Estado<select id="eventStatus"><option value="scheduled">Programado</option><option value="changed">Modificado</option><option value="cancelled">Cancelado</option><option value="completed">Completado</option></select></label></div><label>Observaciones<textarea id="eventNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
+
+<dialog id="eventDetailDialog" class="wide-dialog">
+  <div class="dialog-head"><h3 id="eventDetailTitle">Detalle del evento</h3><button class="icon-button close-dialog" type="button">×</button></div>
+  <div id="eventDetailContent"></div>
+  <div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cerrar</button><button id="editEventFromDetail" type="button" class="btn primary">Editar evento</button></div>
+</dialog>
 
 <dialog id="seasonDialog"><form id="seasonForm"><div class="dialog-head"><h3 id="seasonDialogTitle">Nueva temporada</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="seasonDocId" type="hidden"><div class="grid two"><label>Nombre<input id="seasonName" placeholder="2027" required></label><label>Estado<select id="seasonStatus"><option value="active">Activa</option><option value="closed">Cerrada</option></select></label><label>Fecha de inicio<input id="seasonStart" type="date" required></label><label>Fecha final<input id="seasonEnd" type="date" required></label></div><label><span class="check-inline"><input id="seasonCurrent" type="checkbox"> Marcar como temporada actual</span></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
 
@@ -750,7 +756,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.1.2.js?v=20260807-stable342"></script>
+<script type="module" src="app-ui-2.2.js?v=20260807-stable342"></script>
 
 
 <script>

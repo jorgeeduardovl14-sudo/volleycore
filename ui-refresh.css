@@ -998,3 +998,117 @@ html[data-theme="dark"] .vc-top-user strong{color:#111!important}
 .trainer-pending-card h3{margin:2px 0 8px}.trainer-request-section{display:grid;gap:12px;margin-bottom:24px}
 .trainer-request-card{display:flex;align-items:center;justify-content:space-between;gap:18px}.trainer-request-card h3{margin:8px 0 5px}.trainer-request-card p{margin:4px 0}
 @media(max-width:700px){.trainer-request-card{align-items:flex-start;flex-direction:column}.trainer-request-card .actions{width:100%}.trainer-request-card .actions .btn{flex:1}.trainer-pending-card{grid-template-columns:1fr}}
+
+
+/* =========================================================
+   VolleyCore UI 2.2 — Dark mode contrast audit
+   ========================================================= */
+html[data-theme="dark"]{
+  --vc-bg:#0f1115;
+  --vc-surface:#171a20;
+  --vc-surface-2:#1d2128;
+  --vc-border:#2b313b;
+  --vc-text:#f4f6f8;
+  --vc-muted:#aeb6c2;
+}
+html[data-theme="dark"] body,
+html[data-theme="dark"] #appScreen:not(.hidden),
+html[data-theme="dark"] .container{
+  background:var(--vc-bg)!important;
+  color:var(--vc-text)!important;
+}
+html[data-theme="dark"] .view,
+html[data-theme="dark"] .panel,
+html[data-theme="dark"] .stat,
+html[data-theme="dark"] .table-wrap,
+html[data-theme="dark"] .filters,
+html[data-theme="dark"] dialog,
+html[data-theme="dark"] .attendance-row,
+html[data-theme="dark"] .vc-quick-action,
+html[data-theme="dark"] .vc-date-box,
+html[data-theme="dark"] .month-checkbox-panel,
+html[data-theme="dark"] .month-check-item,
+html[data-theme="dark"] .multi-select-menu,
+html[data-theme="dark"] .multi-select-toggle{
+  background:var(--vc-surface)!important;
+  color:var(--vc-text)!important;
+  border-color:var(--vc-border)!important;
+}
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] h5,
+html[data-theme="dark"] h6,
+html[data-theme="dark"] p,
+html[data-theme="dark"] strong,
+html[data-theme="dark"] label,
+html[data-theme="dark"] td,
+html[data-theme="dark"] th,
+html[data-theme="dark"] .vc-feature-title,
+html[data-theme="dark"] .vc-feature-lines,
+html[data-theme="dark"] .vc-kpi-card div span,
+html[data-theme="dark"] .vc-kpi-card div strong,
+html[data-theme="dark"] .vc-welcome-row h2,
+html[data-theme="dark"] .vc-welcome-row .page-subtitle,
+html[data-theme="dark"] .vc-date-chip,
+html[data-theme="dark"] .vc-quick-action{
+  color:var(--vc-text)!important;
+}
+html[data-theme="dark"] .muted,
+html[data-theme="dark"] small,
+html[data-theme="dark"] .subtitle,
+html[data-theme="dark"] .page-subtitle{
+  color:var(--vc-muted)!important;
+}
+html[data-theme="dark"] thead th{
+  background:var(--vc-surface-2)!important;
+  color:#cbd2dc!important;
+}
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea{
+  background:var(--vc-surface-2)!important;
+  color:var(--vc-text)!important;
+  border-color:var(--vc-border)!important;
+}
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder{color:#838c99!important}
+html[data-theme="dark"] tbody tr:hover{background:rgba(47,175,199,.08)!important}
+html[data-theme="dark"] .action,
+html[data-theme="dark"] .btn.secondary{
+  background:var(--vc-surface-2)!important;
+  color:var(--vc-text)!important;
+  border-color:var(--vc-border)!important;
+}
+/* Header intentionally stays white in the approved UI; keep its own dark text. */
+html[data-theme="dark"] .vc-brand-header,
+html[data-theme="dark"] .vc-brand-header *{color:initial}
+html[data-theme="dark"] .vc-club-wordmark strong,
+html[data-theme="dark"] .vc-club-wordmark span{color:#dd242a!important}
+html[data-theme="dark"] .vc-club-wordmark small,
+html[data-theme="dark"] .vc-product-wordmark b,
+html[data-theme="dark"] .vc-top-user strong,
+html[data-theme="dark"] .vc-logout-link,
+html[data-theme="dark"] .ui-theme-toggle{color:#111!important}
+html[data-theme="dark"] .vc-product-wordmark strong{color:#db1f26!important}
+html[data-theme="dark"] .vc-product-wordmark span,
+html[data-theme="dark"] .vc-top-user small{color:#555!important}
+
+/* Empty-player-state card */
+.vc-empty-state{
+  display:grid;place-items:center;min-height:260px;padding:36px;
+  border:1px dashed var(--vc-border);border-radius:16px;
+  background:var(--vc-surface);text-align:center;color:var(--vc-muted)
+}
+.vc-empty-state strong{display:block;color:var(--vc-text);font-size:1.05rem;margin-bottom:6px}
+
+/* Clickable dashboard events */
+.vc-event-row[data-dashboard-event]{
+  cursor:pointer;border-radius:10px;padding-left:6px;padding-right:6px;
+  transition:background .15s ease,transform .15s ease
+}
+.vc-event-row[data-dashboard-event]:hover{
+  background:rgba(47,175,199,.07);transform:translateX(2px)
+}
+.event-location-link{word-break:break-all}
