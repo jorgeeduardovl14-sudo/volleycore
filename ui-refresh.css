@@ -1190,3 +1190,7 @@ html[data-theme="dark"] .badge.neutral{background:#292f38!important;color:#e7ebf
 html[data-theme="dark"] .trainer-event-card{background:var(--vc-surface)!important;color:var(--vc-text)!important}
 .trainer-event-card{cursor:pointer}
 .trainer-event-card:hover{transform:translateY(-1px)}
+
+/* VolleyCore UI 2.5 — staff event creation */
+#view-trainerEvents .page-head{align-items:center}
+#trainerNewEventButton{white-space:nowrap}

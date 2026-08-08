@@ -72,7 +72,13 @@ service cloud.firestore {
     }
     match /events/{id} {
       allow read: if (isAdmin() || trainerHasCategory(resource.data.categoryId) || isPortalUser()) && resource.data.orgId == 'asbavol';
-      allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow create: if request.resource.data.orgId == 'asbavol'
+        && (isAdmin() || (isTrainer() && trainerHasCategory(request.resource.data.categoryId)));
+      allow update: if request.resource.data.orgId == 'asbavol'
+        && (isAdmin()
+          || (isTrainer()
+            && trainerHasCategory(resource.data.categoryId)
+            && trainerHasCategory(request.resource.data.categoryId)));
       allow delete: if false;
     }
     match /announcements/{id} {
