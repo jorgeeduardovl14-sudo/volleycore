@@ -226,3 +226,6 @@ html[data-theme="dark"] #roleManagerDialog .role-user-summary{
   color:var(--dm-text)!important;
   border-color:var(--dm-border)!important;
 }
+
+html[data-theme="dark"] #view-userAdmin .table-wrap,
+html[data-theme="dark"] #view-userAdmin .filters{color:var(--dm-text)!important}

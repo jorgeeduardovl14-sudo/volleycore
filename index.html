@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore UI 2.9</title>
+  <title>VolleyCore UI 2.9.1</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260807-ui10">
 
@@ -150,6 +150,7 @@
     <div class="nav-section-label">FAMILIAS</div>
     <button data-view="users"><span class="nav-icon">♣</span>Familias</button>
     <div class="nav-section-label">ADMINISTRACIÓN</div>
+    <button data-view="userAdmin"><span class="nav-icon">👥</span>Administración de usuarios</button>
     <button data-view="announcements"><span class="nav-icon">✦</span>Comunicados</button>
     <button data-view="import"><span class="nav-icon">⇧</span>Importar jugadoras</button>
     <button data-view="about"><span class="nav-icon">ⓘ</span>Acerca de</button>
@@ -255,7 +256,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.9</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.9.1</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div></div>
@@ -395,8 +396,14 @@
           <option value="">Todas las categorías</option>
         </select>
       </div>
-      <div id="familiesSummary" class="stats small"></div><div id="familiesList" class="cards-grid"></div><h3>Usuarios registrados</h3>
-      <div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Rol</th><th>Jugadoras vinculadas</th><th>Estado</th><th></th></tr></thead><tbody id="usersBody"></tbody></table></div><article class="panel"><h3>Solicitudes de vinculación</h3><div id="linkRequestsAdmin" class="cards-list"></div></article>
+      <div id="familiesSummary" class="stats small"></div><div id="familiesList" class="cards-grid"></div><article class="panel"><h3>Solicitudes de vinculación</h3><div id="linkRequestsAdmin" class="cards-list"></div></article>
+    </section>
+
+    <section id="view-userAdmin" class="view hidden">
+      <div class="page-head"><div><span class="eyebrow">ADMINISTRACIÓN</span><h2>Administración de usuarios</h2><p class="muted">Gestiona roles, estado y acceso de las cuentas registradas en VolleyCore.</p></div></div>
+      <div id="userAdminSummary" class="stats small"></div>
+      <div class="filters"><input id="userAdminSearch" type="search" placeholder="Buscar por nombre o correo"><select id="userAdminRoleFilter"><option value="">Todos los roles</option><option value="admin">Administrador</option><option value="treasurer">Tesorería</option><option value="trainer">Entrenador</option><option value="assistant">Asistente</option><option value="player">Jugadora</option><option value="family">Familia</option></select><select id="userAdminStatusFilter"><option value="">Todos los estados</option><option value="active">Activo</option><option value="inactive">Inactivo</option><option value="pending">Pendiente</option><option value="rejected">Rechazado</option></select></div>
+      <div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Rol</th><th>Jugadoras vinculadas</th><th>Estado</th><th></th></tr></thead><tbody id="userAdminBody"></tbody></table></div>
     </section>
 
     <section id="view-attendance" class="view hidden">
@@ -808,7 +815,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.9.js?v=20260807-stable342"></script>
+<script type="module" src="app-ui-2.9.1.js?v=20260807-stable342"></script>
 
 
 <script>

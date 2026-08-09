@@ -1287,3 +1287,9 @@ html[data-theme="dark"] .trainer-event-card{background:var(--vc-surface)!importa
 @media(max-width:680px){
   #view-users .table-wrap table{min-width:930px}
 }
+
+/* VolleyCore UI 2.9.1 — dedicated user administration */
+#view-userAdmin .table-wrap{margin-top:14px}
+#view-userAdmin .filters{margin-top:14px}
+#view-userAdmin td .btn{white-space:nowrap}
+@media(max-width:680px){#view-userAdmin table{min-width:980px}}
