@@ -126,6 +126,11 @@ service cloud.firestore {
       allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
       allow delete: if false;
     }
+    match /onvoPayments/{id} {
+      allow read: if isAdmin()
+        || (isPortalUser() && resource.data.orgId == 'asbavol' && resource.data.userId == request.auth.uid);
+      allow create, update, delete: if false;
+    }
     match /sinpeReports/{id} {
       allow read: if isAdmin() || (isGuardian() && resource.data.orgId == 'asbavol' && resource.data.userId == request.auth.uid);
       allow create: if isGuardian()

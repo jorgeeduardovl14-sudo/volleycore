@@ -1,0 +1,6 @@
+# DO NOT COMMIT REAL SECRET VALUES
+ONVO_SECRET_KEY=onvo_test_secret_key_REPLACE_ME
+ONVO_WEBHOOK_SECRET=webhook_secret_REPLACE_ME
+FIREBASE_PROJECT_ID=asbavol-gestion
+FIREBASE_CLIENT_EMAIL=firebase-adminsdk-REPLACE@asbavol-gestion.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----\nREPLACE_ME\n-----END PRIVATE KEY-----\n

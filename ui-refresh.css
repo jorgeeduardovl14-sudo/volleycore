@@ -1305,3 +1305,11 @@ html[data-theme="dark"] .trainer-event-card{background:var(--vc-surface)!importa
 @media(max-width:920px){
   .mobile-logout-button{display:inline-flex!important;align-items:center;justify-content:center;flex:0 0 auto!important;min-height:40px!important;padding:8px 12px!important;border-radius:9px!important}
 }
+
+/* VolleyCore UI 2.12 — ONVO sandbox */
+.onvo-pay-button{margin-top:8px}
+.onvo-meta{font-weight:700}
+.onvo-admin-panel{margin-top:22px}
+.onvo-payment-card{border-left:4px solid #2fafc7}
+html[data-theme="dark"] .onvo-admin-panel,
+html[data-theme="dark"] .onvo-payment-card{background:#20252d!important;color:#f4f7fa!important;border-color:#3b4450!important}
