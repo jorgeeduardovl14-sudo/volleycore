@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore UI 2.9.1</title>
+  <title>VolleyCore UI 2.9.2</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260807-ui10">
 
@@ -256,7 +256,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.9.1</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.9.2</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div></div>
@@ -697,7 +697,7 @@
 <dialog id="categoryDetailDialog">
   <div class="dialog-head dialog-pad"><div><span class="eyebrow">FICHA DE CATEGORÍA</span><h3 id="categoryDetailTitle">Categoría</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
   <div id="categoryDetailContent" class="dialog-content"></div>
-  <div class="dialog-actions dialog-pad"><button id="categoryCalendarButton" class="btn secondary" type="button">📅 Agregar calendario</button><button id="addCategoryVideoButton" class="btn primary" type="button">Agregar video</button><button class="btn secondary close-dialog" type="button">Cerrar</button></div>
+  <div class="dialog-actions dialog-pad"><button id="categoryCalendarButton" class="btn secondary" type="button">📅 Importar calendario de categoría</button><button id="addCategoryVideoButton" class="btn primary" type="button">Agregar video</button><button class="btn secondary close-dialog" type="button">Cerrar</button></div>
 </dialog>
 <dialog id="categoryVideoDialog">
   <form id="categoryVideoForm">
@@ -784,6 +784,18 @@
   <div class="dialog-actions"><button id="eventCalendarButton" type="button" class="btn secondary">📅 Agregar al calendario</button><button type="button" class="btn secondary close-dialog">Cerrar</button><button id="editEventFromDetail" type="button" class="btn primary">Editar evento</button></div>
 </dialog>
 
+<dialog id="calendarChoiceDialog" class="calendar-choice-dialog">
+  <div class="dialog-head"><div><span class="eyebrow">CALENDARIO</span><h3>Agregar evento</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
+  <div class="dialog-content">
+    <p id="calendarChoiceText">Selecciona cómo deseas agregar este evento.</p>
+    <div class="calendar-choice-grid">
+      <button id="calendarGoogleButton" class="btn primary" type="button">Google Calendar</button>
+      <button id="calendarDeviceButton" class="btn secondary" type="button">Calendario del dispositivo</button>
+    </div>
+    <p class="muted">VolleyCore abrirá el calendario con los datos del evento ya preparados. Solo tendrás que confirmar/guardar.</p>
+  </div>
+</dialog>
+
 <dialog id="seasonDialog"><form id="seasonForm"><div class="dialog-head"><h3 id="seasonDialogTitle">Nueva temporada</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="seasonDocId" type="hidden"><div class="grid two"><label>Nombre<input id="seasonName" placeholder="2027" required></label><label>Estado<select id="seasonStatus"><option value="active">Activa</option><option value="closed">Cerrada</option></select></label><label>Fecha de inicio<input id="seasonStart" type="date" required></label><label>Fecha final<input id="seasonEnd" type="date" required></label></div><label><span class="check-inline"><input id="seasonCurrent" type="checkbox"> Marcar como temporada actual</span></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
 
 <dialog id="trainingDialog"><form id="trainingForm"><div class="dialog-head"><h3 id="trainingDialogTitle">Nuevo entrenamiento recurrente</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="trainingDocId" type="hidden"><div class="grid two"><label>Categoría<select id="trainingCategory" required></select></label><label>Temporada<select id="trainingSeason" required></select></label><label>Hora de inicio<input id="trainingStartTime" type="time" required></label><label>Hora final<input id="trainingEndTime" type="time" required></label><label>Fecha de inicio<input id="trainingStartDate" type="date" required></label><label>Fecha final<input id="trainingEndDate" type="date" required></label><label>Gimnasio<select id="trainingVenue"></select></label><label>Estado<select id="trainingStatus"><option value="active">Activo</option><option value="inactive">Inactivo</option></select></label></div><fieldset><legend>Días de la semana</legend><div class="weekday-grid"><label><input type="checkbox" name="trainingDay" value="1"> Lunes</label><label><input type="checkbox" name="trainingDay" value="2"> Martes</label><label><input type="checkbox" name="trainingDay" value="3"> Miércoles</label><label><input type="checkbox" name="trainingDay" value="4"> Jueves</label><label><input type="checkbox" name="trainingDay" value="5"> Viernes</label><label><input type="checkbox" name="trainingDay" value="6"> Sábado</label><label><input type="checkbox" name="trainingDay" value="0"> Domingo</label></div></fieldset><label>Observaciones<textarea id="trainingNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar serie</button></div></form></dialog>
@@ -815,7 +827,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.9.1.js?v=20260807-stable342"></script>
+<script type="module" src="app-ui-2.9.2.js?v=20260807-stable342"></script>
 
 
 <script>
