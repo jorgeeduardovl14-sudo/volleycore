@@ -364,3 +364,93 @@ html[data-theme="dark"] input[type="month"]{
 
 /* Audited views: dashboard, trainerPending, players, categories, seasons, trainings, events, venues, announcements, finances, sinpeAdmin, users, userAdmin, attendance, trainerAttendance, reports, import, familyHome, familyCategories, familyLink, familyTrainings, familyEvents, familyPayments, familyAnnouncements, about, trainers, trainerHome, trainerPlayers, trainerTrainings, trainerEvents, trainerAnnouncements, profile */
 /* Audited dialogs: playerDetailDialog, playerFinancialDialog, familyDialog, familyDetailDialog, familyMemberPickerDialog, userDetailDialog, roleManagerDialog, trainerDialog, playerDialog, categoryDetailDialog, categoryVideoDialog, categoryDialog, venueDialog, eventDialog, eventDetailDialog, calendarChoiceDialog, seasonDialog, trainingDialog, trainingExceptionDialog, trainingFutureDialog, announcementDialog, chargeDialog, generateDialog, sinpeDialog, confirmDialog */
+
+
+/* VolleyCore UI 2.11 — explicit module-by-module dark-mode audit */
+html[data-theme="dark"] #view-dashboard,
+html[data-theme="dark"] #view-trainerPending,
+html[data-theme="dark"] #view-players,
+html[data-theme="dark"] #view-categories,
+html[data-theme="dark"] #view-seasons,
+html[data-theme="dark"] #view-trainings,
+html[data-theme="dark"] #view-events,
+html[data-theme="dark"] #view-venues,
+html[data-theme="dark"] #view-announcements,
+html[data-theme="dark"] #view-finances,
+html[data-theme="dark"] #view-sinpeAdmin,
+html[data-theme="dark"] #view-users,
+html[data-theme="dark"] #view-userAdmin,
+html[data-theme="dark"] #view-attendance,
+html[data-theme="dark"] #view-trainerAttendance,
+html[data-theme="dark"] #view-reports,
+html[data-theme="dark"] #view-import,
+html[data-theme="dark"] #view-familyHome,
+html[data-theme="dark"] #view-familyCategories,
+html[data-theme="dark"] #view-familyLink,
+html[data-theme="dark"] #view-familyTrainings,
+html[data-theme="dark"] #view-familyEvents,
+html[data-theme="dark"] #view-familyPayments,
+html[data-theme="dark"] #view-familyAnnouncements,
+html[data-theme="dark"] #view-about,
+html[data-theme="dark"] #view-trainers,
+html[data-theme="dark"] #view-trainerHome,
+html[data-theme="dark"] #view-trainerPlayers,
+html[data-theme="dark"] #view-trainerTrainings,
+html[data-theme="dark"] #view-trainerEvents,
+html[data-theme="dark"] #view-trainerAnnouncements,
+html[data-theme="dark"] #view-profile {
+  --vc-dark-text:#f4f7fa;--vc-dark-muted:#b4bec9;--vc-dark-surface:#20252d;--vc-dark-border:#3b4450;
+  color:var(--vc-dark-text)!important;
+}
+html[data-theme="dark"] #playerDetailDialog,
+html[data-theme="dark"] #playerFinancialDialog,
+html[data-theme="dark"] #familyDialog,
+html[data-theme="dark"] #familyDetailDialog,
+html[data-theme="dark"] #familyMemberPickerDialog,
+html[data-theme="dark"] #userDetailDialog,
+html[data-theme="dark"] #roleManagerDialog,
+html[data-theme="dark"] #trainerDialog,
+html[data-theme="dark"] #playerDialog,
+html[data-theme="dark"] #categoryDetailDialog,
+html[data-theme="dark"] #categoryVideoDialog,
+html[data-theme="dark"] #categoryDialog,
+html[data-theme="dark"] #venueDialog,
+html[data-theme="dark"] #eventDialog,
+html[data-theme="dark"] #eventDetailDialog,
+html[data-theme="dark"] #calendarChoiceDialog,
+html[data-theme="dark"] #seasonDialog,
+html[data-theme="dark"] #trainingDialog,
+html[data-theme="dark"] #trainingExceptionDialog,
+html[data-theme="dark"] #trainingFutureDialog,
+html[data-theme="dark"] #announcementDialog,
+html[data-theme="dark"] #chargeDialog,
+html[data-theme="dark"] #generateDialog,
+html[data-theme="dark"] #sinpeDialog,
+html[data-theme="dark"] #confirmDialog {
+  --vc-dark-text:#f4f7fa;--vc-dark-muted:#b4bec9;--vc-dark-surface:#20252d;--vc-dark-border:#3b4450;
+  color:var(--vc-dark-text)!important;background:#171c22!important;border-color:var(--vc-dark-border)!important;
+}
+html[data-theme="dark"] .view :where(h1,h2,h3,h4,h5,h6,p,label,legend,dt,dd,strong,b,em,li,td,th,small,.page-subtitle,.eyebrow,.muted,.profile-data-list,.family-metrics,.charge-values,.payment-meta),
+html[data-theme="dark"] dialog :where(h1,h2,h3,h4,h5,h6,p,label,legend,dt,dd,strong,b,em,li,td,th,small,.eyebrow,.muted) {
+  color:#f4f7fa!important;-webkit-text-fill-color:currentColor!important;
+}
+html[data-theme="dark"] .view :where(.muted,small,.page-subtitle),html[data-theme="dark"] dialog :where(.muted,small){color:#b4bec9!important}
+html[data-theme="dark"] .view :where(.panel,.stat,.card,.event-card,.past-event-card,.family-card,.athlete-card,.category-card-with-photo,.recent-item,.person-row,.attendance-row,.family-charge-card,.trainer-request-card,.vc-kpi-card,.vc-feature-card,.vc-dashboard-table-card,.filters,.multi-select-menu),
+html[data-theme="dark"] dialog :where(.panel,.player-editor-section,.category-editor-section,.guardian-row,.check-item,.role-user-summary,fieldset,.dialog-content) {
+  background:#20252d!important;color:#f4f7fa!important;border-color:#3b4450!important;
+}
+html[data-theme="dark"] .view :where(input:not([type="checkbox"]):not([type="radio"]),select,textarea),
+html[data-theme="dark"] dialog :where(input:not([type="checkbox"]):not([type="radio"]),select,textarea) {
+  background:#171c22!important;color:#f4f7fa!important;-webkit-text-fill-color:#f4f7fa!important;border-color:#46515f!important;
+}
+html[data-theme="dark"] .view :where(input,textarea)::placeholder,html[data-theme="dark"] dialog :where(input,textarea)::placeholder{color:#9ca8b5!important;-webkit-text-fill-color:#9ca8b5!important;opacity:1!important}
+html[data-theme="dark"] .view select option,html[data-theme="dark"] dialog select option{background:#171c22!important;color:#f4f7fa!important}
+html[data-theme="dark"] .view th,html[data-theme="dark"] dialog th{background:#252b34!important;color:#eef3f7!important;border-color:#3b4450!important}
+html[data-theme="dark"] .view td,html[data-theme="dark"] dialog td{background:#1d2229!important;color:#f4f7fa!important;border-color:#343d48!important}
+html[data-theme="dark"] .view .btn.secondary,html[data-theme="dark"] dialog .btn.secondary,html[data-theme="dark"] .view .icon-button,html[data-theme="dark"] dialog .icon-button{background:#29303a!important;color:#f4f7fa!important;-webkit-text-fill-color:#f4f7fa!important;border-color:#4a5563!important}
+html[data-theme="dark"] .view .btn.primary,html[data-theme="dark"] dialog .btn.primary{color:#fff!important;-webkit-text-fill-color:#fff!important}
+html[data-theme="dark"] .view :where(a:not(.btn),.action,.link-button),html[data-theme="dark"] dialog :where(a:not(.btn),.action,.link-button){color:#79dcef!important;-webkit-text-fill-color:#79dcef!important}
+html[data-theme="dark"] .player-link-ok{color:#8ee6a8!important;-webkit-text-fill-color:#8ee6a8!important}
+html[data-theme="dark"] .player-link-warning{color:#ffce73!important;-webkit-text-fill-color:#ffce73!important}
+html[data-theme="dark"] .profile-warning-card{background:#332b1c!important;border-color:#69542a!important;color:#fff1ce!important}
+html[data-theme="dark"] :where(input,select,textarea,button):disabled{opacity:.72!important}

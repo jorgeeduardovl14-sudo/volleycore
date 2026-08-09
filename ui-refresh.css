@@ -1298,3 +1298,10 @@ html[data-theme="dark"] .trainer-event-card{background:var(--vc-surface)!importa
 .calendar-choice-dialog{width:min(94vw,520px)}
 .calendar-choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
 @media(max-width:520px){.calendar-choice-grid{grid-template-columns:1fr}}
+
+/* VolleyCore UI 2.11 — mobile logout */
+.mobile-logout-button{display:none;border:1px solid rgba(255,255,255,.18);background:transparent;color:inherit}
+.player-link-ok{font-weight:700}.player-link-warning{font-weight:800}
+@media(max-width:920px){
+  .mobile-logout-button{display:inline-flex!important;align-items:center;justify-content:center;flex:0 0 auto!important;min-height:40px!important;padding:8px 12px!important;border-radius:9px!important}
+}
