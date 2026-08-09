@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore UI 2.6</title>
+  <title>VolleyCore UI 2.7</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260807-ui10">
 
@@ -255,7 +255,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.6</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.7</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div></div>
@@ -732,7 +732,11 @@
 
 <dialog id="venueDialog"><form id="venueForm"><div class="dialog-head"><h3 id="venueDialogTitle">Nuevo lugar</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="venueDocId" type="hidden"><label>Nombre<input id="venueName" required></label><label>Dirección<textarea id="venueAddress" required></textarea></label><label>Enlace de Google Maps<input id="venueMapUrl" type="url" placeholder="https://maps.google.com/..."></label><label>Indicaciones<textarea id="venueDirections"></textarea></label><label>Estado<select id="venueStatus"><option value="active">Activo</option><option value="inactive">Inactivo</option></select></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
 
-<dialog id="eventDialog"><form id="eventForm"><div class="dialog-head"><h3 id="eventDialogTitle">Nuevo evento</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="eventDocId" type="hidden"><div class="grid two"><label>Categoría<select id="eventCategory" required></select></label><label>Temporada<select id="eventSeason" required></select></label><label>Tipo<select id="eventType"><option value="match">Partido</option><option value="tournament">Torneo</option><option value="festival">Festival</option><option value="meeting">Reunión</option><option value="trip">Gira</option><option value="other">Otra actividad</option></select></label><label>Título<input id="eventTitle" required></label><label>Rival<input id="eventOpponent"></label><label>Fecha<input id="eventDate" type="date" required></label><label>Hora de inicio<input id="eventStart" type="time" required></label><label>Hora final<input id="eventEnd" type="time"></label><label>Casa / visita<select id="eventHomeAway"><option value="">No aplica</option><option value="home">Casa</option><option value="away">Visita</option></select></label><label>Lugar<select id="eventVenue"></select></label><label>Enlace de ubicación<input id="eventLocationUrl" type="url" placeholder="https://waze.com/… o https://maps.google.com/…"></label><label>Uniforme<select id="eventUniform"><option value="">Por definir</option><option value="red">Rojo</option><option value="black">Negro</option><option value="white">Blanco</option><option value="cyan_fuchsia">Celeste / Fucsia</option></select></label><label>Estado<select id="eventStatus"><option value="scheduled">Programado</option><option value="changed">Modificado</option><option value="cancelled">Cancelado</option><option value="completed">Completado</option></select></label></div><label>Observaciones<textarea id="eventNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
+<dialog id="eventDialog"><form id="eventForm"><div class="dialog-head"><h3 id="eventDialogTitle">Nuevo evento</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="eventDocId" type="hidden"><div class="grid two"><label>Categoría<select id="eventCategory" required></select></label><label>Temporada<select id="eventSeason" required></select></label><label>Tipo<select id="eventType"><option value="match">Partido</option><option value="tournament">Torneo</option><option value="festival">Festival</option><option value="meeting">Reunión</option><option value="trip">Gira</option><option value="other">Otra actividad</option></select></label><label>Título<input id="eventTitle" required></label><label>Rival<input id="eventOpponent"></label><label>Fecha<input id="eventDate" type="date" required></label><label>Hora de inicio<input id="eventStart" type="time" required></label><label>Hora final<input id="eventEnd" type="time"></label><label>Casa / visita<select id="eventHomeAway"><option value="">No aplica</option><option value="home">Casa</option><option value="away">Visitante</option></select></label>
+<label id="eventVenueRegisteredField">Sede registrada<select id="eventVenue"></select></label>
+<label id="eventAwayVenueField" class="hidden">Lugar / gimnasio visitante<input id="eventAwayVenueName" placeholder="Ej. Gimnasio Municipal de Cartago"></label>
+<label id="eventAwayAddressField" class="hidden">Dirección visitante<input id="eventAwayAddress" placeholder="Dirección o referencia"></label>
+<label>Enlace de ubicación<input id="eventLocationUrl" type="url" placeholder="https://waze.com/… o https://maps.google.com/…"></label><label>Uniforme<select id="eventUniform"><option value="">Por definir</option><option value="red">Rojo</option><option value="black">Negro</option><option value="white">Blanco</option><option value="cyan_fuchsia">Celeste / Fucsia</option></select></label><label>Estado<select id="eventStatus"><option value="scheduled">Programado</option><option value="changed">Modificado</option><option value="cancelled">Cancelado</option><option value="completed">Completado</option></select></label></div><label>Observaciones<textarea id="eventNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
 
 <dialog id="eventDetailDialog" class="wide-dialog">
   <div class="dialog-head"><h3 id="eventDetailTitle">Detalle del evento</h3><button class="icon-button close-dialog" type="button">×</button></div>
@@ -771,7 +775,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.6.js?v=20260807-stable342"></script>
+<script type="module" src="app-ui-2.7.js?v=20260807-stable342"></script>
 
 
 <script>
