@@ -1,0 +1,456 @@
+/* VolleyCore UI 2.4 — final application-wide dark mode layer.
+   Loaded LAST, after legacy inline styles and UI refresh styles. */
+html[data-theme="dark"]{
+  --dm-bg:#0f1115;
+  --dm-surface:#171a20;
+  --dm-surface-2:#20242c;
+  --dm-surface-3:#262b34;
+  --dm-border:#353c47;
+  --dm-text:#f6f7f9;
+  --dm-muted:#aeb6c2;
+  --dm-link:#72d8e9;
+  /* Override the legacy design tokens used by styles.css as well. */
+  --bg:var(--dm-bg);
+  --card:var(--dm-surface);
+  --line:var(--dm-border);
+  --text:var(--dm-text);
+  --muted:var(--dm-muted);
+  color-scheme:dark;
+}
+
+/* Workspace base: applies to every app module. */
+html[data-theme="dark"] #appScreen,
+html[data-theme="dark"] #appScreen .container,
+html[data-theme="dark"] #appScreen .view{
+  background:var(--dm-bg)!important;
+  color:var(--dm-text)!important;
+}
+
+/* Universal typography inside every module.  Exclude the approved white top header. */
+html[data-theme="dark"] #appScreen .container :where(h1,h2,h3,h4,h5,h6,p,label,legend,summary,td,th,strong,span,small,div){
+  color:inherit;
+}
+html[data-theme="dark"] #appScreen .container :where(h1,h2,h3,h4,h5,h6,label,legend,summary,strong,td,th){
+  color:var(--dm-text)!important;
+}
+html[data-theme="dark"] #appScreen .container :where(.muted,.subtitle,.page-subtitle,small){
+  color:var(--dm-muted)!important;
+}
+html[data-theme="dark"] #appScreen .container :where(a,.link-button){
+  color:var(--dm-link)!important;
+}
+html[data-theme="dark"] #appScreen .container .eyebrow{color:#72d8e9!important}
+
+/* All reusable surfaces used across Dashboard, Jugadoras, Categorías, Temporadas,
+   Entrenamientos, Eventos, Gimnasios, Comunicados, Finanzas, Pagos, Familias,
+   Asistencia, Reportes, Importación, Entrenadores and Perfil. */
+html[data-theme="dark"] #appScreen .container :where(
+  .panel,.stat,.table-wrap,.filters,.finance-filters,.payment-report-panel,
+  .cards-list>*,.cards-grid>*,.compact-list>*,.recent-item,.person-row,
+  .check-item,.picker-check,.guardian-row,.attendance-row,.attendance-choice,
+  .player-editor-section,.category-editor-section,.profile-data-list>div,
+  .trainer-request-card,.trainer-pending-card,.trainer-event-card,
+  .category-video-card,.category-detail-grid>*,.family-detail-grid>*,
+  .month-checkbox-panel,.month-check-item,.multi-select-toggle,.multi-select-menu,
+  .multi-select-option,.picker-toolbar,.category-roster-editor,.vc-empty-state,
+  .vc-quick-action,.vc-date-box,.details
+){
+  background:var(--dm-surface)!important;
+  color:var(--dm-text)!important;
+  border-color:var(--dm-border)!important;
+}
+
+/* Dialogs and every editor/modal. */
+html[data-theme="dark"] dialog,
+html[data-theme="dark"] dialog form,
+html[data-theme="dark"] dialog .dialog-content,
+html[data-theme="dark"] dialog .dialog-head,
+html[data-theme="dark"] dialog .dialog-actions,
+html[data-theme="dark"] dialog .sticky-actions,
+html[data-theme="dark"] dialog fieldset,
+html[data-theme="dark"] dialog section{
+  background:var(--dm-surface)!important;
+  color:var(--dm-text)!important;
+  border-color:var(--dm-border)!important;
+}
+html[data-theme="dark"] dialog :where(h1,h2,h3,h4,h5,h6,p,label,legend,summary,strong,span,div,td,th){
+  color:var(--dm-text)!important;
+}
+html[data-theme="dark"] dialog :where(.muted,small){color:var(--dm-muted)!important}
+html[data-theme="dark"] dialog .eyebrow{color:#72d8e9!important}
+
+/* Forms in modules and dialogs. */
+html[data-theme="dark"] #appScreen :where(input,select,textarea),
+html[data-theme="dark"] dialog :where(input,select,textarea){
+  background:var(--dm-surface-2)!important;
+  color:var(--dm-text)!important;
+  border-color:var(--dm-border)!important;
+  caret-color:var(--dm-text)!important;
+}
+html[data-theme="dark"] #appScreen :where(input,textarea)::placeholder,
+html[data-theme="dark"] dialog :where(input,textarea)::placeholder{color:#8f98a6!important}
+html[data-theme="dark"] #appScreen option,
+html[data-theme="dark"] dialog option{background:var(--dm-surface-2)!important;color:var(--dm-text)!important}
+html[data-theme="dark"] #appScreen input[type="date"],
+html[data-theme="dark"] #appScreen input[type="time"]{color-scheme:dark}
+
+/* Tables everywhere. */
+html[data-theme="dark"] #appScreen .container table{background:var(--dm-surface)!important;color:var(--dm-text)!important}
+html[data-theme="dark"] #appScreen .container thead th{background:var(--dm-surface-3)!important;color:#dce1e8!important;border-color:var(--dm-border)!important}
+html[data-theme="dark"] #appScreen .container tbody td{background:transparent!important;color:var(--dm-text)!important;border-color:var(--dm-border)!important}
+html[data-theme="dark"] #appScreen .container tbody tr:hover{background:rgba(114,216,233,.07)!important}
+
+/* Buttons and action controls. */
+html[data-theme="dark"] #appScreen :where(.btn.secondary,.action,.multi-select-toggle,.icon-button,.close-dialog){
+  background:var(--dm-surface-2)!important;
+  color:var(--dm-text)!important;
+  border-color:var(--dm-border)!important;
+}
+html[data-theme="dark"] #appScreen .danger-action{background:#351619!important;color:#ffc4c8!important;border-color:#633036!important}
+html[data-theme="dark"] #appScreen .danger-action:hover{background:#431b20!important}
+
+/* Status badges retain semantic color and contrast. */
+html[data-theme="dark"] #appScreen .badge{border-color:transparent!important}
+html[data-theme="dark"] #appScreen .badge.active,
+html[data-theme="dark"] #appScreen .badge.approved,
+html[data-theme="dark"] #appScreen .badge.paid,
+html[data-theme="dark"] #appScreen .badge.insured{background:#12341f!important;color:#8ee6aa!important}
+html[data-theme="dark"] #appScreen .badge.pending,
+html[data-theme="dark"] #appScreen .badge.reported,
+html[data-theme="dark"] #appScreen .badge.partial{background:#3a2d10!important;color:#f7d77f!important}
+html[data-theme="dark"] #appScreen .badge.overdue,
+html[data-theme="dark"] #appScreen .badge.rejected,
+html[data-theme="dark"] #appScreen .badge.inactive,
+html[data-theme="dark"] #appScreen .badge.uninsured{background:#3a171b!important;color:#ffb8bf!important}
+html[data-theme="dark"] #appScreen .badge.first-division{background:#303641!important;color:#fff!important}
+html[data-theme="dark"] #appScreen .badge.neutral{background:#292f38!important;color:#e7ebf0!important}
+
+/* Notices. */
+html[data-theme="dark"] #appScreen .notice.info{background:#102b33!important;color:#bceef6!important;border-color:#245866!important}
+html[data-theme="dark"] #appScreen .notice.warning{background:#302611!important;color:#f8dda1!important;border-color:#5a481f!important}
+html[data-theme="dark"] #appScreen .notice.error{background:#351619!important;color:#ffc4c8!important;border-color:#633036!important}
+
+/* Special controls previously defined by legacy inline CSS. */
+html[data-theme="dark"] #appScreen .sticky-actions{background:var(--dm-surface)!important;border-color:var(--dm-border)!important}
+html[data-theme="dark"] #appScreen .multi-select-actions{border-color:var(--dm-border)!important}
+html[data-theme="dark"] #appScreen .multi-select-option:hover{background:var(--dm-surface-3)!important}
+html[data-theme="dark"] #appScreen .weekday-grid label,
+html[data-theme="dark"] #appScreen .check-inline{color:var(--dm-text)!important}
+
+/* Approved brand areas intentionally keep their own palette. */
+html[data-theme="dark"] .vc-brand-header{background:#fff!important;color:#111!important}
+html[data-theme="dark"] .vc-brand-header .vc-club-wordmark strong,
+html[data-theme="dark"] .vc-brand-header .vc-club-wordmark span{color:#dd242a!important}
+html[data-theme="dark"] .vc-brand-header .vc-club-wordmark small,
+html[data-theme="dark"] .vc-brand-header .vc-product-wordmark b,
+html[data-theme="dark"] .vc-brand-header .vc-top-user strong,
+html[data-theme="dark"] .vc-brand-header .vc-logout-link,
+html[data-theme="dark"] .vc-brand-header .ui-theme-toggle{color:#111!important}
+html[data-theme="dark"] .vc-brand-header .vc-product-wordmark strong{color:#db1f26!important}
+html[data-theme="dark"] .vc-brand-header .vc-product-wordmark span,
+html[data-theme="dark"] .vc-brand-header .vc-top-user small{color:#555!important}
+html[data-theme="dark"] .nav{color:#fff!important}
+
+
+/* Dynamic components rendered by JavaScript across family, player and event modules. */
+html[data-theme="dark"] #appScreen .container :where(
+  .athlete-card,.event-card,.family-card,.family-charge-card,.family-location,
+  .family-metrics,.family-people,.picker-item,.profile-section,.profile-label-row,
+  .payment-meta,.charge-values,.mini-list>div,.check-list,.chip,.chip-button,
+  .clickable-card,.loading-placeholder
+){
+  color:var(--dm-text)!important;
+  border-color:var(--dm-border)!important;
+}
+html[data-theme="dark"] #appScreen .container :where(.mini-list>div,.check-list,.picker-item,.family-charge-card,.family-location,.family-metrics,.family-people){
+  background:var(--dm-surface)!important;
+}
+html[data-theme="dark"] #appScreen .container .chip{background:var(--dm-surface-3)!important;color:#e5eaf0!important}
+html[data-theme="dark"] #appScreen .container hr{border-color:var(--dm-border)!important}
+html[data-theme="dark"] #appScreen .container .loading-placeholder{color:var(--dm-muted)!important}
+
+/* Dashboard-specific hard-coded light-theme text declarations. */
+html[data-theme="dark"] #appScreen .container .vc-date-chip,
+html[data-theme="dark"] #appScreen .container .vc-feature-title,
+html[data-theme="dark"] #appScreen .container .vc-feature-lines,
+html[data-theme="dark"] #appScreen .container .vc-welcome-row h2,
+html[data-theme="dark"] #appScreen .container .vc-kpi-card div strong,
+html[data-theme="dark"] #appScreen .container .vc-kpi-card div span{
+  color:var(--dm-text)!important;
+}
+
+/* Keep authentication usable if dark preference remains saved after sign-out. */
+html[data-theme="dark"] .auth-card{background:var(--dm-surface)!important;color:var(--dm-text)!important}
+html[data-theme="dark"] .auth-card :where(h1,h2,h3,p,label,strong,span){color:var(--dm-text)!important}
+html[data-theme="dark"] .auth-card .muted,
+html[data-theme="dark"] .auth-card .subtitle{color:var(--dm-muted)!important}
+html[data-theme="dark"] .auth-card :where(input,select,textarea){background:var(--dm-surface-2)!important;color:var(--dm-text)!important;border-color:var(--dm-border)!important}
+
+html[data-theme="dark"] .notification-panel,html[data-theme="dark"] .notification-item,html[data-theme="dark"] .photo-preview,html[data-theme="dark"] .team-photo-preview{background:var(--vc-surface)!important;color:var(--vc-text)!important;border-color:var(--vc-border)!important}html[data-theme="dark"] .notification-item:hover{background:var(--vc-surface-2)!important}
+
+html[data-theme="dark"] .vc-notification-button{
+  background:#20242c!important;color:#f7f8fa!important;border-color:#353c47!important;
+}
+html[data-theme="dark"] .vc-notification-button:hover{background:#292f38!important}
+
+
+/* =========================================================
+   VolleyCore UI 2.9 — Events module dark-mode contrast
+   ========================================================= */
+html[data-theme="dark"] #view-events .events-time-section{
+  background:transparent!important;
+  color:var(--dm-text)!important;
+}
+html[data-theme="dark"] #view-events .event-card{
+  background:#1d222a!important;
+  border:1px solid #39414d!important;
+  color:#f4f7fa!important;
+  box-shadow:0 5px 16px rgba(0,0,0,.18)!important;
+}
+html[data-theme="dark"] #view-events .event-card h3,
+html[data-theme="dark"] #view-events .event-card p,
+html[data-theme="dark"] #view-events .event-card strong,
+html[data-theme="dark"] #view-events .event-card .eyebrow{
+  color:#f4f7fa!important;
+}
+html[data-theme="dark"] #view-events .event-card .muted{color:#b4bec9!important}
+html[data-theme="dark"] #view-events .event-card a{color:#73d9eb!important}
+html[data-theme="dark"] #view-events .past-event-card{
+  background:#181c22!important;
+  border-color:#303743!important;
+}
+html[data-theme="dark"] #view-events .past-event-card h3,
+html[data-theme="dark"] #view-events .past-event-card p{color:#dce2e9!important}
+html[data-theme="dark"] #roleManagerDialog .role-user-summary{
+  background:var(--dm-surface-2)!important;
+  color:var(--dm-text)!important;
+  border-color:var(--dm-border)!important;
+}
+
+html[data-theme="dark"] #view-userAdmin .table-wrap,
+html[data-theme="dark"] #view-userAdmin .filters{color:var(--dm-text)!important}
+
+
+/* =========================================================
+   VolleyCore UI 2.10 — application-wide dark-mode final pass
+   Covers every .view and dialog with semantic exceptions.
+   ========================================================= */
+html[data-theme="dark"] body,
+html[data-theme="dark"] #appScreen,
+html[data-theme="dark"] main,
+html[data-theme="dark"] .container,
+html[data-theme="dark"] .view{
+  color:#f3f5f7!important;
+}
+
+/* All ordinary textual content inside every module */
+html[data-theme="dark"] .view :where(h1,h2,h3,h4,h5,h6,p,div,span,label,legend,dt,dd,strong,em,li,td,th),
+html[data-theme="dark"] dialog :where(h1,h2,h3,h4,h5,h6,p,div,span,label,legend,dt,dd,strong,em,li,td,th){
+  color:inherit;
+}
+
+/* Primary surfaces */
+html[data-theme="dark"] .view :where(.panel,.stat,.card,.event-card,.family-card,.athlete-card,.category-card-with-photo,.recent-item,.person-row,.attendance-row,.family-charge-card,.trainer-request-card,.vc-kpi-card,.vc-event-row,.vc-activity-row),
+html[data-theme="dark"] dialog :where(.panel,.player-editor-section,.category-editor-section,.guardian-row,.check-item,.profile-data-list>div,.role-user-summary,fieldset){
+  background:#20252d!important;
+  border-color:#3a424d!important;
+  color:#f3f5f7!important;
+}
+
+/* Tables */
+html[data-theme="dark"] .view table,
+html[data-theme="dark"] .view thead,
+html[data-theme="dark"] .view tbody,
+html[data-theme="dark"] .view tr,
+html[data-theme="dark"] dialog table{
+  color:#f3f5f7!important;
+}
+html[data-theme="dark"] .view th{
+  background:#252b34!important;
+  color:#e8edf2!important;
+  border-color:#3a424d!important;
+}
+html[data-theme="dark"] .view td{
+  background:#1f242c!important;
+  color:#f3f5f7!important;
+  border-color:#343c47!important;
+}
+
+/* Form controls across ALL views and dialogs */
+html[data-theme="dark"] .view :where(input:not([type="checkbox"]):not([type="radio"]),select,textarea),
+html[data-theme="dark"] dialog :where(input:not([type="checkbox"]):not([type="radio"]),select,textarea){
+  background:#1c2128!important;
+  color:#f7f9fb!important;
+  border-color:#414a57!important;
+  -webkit-text-fill-color:#f7f9fb!important;
+}
+html[data-theme="dark"] .view :where(input,textarea)::placeholder,
+html[data-theme="dark"] dialog :where(input,textarea)::placeholder{
+  color:#9ca8b5!important;
+  opacity:1!important;
+}
+html[data-theme="dark"] .view select option,
+html[data-theme="dark"] dialog select option{
+  background:#1c2128!important;
+  color:#f7f9fb!important;
+}
+
+/* Secondary copy */
+html[data-theme="dark"] .view .muted,
+html[data-theme="dark"] dialog .muted,
+html[data-theme="dark"] .view small,
+html[data-theme="dark"] dialog small{
+  color:#aeb8c4!important;
+}
+
+/* Links/actions remain visible */
+html[data-theme="dark"] .view a:not(.btn),
+html[data-theme="dark"] dialog a:not(.btn),
+html[data-theme="dark"] .view .action,
+html[data-theme="dark"] dialog .action,
+html[data-theme="dark"] .view .link-button,
+html[data-theme="dark"] dialog .link-button{
+  color:#73d9eb!important;
+}
+
+/* Explicit semantic exceptions so global pass does not flatten buttons/badges */
+html[data-theme="dark"] .btn.primary,
+html[data-theme="dark"] .badge,
+html[data-theme="dark"] .vc-round-icon,
+html[data-theme="dark"] .notification-count{
+  -webkit-text-fill-color:initial;
+}
+html[data-theme="dark"] .btn.primary{color:#fff!important}
+html[data-theme="dark"] .btn.secondary{
+  background:#292f38!important;
+  color:#f3f5f7!important;
+  border-color:#46505d!important;
+}
+html[data-theme="dark"] .icon-button{
+  background:#292f38!important;
+  color:#f3f5f7!important;
+  border-color:#46505d!important;
+}
+
+/* Dialog shell, headers and sticky action bars */
+html[data-theme="dark"] dialog{
+  background:#171b21!important;
+  color:#f3f5f7!important;
+  border-color:#3b4450!important;
+}
+html[data-theme="dark"] dialog .dialog-head,
+html[data-theme="dark"] dialog .dialog-actions,
+html[data-theme="dark"] dialog .sticky-actions{
+  background:#1b2027!important;
+  color:#f3f5f7!important;
+  border-color:#39424d!important;
+}
+
+/* Role/player management */
+html[data-theme="dark"] #roleManagerPlayerField,
+html[data-theme="dark"] #roleManagerCategoriesField,
+html[data-theme="dark"] #roleManagerPermissionsField{
+  background:#20252d!important;
+  color:#f3f5f7!important;
+  border-color:#3a424d!important;
+}
+
+/* Native date/time controls */
+html[data-theme="dark"] input[type="date"],
+html[data-theme="dark"] input[type="time"],
+html[data-theme="dark"] input[type="month"]{
+  color-scheme:dark;
+}
+
+/* Audited views: dashboard, trainerPending, players, categories, seasons, trainings, events, venues, announcements, finances, sinpeAdmin, users, userAdmin, attendance, trainerAttendance, reports, import, familyHome, familyCategories, familyLink, familyTrainings, familyEvents, familyPayments, familyAnnouncements, about, trainers, trainerHome, trainerPlayers, trainerTrainings, trainerEvents, trainerAnnouncements, profile */
+/* Audited dialogs: playerDetailDialog, playerFinancialDialog, familyDialog, familyDetailDialog, familyMemberPickerDialog, userDetailDialog, roleManagerDialog, trainerDialog, playerDialog, categoryDetailDialog, categoryVideoDialog, categoryDialog, venueDialog, eventDialog, eventDetailDialog, calendarChoiceDialog, seasonDialog, trainingDialog, trainingExceptionDialog, trainingFutureDialog, announcementDialog, chargeDialog, generateDialog, sinpeDialog, confirmDialog */
+
+
+/* VolleyCore UI 2.11 — explicit module-by-module dark-mode audit */
+html[data-theme="dark"] #view-dashboard,
+html[data-theme="dark"] #view-trainerPending,
+html[data-theme="dark"] #view-players,
+html[data-theme="dark"] #view-categories,
+html[data-theme="dark"] #view-seasons,
+html[data-theme="dark"] #view-trainings,
+html[data-theme="dark"] #view-events,
+html[data-theme="dark"] #view-venues,
+html[data-theme="dark"] #view-announcements,
+html[data-theme="dark"] #view-finances,
+html[data-theme="dark"] #view-sinpeAdmin,
+html[data-theme="dark"] #view-users,
+html[data-theme="dark"] #view-userAdmin,
+html[data-theme="dark"] #view-attendance,
+html[data-theme="dark"] #view-trainerAttendance,
+html[data-theme="dark"] #view-reports,
+html[data-theme="dark"] #view-import,
+html[data-theme="dark"] #view-familyHome,
+html[data-theme="dark"] #view-familyCategories,
+html[data-theme="dark"] #view-familyLink,
+html[data-theme="dark"] #view-familyTrainings,
+html[data-theme="dark"] #view-familyEvents,
+html[data-theme="dark"] #view-familyPayments,
+html[data-theme="dark"] #view-familyAnnouncements,
+html[data-theme="dark"] #view-about,
+html[data-theme="dark"] #view-trainers,
+html[data-theme="dark"] #view-trainerHome,
+html[data-theme="dark"] #view-trainerPlayers,
+html[data-theme="dark"] #view-trainerTrainings,
+html[data-theme="dark"] #view-trainerEvents,
+html[data-theme="dark"] #view-trainerAnnouncements,
+html[data-theme="dark"] #view-profile {
+  --vc-dark-text:#f4f7fa;--vc-dark-muted:#b4bec9;--vc-dark-surface:#20252d;--vc-dark-border:#3b4450;
+  color:var(--vc-dark-text)!important;
+}
+html[data-theme="dark"] #playerDetailDialog,
+html[data-theme="dark"] #playerFinancialDialog,
+html[data-theme="dark"] #familyDialog,
+html[data-theme="dark"] #familyDetailDialog,
+html[data-theme="dark"] #familyMemberPickerDialog,
+html[data-theme="dark"] #userDetailDialog,
+html[data-theme="dark"] #roleManagerDialog,
+html[data-theme="dark"] #trainerDialog,
+html[data-theme="dark"] #playerDialog,
+html[data-theme="dark"] #categoryDetailDialog,
+html[data-theme="dark"] #categoryVideoDialog,
+html[data-theme="dark"] #categoryDialog,
+html[data-theme="dark"] #venueDialog,
+html[data-theme="dark"] #eventDialog,
+html[data-theme="dark"] #eventDetailDialog,
+html[data-theme="dark"] #calendarChoiceDialog,
+html[data-theme="dark"] #seasonDialog,
+html[data-theme="dark"] #trainingDialog,
+html[data-theme="dark"] #trainingExceptionDialog,
+html[data-theme="dark"] #trainingFutureDialog,
+html[data-theme="dark"] #announcementDialog,
+html[data-theme="dark"] #chargeDialog,
+html[data-theme="dark"] #generateDialog,
+html[data-theme="dark"] #sinpeDialog,
+html[data-theme="dark"] #confirmDialog {
+  --vc-dark-text:#f4f7fa;--vc-dark-muted:#b4bec9;--vc-dark-surface:#20252d;--vc-dark-border:#3b4450;
+  color:var(--vc-dark-text)!important;background:#171c22!important;border-color:var(--vc-dark-border)!important;
+}
+html[data-theme="dark"] .view :where(h1,h2,h3,h4,h5,h6,p,label,legend,dt,dd,strong,b,em,li,td,th,small,.page-subtitle,.eyebrow,.muted,.profile-data-list,.family-metrics,.charge-values,.payment-meta),
+html[data-theme="dark"] dialog :where(h1,h2,h3,h4,h5,h6,p,label,legend,dt,dd,strong,b,em,li,td,th,small,.eyebrow,.muted) {
+  color:#f4f7fa!important;-webkit-text-fill-color:currentColor!important;
+}
+html[data-theme="dark"] .view :where(.muted,small,.page-subtitle),html[data-theme="dark"] dialog :where(.muted,small){color:#b4bec9!important}
+html[data-theme="dark"] .view :where(.panel,.stat,.card,.event-card,.past-event-card,.family-card,.athlete-card,.category-card-with-photo,.recent-item,.person-row,.attendance-row,.family-charge-card,.trainer-request-card,.vc-kpi-card,.vc-feature-card,.vc-dashboard-table-card,.filters,.multi-select-menu),
+html[data-theme="dark"] dialog :where(.panel,.player-editor-section,.category-editor-section,.guardian-row,.check-item,.role-user-summary,fieldset,.dialog-content) {
+  background:#20252d!important;color:#f4f7fa!important;border-color:#3b4450!important;
+}
+html[data-theme="dark"] .view :where(input:not([type="checkbox"]):not([type="radio"]),select,textarea),
+html[data-theme="dark"] dialog :where(input:not([type="checkbox"]):not([type="radio"]),select,textarea) {
+  background:#171c22!important;color:#f4f7fa!important;-webkit-text-fill-color:#f4f7fa!important;border-color:#46515f!important;
+}
+html[data-theme="dark"] .view :where(input,textarea)::placeholder,html[data-theme="dark"] dialog :where(input,textarea)::placeholder{color:#9ca8b5!important;-webkit-text-fill-color:#9ca8b5!important;opacity:1!important}
+html[data-theme="dark"] .view select option,html[data-theme="dark"] dialog select option{background:#171c22!important;color:#f4f7fa!important}
+html[data-theme="dark"] .view th,html[data-theme="dark"] dialog th{background:#252b34!important;color:#eef3f7!important;border-color:#3b4450!important}
+html[data-theme="dark"] .view td,html[data-theme="dark"] dialog td{background:#1d2229!important;color:#f4f7fa!important;border-color:#343d48!important}
+html[data-theme="dark"] .view .btn.secondary,html[data-theme="dark"] dialog .btn.secondary,html[data-theme="dark"] .view .icon-button,html[data-theme="dark"] dialog .icon-button{background:#29303a!important;color:#f4f7fa!important;-webkit-text-fill-color:#f4f7fa!important;border-color:#4a5563!important}
+html[data-theme="dark"] .view .btn.primary,html[data-theme="dark"] dialog .btn.primary{color:#fff!important;-webkit-text-fill-color:#fff!important}
+html[data-theme="dark"] .view :where(a:not(.btn),.action,.link-button),html[data-theme="dark"] dialog :where(a:not(.btn),.action,.link-button){color:#79dcef!important;-webkit-text-fill-color:#79dcef!important}
+html[data-theme="dark"] .player-link-ok{color:#8ee6a8!important;-webkit-text-fill-color:#8ee6a8!important}
+html[data-theme="dark"] .player-link-warning{color:#ffce73!important;-webkit-text-fill-color:#ffce73!important}
+html[data-theme="dark"] .profile-warning-card{background:#332b1c!important;border-color:#69542a!important;color:#fff1ce!important}
+html[data-theme="dark"] :where(input,select,textarea,button):disabled{opacity:.72!important}

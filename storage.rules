@@ -1,0 +1,14 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn(){ return request.auth != null; }
+    function userPath(){ return /databases/(default)/documents/users/$(request.auth.uid); }
+    function hasProfile(){ return signedIn() && firestore.exists(userPath()); }
+    function userDoc(){ return firestore.get(userPath()); }
+    function sameOrg(){ return hasProfile() && userDoc().data.orgId == 'asbavol'; }
+    function isAdmin(){ return sameOrg() && userDoc().data.role in ['admin','treasurer']; }
+    function validImage(){ return request.resource.size < 5 * 1024 * 1024 && request.resource.contentType.matches('image/.*'); }
+    match /orgs/asbavol/playerPhotos/{playerId}/{fileName} { allow read: if sameOrg(); allow write: if isAdmin() && validImage(); }
+    match /orgs/asbavol/categoryPhotos/{categoryId}/{fileName} { allow read: if sameOrg(); allow write: if isAdmin() && validImage(); }
+  }
+}
