@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore UI 2.9.2</title>
+  <title>VolleyCore UI 2.10</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260807-ui10">
 
@@ -256,7 +256,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.9.2</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.10</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div></div>
@@ -593,7 +593,12 @@
       <label class="check-inline"><input id="roleManagerViewContacts" type="checkbox"> Ver teléfonos y correos de encargados</label>
       <label class="check-inline"><input id="roleManagerViewFinancial" type="checkbox"> Ver estado financiero general</label>
     </fieldset>
-    <p id="roleManagerPlayerNote" class="notice info hidden">El rol Jugadora utiliza las jugadoras vinculadas a este usuario. Asegúrate de que la cuenta esté vinculada a su ficha de jugadora.</p>
+    <fieldset id="roleManagerPlayerField" class="hidden">
+      <legend>Ficha de jugadora</legend>
+      <p class="muted">Selecciona la ficha que corresponde a este usuario. Esta vinculación determina automáticamente su categoría principal, refuerzos, eventos y notificaciones.</p>
+      <label>Jugadora<select id="roleManagerPlayerId"><option value="">Selecciona una jugadora</option></select></label>
+    </fieldset>
+    <p id="roleManagerPlayerNote" class="notice info hidden">Para el rol Jugadora es obligatorio vincular una ficha de jugadora. Las categorías se tomarán directamente de esa ficha.</p>
     <p class="notice warning">Los cambios de rol afectan inmediatamente el acceso del usuario. Solo un Administrador puede realizar cambios de rol.</p>
     <div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button id="saveRoleManagerButton" class="btn primary" type="submit">Guardar rol</button></div>
   </form>
@@ -827,7 +832,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.9.2.js?v=20260807-stable342"></script>
+<script type="module" src="app-ui-2.10.js?v=20260807-stable342"></script>
 
 
 <script>

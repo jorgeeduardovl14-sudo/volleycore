@@ -229,3 +229,138 @@ html[data-theme="dark"] #roleManagerDialog .role-user-summary{
 
 html[data-theme="dark"] #view-userAdmin .table-wrap,
 html[data-theme="dark"] #view-userAdmin .filters{color:var(--dm-text)!important}
+
+
+/* =========================================================
+   VolleyCore UI 2.10 — application-wide dark-mode final pass
+   Covers every .view and dialog with semantic exceptions.
+   ========================================================= */
+html[data-theme="dark"] body,
+html[data-theme="dark"] #appScreen,
+html[data-theme="dark"] main,
+html[data-theme="dark"] .container,
+html[data-theme="dark"] .view{
+  color:#f3f5f7!important;
+}
+
+/* All ordinary textual content inside every module */
+html[data-theme="dark"] .view :where(h1,h2,h3,h4,h5,h6,p,div,span,label,legend,dt,dd,strong,em,li,td,th),
+html[data-theme="dark"] dialog :where(h1,h2,h3,h4,h5,h6,p,div,span,label,legend,dt,dd,strong,em,li,td,th){
+  color:inherit;
+}
+
+/* Primary surfaces */
+html[data-theme="dark"] .view :where(.panel,.stat,.card,.event-card,.family-card,.athlete-card,.category-card-with-photo,.recent-item,.person-row,.attendance-row,.family-charge-card,.trainer-request-card,.vc-kpi-card,.vc-event-row,.vc-activity-row),
+html[data-theme="dark"] dialog :where(.panel,.player-editor-section,.category-editor-section,.guardian-row,.check-item,.profile-data-list>div,.role-user-summary,fieldset){
+  background:#20252d!important;
+  border-color:#3a424d!important;
+  color:#f3f5f7!important;
+}
+
+/* Tables */
+html[data-theme="dark"] .view table,
+html[data-theme="dark"] .view thead,
+html[data-theme="dark"] .view tbody,
+html[data-theme="dark"] .view tr,
+html[data-theme="dark"] dialog table{
+  color:#f3f5f7!important;
+}
+html[data-theme="dark"] .view th{
+  background:#252b34!important;
+  color:#e8edf2!important;
+  border-color:#3a424d!important;
+}
+html[data-theme="dark"] .view td{
+  background:#1f242c!important;
+  color:#f3f5f7!important;
+  border-color:#343c47!important;
+}
+
+/* Form controls across ALL views and dialogs */
+html[data-theme="dark"] .view :where(input:not([type="checkbox"]):not([type="radio"]),select,textarea),
+html[data-theme="dark"] dialog :where(input:not([type="checkbox"]):not([type="radio"]),select,textarea){
+  background:#1c2128!important;
+  color:#f7f9fb!important;
+  border-color:#414a57!important;
+  -webkit-text-fill-color:#f7f9fb!important;
+}
+html[data-theme="dark"] .view :where(input,textarea)::placeholder,
+html[data-theme="dark"] dialog :where(input,textarea)::placeholder{
+  color:#9ca8b5!important;
+  opacity:1!important;
+}
+html[data-theme="dark"] .view select option,
+html[data-theme="dark"] dialog select option{
+  background:#1c2128!important;
+  color:#f7f9fb!important;
+}
+
+/* Secondary copy */
+html[data-theme="dark"] .view .muted,
+html[data-theme="dark"] dialog .muted,
+html[data-theme="dark"] .view small,
+html[data-theme="dark"] dialog small{
+  color:#aeb8c4!important;
+}
+
+/* Links/actions remain visible */
+html[data-theme="dark"] .view a:not(.btn),
+html[data-theme="dark"] dialog a:not(.btn),
+html[data-theme="dark"] .view .action,
+html[data-theme="dark"] dialog .action,
+html[data-theme="dark"] .view .link-button,
+html[data-theme="dark"] dialog .link-button{
+  color:#73d9eb!important;
+}
+
+/* Explicit semantic exceptions so global pass does not flatten buttons/badges */
+html[data-theme="dark"] .btn.primary,
+html[data-theme="dark"] .badge,
+html[data-theme="dark"] .vc-round-icon,
+html[data-theme="dark"] .notification-count{
+  -webkit-text-fill-color:initial;
+}
+html[data-theme="dark"] .btn.primary{color:#fff!important}
+html[data-theme="dark"] .btn.secondary{
+  background:#292f38!important;
+  color:#f3f5f7!important;
+  border-color:#46505d!important;
+}
+html[data-theme="dark"] .icon-button{
+  background:#292f38!important;
+  color:#f3f5f7!important;
+  border-color:#46505d!important;
+}
+
+/* Dialog shell, headers and sticky action bars */
+html[data-theme="dark"] dialog{
+  background:#171b21!important;
+  color:#f3f5f7!important;
+  border-color:#3b4450!important;
+}
+html[data-theme="dark"] dialog .dialog-head,
+html[data-theme="dark"] dialog .dialog-actions,
+html[data-theme="dark"] dialog .sticky-actions{
+  background:#1b2027!important;
+  color:#f3f5f7!important;
+  border-color:#39424d!important;
+}
+
+/* Role/player management */
+html[data-theme="dark"] #roleManagerPlayerField,
+html[data-theme="dark"] #roleManagerCategoriesField,
+html[data-theme="dark"] #roleManagerPermissionsField{
+  background:#20252d!important;
+  color:#f3f5f7!important;
+  border-color:#3a424d!important;
+}
+
+/* Native date/time controls */
+html[data-theme="dark"] input[type="date"],
+html[data-theme="dark"] input[type="time"],
+html[data-theme="dark"] input[type="month"]{
+  color-scheme:dark;
+}
+
+/* Audited views: dashboard, trainerPending, players, categories, seasons, trainings, events, venues, announcements, finances, sinpeAdmin, users, userAdmin, attendance, trainerAttendance, reports, import, familyHome, familyCategories, familyLink, familyTrainings, familyEvents, familyPayments, familyAnnouncements, about, trainers, trainerHome, trainerPlayers, trainerTrainings, trainerEvents, trainerAnnouncements, profile */
+/* Audited dialogs: playerDetailDialog, playerFinancialDialog, familyDialog, familyDetailDialog, familyMemberPickerDialog, userDetailDialog, roleManagerDialog, trainerDialog, playerDialog, categoryDetailDialog, categoryVideoDialog, categoryDialog, venueDialog, eventDialog, eventDetailDialog, calendarChoiceDialog, seasonDialog, trainingDialog, trainingExceptionDialog, trainingFutureDialog, announcementDialog, chargeDialog, generateDialog, sinpeDialog, confirmDialog */
