@@ -1269,3 +1269,12 @@ html[data-theme="dark"] .trainer-event-card{background:var(--vc-surface)!importa
   .container{padding-left:10px!important;padding-right:10px!important}
   .btn{min-height:40px}
 }
+
+/* VolleyCore UI 2.8 — calendar actions */
+#categoryCalendarButton,#eventCalendarButton{white-space:nowrap}
+@media(max-width:680px){
+  #categoryDetailDialog .dialog-actions,
+  #eventDetailDialog .dialog-actions{display:flex!important;flex-wrap:wrap!important;gap:8px!important}
+  #categoryDetailDialog .dialog-actions .btn,
+  #eventDetailDialog .dialog-actions .btn{flex:1 1 145px}
+}

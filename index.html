@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore UI 2.7</title>
+  <title>VolleyCore UI 2.8</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260807-ui10">
 
@@ -255,7 +255,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.7</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.8</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div></div>
@@ -468,7 +468,7 @@
 
 
     <section id="view-familyCategories" class="view hidden">
-      <div class="page-head"><div><span class="eyebrow">MIS EQUIPOS</span><h2>Mis categorías</h2></div></div>
+      <div class="page-head"><div><span class="eyebrow">MIS EQUIPOS</span><h2>Mis categorías</h2><p class="muted">Abre una categoría y usa “Agregar calendario” para importar sus próximos eventos en Google Calendar, Apple Calendar u Outlook.</p></div></div>
       <div id="familyCategoriesList" class="cards-grid"></div>
     </section>
 
@@ -657,7 +657,7 @@
 <dialog id="categoryDetailDialog">
   <div class="dialog-head dialog-pad"><div><span class="eyebrow">FICHA DE CATEGORÍA</span><h3 id="categoryDetailTitle">Categoría</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
   <div id="categoryDetailContent" class="dialog-content"></div>
-  <div class="dialog-actions dialog-pad"><button id="addCategoryVideoButton" class="btn primary" type="button">Agregar video</button><button class="btn secondary close-dialog" type="button">Cerrar</button></div>
+  <div class="dialog-actions dialog-pad"><button id="categoryCalendarButton" class="btn secondary" type="button">📅 Agregar calendario</button><button id="addCategoryVideoButton" class="btn primary" type="button">Agregar video</button><button class="btn secondary close-dialog" type="button">Cerrar</button></div>
 </dialog>
 <dialog id="categoryVideoDialog">
   <form id="categoryVideoForm">
@@ -741,7 +741,7 @@
 <dialog id="eventDetailDialog" class="wide-dialog">
   <div class="dialog-head"><h3 id="eventDetailTitle">Detalle del evento</h3><button class="icon-button close-dialog" type="button">×</button></div>
   <div id="eventDetailContent"></div>
-  <div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cerrar</button><button id="editEventFromDetail" type="button" class="btn primary">Editar evento</button></div>
+  <div class="dialog-actions"><button id="eventCalendarButton" type="button" class="btn secondary">📅 Agregar al calendario</button><button type="button" class="btn secondary close-dialog">Cerrar</button><button id="editEventFromDetail" type="button" class="btn primary">Editar evento</button></div>
 </dialog>
 
 <dialog id="seasonDialog"><form id="seasonForm"><div class="dialog-head"><h3 id="seasonDialogTitle">Nueva temporada</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="seasonDocId" type="hidden"><div class="grid two"><label>Nombre<input id="seasonName" placeholder="2027" required></label><label>Estado<select id="seasonStatus"><option value="active">Activa</option><option value="closed">Cerrada</option></select></label><label>Fecha de inicio<input id="seasonStart" type="date" required></label><label>Fecha final<input id="seasonEnd" type="date" required></label></div><label><span class="check-inline"><input id="seasonCurrent" type="checkbox"> Marcar como temporada actual</span></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
@@ -775,7 +775,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.7.js?v=20260807-stable342"></script>
+<script type="module" src="app-ui-2.8.js?v=20260807-stable342"></script>
 
 
 <script>
