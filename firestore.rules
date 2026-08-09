@@ -8,7 +8,8 @@ service cloud.firestore {
     function userDoc(){ return get(userPath()); }
     function sameOrg(){ return hasProfile() && userDoc().data.orgId == 'asbavol'; }
     function isAdmin(){ return sameOrg() && userDoc().data.role in ['admin','treasurer']; }
-    function isPortalUser(){ return sameOrg() && userDoc().data.role == 'family'; }
+    function isRoleAdmin(){ return sameOrg() && userDoc().data.role == 'admin'; }
+    function isPortalUser(){ return sameOrg() && userDoc().data.role in ['family','player']; }
     function isTrainer(){ return sameOrg() && userDoc().data.role in ['trainer','assistant'] && userDoc().data.status == 'active'; }
     function trainerCategories(){ return isTrainer() && ('assignedCategoryIds' in userDoc().data) ? userDoc().data.assignedCategoryIds : []; }
     function trainerHasCategory(categoryId){ return isTrainer() && categoryId in trainerCategories(); }
@@ -30,13 +31,19 @@ service cloud.firestore {
           )
         );
       allow read: if ownUser(uid) || isAdmin();
-      allow update: if isAdmin() || (ownUser(uid)
-        && request.resource.data.orgId == resource.data.orgId
-        && request.resource.data.email == resource.data.email
-        && request.resource.data.role == resource.data.role
-        && request.resource.data.status == resource.data.status
-        && request.resource.data.accountType == resource.data.accountType
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['fullName','phone','updatedAt']));
+      allow update: if isRoleAdmin()
+        || (isAdmin()
+          && request.resource.data.orgId == resource.data.orgId
+          && request.resource.data.email == resource.data.email
+          && request.resource.data.role == resource.data.role
+          && request.resource.data.accountType == resource.data.accountType)
+        || (ownUser(uid)
+          && request.resource.data.orgId == resource.data.orgId
+          && request.resource.data.email == resource.data.email
+          && request.resource.data.role == resource.data.role
+          && request.resource.data.status == resource.data.status
+          && request.resource.data.accountType == resource.data.accountType
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['fullName','phone','updatedAt']));
       allow delete: if false;
     }
 

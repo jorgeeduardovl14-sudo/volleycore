@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore UI 2.8</title>
+  <title>VolleyCore UI 2.9</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260807-ui10">
 
@@ -255,7 +255,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.8</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.9</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div></div>
@@ -290,7 +290,14 @@
     <section id="view-events" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">EVENTOS</span><h2>Partidos y actividades especiales</h2></div><button id="newEventButton" class="btn primary">Nuevo evento</button></div>
       <div class="filters"><select id="eventCategoryFilter"><option value="">Todas las categorías</option></select><select id="eventSeasonFilter"><option value="">Todas las temporadas</option></select><select id="eventTypeFilter"><option value="">Todos los tipos</option><option value="match">Partido</option><option value="tournament">Torneo</option><option value="festival">Festival</option><option value="meeting">Reunión</option><option value="trip">Gira</option><option value="other">Otra actividad</option></select></div>
-      <div id="eventsList" class="cards-list"></div>
+      <section class="events-time-section">
+        <div class="page-head compact-head"><div><span class="eyebrow">AGENDA</span><h3>Próximos y actuales</h3></div></div>
+        <div id="eventsList" class="cards-list"></div>
+      </section>
+      <section class="events-time-section events-history-section">
+        <div class="page-head compact-head"><div><span class="eyebrow">HISTORIAL RECIENTE</span><h3>Eventos anteriores</h3><p class="muted">Se muestran los eventos de los últimos 7 días.</p></div></div>
+        <div id="pastEventsList" class="cards-list"></div>
+      </section>
     </section>
 
     <section id="view-venues" class="view hidden">
@@ -389,7 +396,7 @@
         </select>
       </div>
       <div id="familiesSummary" class="stats small"></div><div id="familiesList" class="cards-grid"></div><h3>Usuarios registrados</h3>
-      <div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Jugadoras vinculadas</th><th>Estado</th></tr></thead><tbody id="usersBody"></tbody></table></div><article class="panel"><h3>Solicitudes de vinculación</h3><div id="linkRequestsAdmin" class="cards-list"></div></article>
+      <div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Rol</th><th>Jugadoras vinculadas</th><th>Estado</th><th></th></tr></thead><tbody id="usersBody"></tbody></table></div><article class="panel"><h3>Solicitudes de vinculación</h3><div id="linkRequestsAdmin" class="cards-list"></div></article>
     </section>
 
     <section id="view-attendance" class="view hidden">
@@ -558,6 +565,32 @@
 <dialog id="familyMemberPickerDialog"><div class="dialog-head dialog-pad"><div><span class="eyebrow">GRUPO FAMILIAR</span><h3 id="familyMemberPickerTitle">Gestionar miembros</h3></div><button class="icon-button close-dialog" type="button">×</button></div><div class="dialog-content"><div class="picker-toolbar"><label>Buscar<input id="familyMemberSearch" type="search" placeholder="Nombre, correo, teléfono o Player ID"></label><label>Categoría<select id="familyMemberCategory"><option value="">Todas las categorías</option></select></label><label class="picker-check"><input id="familyMemberOnlyUnassigned" type="checkbox"> Solo mostrar personas sin familia</label></div><div class="grid two picker-columns"><fieldset><legend>Jugadoras</legend><div id="familyMemberPlayers" class="picker-list"></div></fieldset><fieldset><legend>Usuarios</legend><div id="familyMemberUsers" class="picker-list"></div></fieldset></div><p class="notice info">Marca las personas que deben pertenecer a esta familia. Si una persona ya está en otro grupo, VolleyCore pedirá confirmación antes de moverla.</p></div><div class="dialog-actions dialog-pad"><button class="btn secondary close-dialog" type="button">Cancelar</button><button id="saveFamilyMembersButton" class="btn primary" type="button">Guardar miembros</button></div></dialog>
 
 <dialog id="userDetailDialog"><div class="dialog-head dialog-pad"><h3 id="userDetailTitle">Perfil de usuario</h3><button class="icon-button close-dialog" type="button">×</button></div><div id="userDetailContent" class="dialog-content"></div><div class="dialog-actions dialog-pad"><button class="btn secondary close-dialog" type="button">Cerrar</button></div></dialog>
+<dialog id="roleManagerDialog" class="wide-dialog">
+  <form id="roleManagerForm">
+    <div class="dialog-head"><div><span class="eyebrow">ADMINISTRACIÓN</span><h3>Gestionar rol de usuario</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
+    <input id="roleManagerUserId" type="hidden">
+    <article class="panel role-user-summary"><strong id="roleManagerUserName">Usuario</strong><p id="roleManagerUserEmail" class="muted"></p></article>
+    <div class="grid two">
+      <label>Rol<select id="roleManagerRole">
+        <option value="family">Familia / encargado</option>
+        <option value="player">Jugadora</option>
+        <option value="trainer">Entrenador</option>
+        <option value="assistant">Asistente</option>
+        <option value="treasurer">Tesorería</option>
+        <option value="admin">Administrador</option>
+      </select></label>
+      <label>Estado<select id="roleManagerStatus"><option value="active">Activo</option><option value="inactive">Inactivo</option></select></label>
+    </div>
+    <fieldset id="roleManagerCategoriesField"><legend>Categorías asignadas</legend><p class="muted">Aplica a Entrenador y Asistente.</p><div id="roleManagerCategories" class="check-list"></div></fieldset>
+    <fieldset id="roleManagerPermissionsField"><legend>Privilegios deportivos</legend>
+      <label class="check-inline"><input id="roleManagerViewContacts" type="checkbox"> Ver teléfonos y correos de encargados</label>
+      <label class="check-inline"><input id="roleManagerViewFinancial" type="checkbox"> Ver estado financiero general</label>
+    </fieldset>
+    <p id="roleManagerPlayerNote" class="notice info hidden">El rol Jugadora utiliza las jugadoras vinculadas a este usuario. Asegúrate de que la cuenta esté vinculada a su ficha de jugadora.</p>
+    <p class="notice warning">Los cambios de rol afectan inmediatamente el acceso del usuario. Solo un Administrador puede realizar cambios de rol.</p>
+    <div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button id="saveRoleManagerButton" class="btn primary" type="submit">Guardar rol</button></div>
+  </form>
+</dialog>
 <dialog id="trainerDialog">
   <form id="trainerForm">
     <div class="dialog-head"><h3>Asignar perfil de entrenador</h3><button class="icon-button close-dialog" type="button">×</button></div>
@@ -775,7 +808,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.8.js?v=20260807-stable342"></script>
+<script type="module" src="app-ui-2.9.js?v=20260807-stable342"></script>
 
 
 <script>

@@ -1278,3 +1278,12 @@ html[data-theme="dark"] .trainer-event-card{background:var(--vc-surface)!importa
   #categoryDetailDialog .dialog-actions .btn,
   #eventDetailDialog .dialog-actions .btn{flex:1 1 145px}
 }
+
+/* VolleyCore UI 2.9 — events history + roles */
+.events-time-section{margin-top:18px}
+.events-history-section{margin-top:30px;padding-top:20px;border-top:1px solid var(--vc-border)}
+.past-event-card{opacity:.92}
+.role-user-summary{margin-bottom:14px}
+@media(max-width:680px){
+  #view-users .table-wrap table{min-width:930px}
+}

@@ -192,3 +192,37 @@ html[data-theme="dark"] .vc-notification-button{
   background:#20242c!important;color:#f7f8fa!important;border-color:#353c47!important;
 }
 html[data-theme="dark"] .vc-notification-button:hover{background:#292f38!important}
+
+
+/* =========================================================
+   VolleyCore UI 2.9 — Events module dark-mode contrast
+   ========================================================= */
+html[data-theme="dark"] #view-events .events-time-section{
+  background:transparent!important;
+  color:var(--dm-text)!important;
+}
+html[data-theme="dark"] #view-events .event-card{
+  background:#1d222a!important;
+  border:1px solid #39414d!important;
+  color:#f4f7fa!important;
+  box-shadow:0 5px 16px rgba(0,0,0,.18)!important;
+}
+html[data-theme="dark"] #view-events .event-card h3,
+html[data-theme="dark"] #view-events .event-card p,
+html[data-theme="dark"] #view-events .event-card strong,
+html[data-theme="dark"] #view-events .event-card .eyebrow{
+  color:#f4f7fa!important;
+}
+html[data-theme="dark"] #view-events .event-card .muted{color:#b4bec9!important}
+html[data-theme="dark"] #view-events .event-card a{color:#73d9eb!important}
+html[data-theme="dark"] #view-events .past-event-card{
+  background:#181c22!important;
+  border-color:#303743!important;
+}
+html[data-theme="dark"] #view-events .past-event-card h3,
+html[data-theme="dark"] #view-events .past-event-card p{color:#dce2e9!important}
+html[data-theme="dark"] #roleManagerDialog .role-user-summary{
+  background:var(--dm-surface-2)!important;
+  color:var(--dm-text)!important;
+  border-color:var(--dm-border)!important;
+}
