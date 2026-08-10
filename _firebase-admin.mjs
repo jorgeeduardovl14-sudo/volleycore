@@ -8,40 +8,15 @@ function env(name) {
   return value;
 }
 
-function serviceAccountCredential() {
-  const b64 = process.env.FIREBASE_SERVICE_ACCOUNT_B64;
-  if (b64) {
-    let parsed;
-    try {
-      const json = Buffer.from(b64.trim(), "base64").toString("utf8");
-      parsed = JSON.parse(json);
-    } catch (error) {
-      throw new Error(`Invalid FIREBASE_SERVICE_ACCOUNT_B64: ${error.message}`);
-    }
-    if (!parsed.project_id || !parsed.client_email || !parsed.private_key) {
-      throw new Error("FIREBASE_SERVICE_ACCOUNT_B64 is missing required service-account fields.");
-    }
-    return cert({
-      projectId: parsed.project_id,
-      clientEmail: parsed.client_email,
-      privateKey: parsed.private_key,
-    });
-  }
-
-  return cert({
-    projectId: env("FIREBASE_PROJECT_ID"),
-    clientEmail: env("FIREBASE_CLIENT_EMAIL"),
-    privateKey: env("FIREBASE_PRIVATE_KEY")
-      .trim()
-      .replace(/^["']|["']$/g, "")
-      .replace(/\\r\\n/g, "\n")
-      .replace(/\\n/g, "\n"),
-  });
-}
-
 export function getAdmin() {
   if (!getApps().length) {
-    initializeApp({ credential: serviceAccountCredential() });
+    initializeApp({
+      credential: cert({
+        projectId: env("FIREBASE_PROJECT_ID"),
+        clientEmail: env("FIREBASE_CLIENT_EMAIL"),
+        privateKey: env("FIREBASE_PRIVATE_KEY").replace(/\\n/g, "\n"),
+      }),
+    });
   }
   return { auth: getAuth(), db: getFirestore(), FieldValue, Timestamp };
 }
