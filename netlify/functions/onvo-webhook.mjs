@@ -1,110 +1,388 @@
-import { getAdmin, json } from "./_firebase-admin.mjs";
+import {
+  json,
+  safeOrigin,
+  verifyFirebaseUser,
+  getDocument,
+  commitWrites,
+  updateWrite,
+  transformServerTimestampWrite
+} from "./_firebase-rest.mjs";
 
-function normalizePaidAmount(data) {
-  const minor = Number(data.amountTotal ?? data.receivedAmount ?? data.amount ?? 0);
-  return Math.round(minor) / 100;
-}
+const ONVO_ENDPOINT =
+  "https://api.onvopay.com/v1/checkout/sessions/one-time-link";
 
 export default async (request) => {
-  if (request.method !== "POST") return json(405, { error: "Method not allowed" });
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204
+    });
+  }
+
+  if (request.method !== "POST") {
+    return json(405, {
+      error: "Method not allowed"
+    });
+  }
 
   try {
-    const expected = process.env.ONVO_WEBHOOK_SECRET;
-    if (!expected) return json(503, { error: "Webhook secret is not configured." });
+    const secretKey =
+      process.env.ONVO_SECRET_KEY;
 
-    const received = request.headers.get("x-webhook-secret") || "";
-    if (received !== expected) return json(401, { error: "Invalid webhook secret." });
-
-    const event = await request.json();
-    const type = String(event.type || "");
-    const data = event.data || {};
-    const metadata = data.metadata || {};
-    const chargeId = metadata.chargeId || "";
-    const eventObjectId = data.id || "unknown";
-    const eventId = `${type}:${eventObjectId}`.replace(/[^a-zA-Z0-9_.:-]/g, "_");
-
-    const { db, FieldValue } = getAdmin();
-    const eventRef = db.collection("onvoWebhookEvents").doc(eventId);
-
-    const result = await db.runTransaction(async tx => {
-      const existing = await tx.get(eventRef);
-      if (existing.exists) return { duplicate: true };
-
-      tx.set(eventRef, {
-        type,
-        objectId: eventObjectId,
-        chargeId: chargeId || null,
-        receivedAt: FieldValue.serverTimestamp(),
-        processed: false,
+    if (!secretKey) {
+      return json(503, {
+        error:
+          "ONVO sandbox is not configured yet."
       });
+    }
 
-      if (!chargeId) {
-        tx.update(eventRef, { processed: true, note: "No VolleyCore chargeId in metadata." });
-        return { ignored: true };
+    if (
+      !secretKey.startsWith(
+        "onvo_test_"
+      ) &&
+      process.env.ONVO_ALLOW_LIVE !==
+        "true"
+    ) {
+      return json(503, {
+        error:
+          "Live ONVO keys are blocked in this test integration."
+      });
+    }
+
+    const decoded =
+      await verifyFirebaseUser(request);
+
+    const body =
+      await request.json();
+
+    const chargeId =
+      String(
+        body.chargeId || ""
+      ).trim();
+
+    if (!chargeId) {
+      return json(400, {
+        error:
+          "chargeId is required."
+      });
+    }
+
+    const [charge, user] =
+      await Promise.all([
+        getDocument(
+          "charges",
+          chargeId
+        ),
+
+        getDocument(
+          "users",
+          decoded.uid
+        )
+      ]);
+
+    if (!charge) {
+      return json(404, {
+        error:
+          "Charge not found."
+      });
+    }
+
+    const isAdmin =
+      [
+        "admin",
+        "treasurer"
+      ].includes(
+        user?.role
+      );
+
+    const allowed =
+      isAdmin ||
+      (
+        Array.isArray(
+          charge.userIds
+        ) &&
+        charge.userIds.includes(
+          decoded.uid
+        )
+      );
+
+    if (!allowed) {
+      return json(403, {
+        error:
+          "You do not have access to this charge."
+      });
+    }
+
+    const total =
+      Number(
+        charge.amount || 0
+      );
+
+    const paid =
+      Number(
+        charge.paidAmount || 0
+      );
+
+    const remainingCRC =
+      Math.max(
+        0,
+        total - paid
+      );
+
+    if (!remainingCRC) {
+      return json(409, {
+        error:
+          "This charge is already paid."
+      });
+    }
+
+    const unitAmount =
+      Math.round(
+        remainingCRC * 100
+      );
+
+    const origin =
+      safeOrigin(
+        request,
+        body.returnBaseUrl
+      );
+
+    const successUrl =
+      `${origin}/?onvo=success&charge=${encodeURIComponent(
+        chargeId
+      )}`;
+
+    const cancelUrl =
+      `${origin}/?onvo=cancel&charge=${encodeURIComponent(
+        chargeId
+      )}`;
+
+    const payload = {
+      lineItems: [
+        {
+          quantity: 1,
+          unitAmount,
+          currency: "CRC",
+
+          description:
+            `VolleyCore ${
+              charge.month || ""
+            } · ${
+              charge.playerCode ||
+              charge.playerId ||
+              ""
+            }`.trim()
+        }
+      ],
+
+      customerEmail:
+        decoded.email ||
+        user?.email ||
+        undefined,
+
+      redirectUrl:
+        successUrl,
+
+      cancelUrl,
+
+      metadata: {
+        orgId:
+          charge.orgId ||
+          "asbavol",
+
+        chargeId,
+
+        playerId:
+          charge.playerId ||
+          "",
+
+        userId:
+          decoded.uid,
+
+        month:
+          charge.month ||
+          "",
+
+        source:
+          "volleycore"
       }
+    };
 
-      const chargeRef = db.collection("charges").doc(chargeId);
-      const chargeSnap = await tx.get(chargeRef);
-      if (!chargeSnap.exists) {
-        tx.update(eventRef, { processed: true, note: "Charge not found." });
-        return { ignored: true };
-      }
-      const charge = chargeSnap.data();
+    const onvoRes =
+      await fetch(
+        ONVO_ENDPOINT,
+        {
+          method: "POST",
 
-      if (type === "checkout-session.succeeded" && data.paymentStatus === "paid") {
-        const paidCRC = normalizePaidAmount(data);
-        const chargeAmount = Number(charge.amount || 0);
-        const previousPaid = Number(charge.paidAmount || 0);
-        const newPaid = Math.min(chargeAmount, previousPaid + paidCRC);
-        const status = newPaid >= chargeAmount ? "paid" : "partial";
+          headers: {
+            Authorization:
+              `Bearer ${secretKey}`,
 
-        tx.set(db.collection("onvoPayments").doc(data.id), {
-          orgId: charge.orgId || metadata.orgId || "asbavol",
-          chargeId,
-          playerId: charge.playerId || metadata.playerId || "",
-          userId: metadata.userId || "",
-          month: charge.month || metadata.month || "",
-          amount: paidCRC,
-          currency: data.currency || "CRC",
-          status: "paid",
-          mode: data.mode || "test",
-          checkoutSessionId: data.id,
-          paymentIntentId: data.paymentIntentId || "",
-          customerId: data.customerId || "",
-          customerEmail: data.customer?.email || "",
-          rawPaymentStatus: data.paymentStatus || "",
-          paidAt: FieldValue.serverTimestamp(),
-          createdAt: FieldValue.serverTimestamp(),
-        }, { merge: true });
+            "Content-Type":
+              "application/json"
+          },
 
-        tx.set(chargeRef, {
-          paidAmount: newPaid,
-          status,
-          onvoPaymentStatus: "paid",
-          onvoLastCheckoutSessionId: data.id,
-          onvoLastPaymentIntentId: data.paymentIntentId || null,
-          updatedAt: FieldValue.serverTimestamp(),
-        }, { merge: true });
+          body:
+            JSON.stringify(
+              payload
+            )
+        }
+      );
 
-        tx.update(eventRef, { processed: true, result: status });
-        return { paid: true, status };
-      }
+    const onvo =
+      await onvoRes
+        .json()
+        .catch(
+          () => ({})
+        );
 
-      // Keep other payment states visible without marking the charge paid.
-      if (type === "payment-intent.deferred") {
-        tx.set(chargeRef, { onvoPaymentStatus: "processing", updatedAt: FieldValue.serverTimestamp() }, { merge: true });
-      }
-      if (type === "payment-intent.failed") {
-        tx.set(chargeRef, { onvoPaymentStatus: "failed", updatedAt: FieldValue.serverTimestamp() }, { merge: true });
-      }
+    if (!onvoRes.ok) {
+      console.error(
+        "ONVO checkout error",
+        onvoRes.status,
+        onvo
+      );
 
-      tx.update(eventRef, { processed: true, note: `Observed ${type}` });
-      return { observed: true };
+      return json(502, {
+        error:
+          onvo.message ||
+          onvo.error?.message ||
+          `ONVO rejected checkout (${onvoRes.status}).`
+      });
+    }
+
+    const sessionId =
+      onvo.id ||
+      onvo.checkoutSessionId ||
+      "";
+
+    if (!onvo.url) {
+      return json(502, {
+        error:
+          "ONVO did not return a checkout URL."
+      });
+    }
+
+    const writes = [];
+
+    if (sessionId) {
+      writes.push(
+        updateWrite(
+          "onvoCheckoutSessions",
+          sessionId,
+          {
+            orgId:
+              charge.orgId ||
+              "asbavol",
+
+            chargeId,
+
+            playerId:
+              charge.playerId ||
+              "",
+
+            userId:
+              decoded.uid,
+
+            month:
+              charge.month ||
+              "",
+
+            amount:
+              remainingCRC,
+
+            amountMinor:
+              unitAmount,
+
+            currency:
+              "CRC",
+
+            mode:
+              secretKey.startsWith(
+                "onvo_test_"
+              )
+                ? "test"
+                : "live",
+
+            status:
+              "checkout_created",
+
+            url:
+              onvo.url
+          },
+
+          null,
+
+          {
+            exists: false
+          }
+        )
+      );
+
+      writes.push(
+        transformServerTimestampWrite(
+          "onvoCheckoutSessions",
+          sessionId,
+          "createdAt"
+        )
+      );
+    }
+
+    writes.push(
+      updateWrite(
+        "charges",
+        chargeId,
+        {
+          onvoPaymentStatus:
+            "checkout_created",
+
+          onvoLastCheckoutSessionId:
+            sessionId ||
+            null
+        },
+
+        [
+          "onvoPaymentStatus",
+          "onvoLastCheckoutSessionId"
+        ]
+      )
+    );
+
+    writes.push(
+      transformServerTimestampWrite(
+        "charges",
+        chargeId,
+        "updatedAt"
+      )
+    );
+
+    await commitWrites(
+      writes
+    );
+
+    return json(200, {
+      url:
+        onvo.url,
+
+      sessionId,
+
+      mode:
+        secretKey.startsWith(
+          "onvo_test_"
+        )
+          ? "test"
+          : "live"
     });
+  }
 
-    return json(200, { received: true, ...result });
-  } catch (error) {
-    console.error(error);
-    return json(500, { error: error.message || "Webhook processing failed." });
+  catch (error) {
+    console.error(
+      error
+    );
+
+    return json(500, {
+      error:
+        error.message ||
+        "Unexpected server error."
+    });
   }
 };
