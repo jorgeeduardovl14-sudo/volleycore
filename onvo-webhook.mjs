@@ -1,110 +1,75 @@
-import { getAdmin, json } from "./_firebase-admin.mjs";
+import { json, getDocument, commitWrites, updateWrite, transformServerTimestampWrite } from "./_firebase-rest.mjs";
 
-function normalizePaidAmount(data) {
-  const minor = Number(data.amountTotal ?? data.receivedAmount ?? data.amount ?? 0);
-  return Math.round(minor) / 100;
+function normalizePaidAmount(data){
+  const minor=Number(data.amountTotal ?? data.receivedAmount ?? data.amount ?? 0);
+  return Math.round(minor)/100;
 }
+function safeId(s){return String(s||"unknown").replace(/[^a-zA-Z0-9_.:-]/g,"_")}
 
-export default async (request) => {
-  if (request.method !== "POST") return json(405, { error: "Method not allowed" });
+export default async (request)=>{
+  if(request.method!=="POST")return json(405,{error:"Method not allowed"});
+  try{
+    const expected=process.env.ONVO_WEBHOOK_SECRET;
+    if(!expected)return json(503,{error:"Webhook secret is not configured."});
+    const received=request.headers.get("x-webhook-secret")||"";
+    if(received!==expected)return json(401,{error:"Invalid webhook secret."});
 
-  try {
-    const expected = process.env.ONVO_WEBHOOK_SECRET;
-    if (!expected) return json(503, { error: "Webhook secret is not configured." });
+    const event=await request.json();
+    const type=String(event.type||""),data=event.data||{},metadata=data.metadata||{};
+    const chargeId=metadata.chargeId||"",objectId=data.id||"unknown";
+    const eventId=safeId(`${type}:${objectId}`);
 
-    const received = request.headers.get("x-webhook-secret") || "";
-    if (received !== expected) return json(401, { error: "Invalid webhook secret." });
+    if(!chargeId){
+      try{
+        await commitWrites([
+          updateWrite("onvoWebhookEvents",eventId,{type,objectId,chargeId:null,processed:true,note:"No VolleyCore chargeId in metadata."},null,{exists:false}),
+          transformServerTimestampWrite("onvoWebhookEvents",eventId,"receivedAt")
+        ]);
+      }catch(e){if(e.status!==409)throw e}
+      return json(200,{received:true,ignored:true});
+    }
 
-    const event = await request.json();
-    const type = String(event.type || "");
-    const data = event.data || {};
-    const metadata = data.metadata || {};
-    const chargeId = metadata.chargeId || "";
-    const eventObjectId = data.id || "unknown";
-    const eventId = `${type}:${eventObjectId}`.replace(/[^a-zA-Z0-9_.:-]/g, "_");
+    const charge=await getDocument("charges",chargeId);
+    if(!charge)return json(200,{received:true,ignored:true,note:"Charge not found."});
 
-    const { db, FieldValue } = getAdmin();
-    const eventRef = db.collection("onvoWebhookEvents").doc(eventId);
+    const writes=[
+      updateWrite("onvoWebhookEvents",eventId,{type,objectId,chargeId,processed:true},null,{exists:false}),
+      transformServerTimestampWrite("onvoWebhookEvents",eventId,"receivedAt")
+    ];
 
-    const result = await db.runTransaction(async tx => {
-      const existing = await tx.get(eventRef);
-      if (existing.exists) return { duplicate: true };
+    if(type==="checkout-session.succeeded" && data.paymentStatus==="paid"){
+      const paidCRC=normalizePaidAmount(data),chargeAmount=Number(charge.amount||0),previousPaid=Number(charge.paidAmount||0);
+      const newPaid=Math.min(chargeAmount,previousPaid+paidCRC),status=newPaid>=chargeAmount?"paid":"partial";
+      writes.push(updateWrite("onvoPayments",objectId,{
+        orgId:charge.orgId||metadata.orgId||"asbavol",chargeId,playerId:charge.playerId||metadata.playerId||"",
+        userId:metadata.userId||"",month:charge.month||metadata.month||"",amount:paidCRC,
+        currency:data.currency||"CRC",status:"paid",mode:data.mode||"test",checkoutSessionId:objectId,
+        paymentIntentId:data.paymentIntentId||"",customerId:data.customerId||"",customerEmail:data.customer?.email||"",
+        rawPaymentStatus:data.paymentStatus||""
+      },null,{exists:false}));
+      writes.push(transformServerTimestampWrite("onvoPayments",objectId,"paidAt"));
+      writes.push(transformServerTimestampWrite("onvoPayments",objectId,"createdAt"));
+      writes.push(updateWrite("charges",chargeId,{
+        paidAmount:newPaid,status,onvoPaymentStatus:"paid",onvoLastCheckoutSessionId:objectId,onvoLastPaymentIntentId:data.paymentIntentId||null
+      },["paidAmount","status","onvoPaymentStatus","onvoLastCheckoutSessionId","onvoLastPaymentIntentId"]));
+      writes.push(transformServerTimestampWrite("charges",chargeId,"updatedAt"));
+    }else if(type==="payment-intent.deferred"){
+      writes.push(updateWrite("charges",chargeId,{onvoPaymentStatus:"processing"},["onvoPaymentStatus"]));
+      writes.push(transformServerTimestampWrite("charges",chargeId,"updatedAt"));
+    }else if(type==="payment-intent.failed"){
+      writes.push(updateWrite("charges",chargeId,{onvoPaymentStatus:"failed"},["onvoPaymentStatus"]));
+      writes.push(transformServerTimestampWrite("charges",chargeId,"updatedAt"));
+    }
 
-      tx.set(eventRef, {
-        type,
-        objectId: eventObjectId,
-        chargeId: chargeId || null,
-        receivedAt: FieldValue.serverTimestamp(),
-        processed: false,
-      });
-
-      if (!chargeId) {
-        tx.update(eventRef, { processed: true, note: "No VolleyCore chargeId in metadata." });
-        return { ignored: true };
-      }
-
-      const chargeRef = db.collection("charges").doc(chargeId);
-      const chargeSnap = await tx.get(chargeRef);
-      if (!chargeSnap.exists) {
-        tx.update(eventRef, { processed: true, note: "Charge not found." });
-        return { ignored: true };
-      }
-      const charge = chargeSnap.data();
-
-      if (type === "checkout-session.succeeded" && data.paymentStatus === "paid") {
-        const paidCRC = normalizePaidAmount(data);
-        const chargeAmount = Number(charge.amount || 0);
-        const previousPaid = Number(charge.paidAmount || 0);
-        const newPaid = Math.min(chargeAmount, previousPaid + paidCRC);
-        const status = newPaid >= chargeAmount ? "paid" : "partial";
-
-        tx.set(db.collection("onvoPayments").doc(data.id), {
-          orgId: charge.orgId || metadata.orgId || "asbavol",
-          chargeId,
-          playerId: charge.playerId || metadata.playerId || "",
-          userId: metadata.userId || "",
-          month: charge.month || metadata.month || "",
-          amount: paidCRC,
-          currency: data.currency || "CRC",
-          status: "paid",
-          mode: data.mode || "test",
-          checkoutSessionId: data.id,
-          paymentIntentId: data.paymentIntentId || "",
-          customerId: data.customerId || "",
-          customerEmail: data.customer?.email || "",
-          rawPaymentStatus: data.paymentStatus || "",
-          paidAt: FieldValue.serverTimestamp(),
-          createdAt: FieldValue.serverTimestamp(),
-        }, { merge: true });
-
-        tx.set(chargeRef, {
-          paidAmount: newPaid,
-          status,
-          onvoPaymentStatus: "paid",
-          onvoLastCheckoutSessionId: data.id,
-          onvoLastPaymentIntentId: data.paymentIntentId || null,
-          updatedAt: FieldValue.serverTimestamp(),
-        }, { merge: true });
-
-        tx.update(eventRef, { processed: true, result: status });
-        return { paid: true, status };
-      }
-
-      // Keep other payment states visible without marking the charge paid.
-      if (type === "payment-intent.deferred") {
-        tx.set(chargeRef, { onvoPaymentStatus: "processing", updatedAt: FieldValue.serverTimestamp() }, { merge: true });
-      }
-      if (type === "payment-intent.failed") {
-        tx.set(chargeRef, { onvoPaymentStatus: "failed", updatedAt: FieldValue.serverTimestamp() }, { merge: true });
-      }
-
-      tx.update(eventRef, { processed: true, note: `Observed ${type}` });
-      return { observed: true };
-    });
-
-    return json(200, { received: true, ...result });
-  } catch (error) {
+    try{
+      await commitWrites(writes);
+    }catch(e){
+      if(e.status===409)return json(200,{received:true,duplicate:true});
+      throw e;
+    }
+    return json(200,{received:true});
+  }catch(error){
     console.error(error);
-    return json(500, { error: error.message || "Webhook processing failed." });
+    return json(500,{error:error.message||"Webhook processing failed."});
   }
 };
