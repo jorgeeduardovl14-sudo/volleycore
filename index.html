@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore UI 2.12.2</title>
+  <title>VolleyCore UI 2.13.4</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260809-ui212">
 
@@ -151,6 +151,7 @@
     <button data-view="users"><span class="nav-icon">♣</span>Familias</button>
     <div class="nav-section-label">ADMINISTRACIÓN</div>
     <button data-view="userAdmin"><span class="nav-icon">👥</span>Administración de usuarios</button>
+    <button data-view="shirtAdmin"><span class="nav-icon">👕</span>Solicitudes de camisetas</button>
     <button data-view="announcements"><span class="nav-icon">✦</span>Comunicados</button>
     <button data-view="import"><span class="nav-icon">⇧</span>Importar jugadoras</button>
     <button data-view="about"><span class="nav-icon">ⓘ</span>Acerca de</button>
@@ -216,7 +217,7 @@
               <h2 id="dashboardGreeting">¡Bienvenido!</h2>
               <p class="page-subtitle">Aquí tienes un resumen de lo más importante del club.</p>
             </div>
-            <div id="dashboardToday" class="vc-date-chip">Hoy</div>
+            <div class="home-actions"><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button><div id="dashboardToday" class="vc-date-chip">Hoy</div></div>
           </div>
 
           <div id="summaryCards" class="stats vc-kpi-grid"></div>
@@ -260,10 +261,10 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.12.2</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.13.4</span></div>
 
     <section id="view-trainerPending" class="view hidden">
-      <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div></div>
+      <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button></div>
       <article class="panel trainer-pending-card">
         <div class="vc-round-icon cyan">◷</div>
         <div><h3 id="trainerPendingStatus">Pendiente de aprobación</h3><p>Cuando tu solicitud sea aprobada, tendrás acceso automáticamente a Mi equipo, Entrenamientos, Asistencia, Eventos y Comunicados de las categorías que te asignen.</p><p class="muted">No necesitas crear otra cuenta.</p></div>
@@ -324,12 +325,30 @@
 
     <section id="view-sinpeAdmin" class="view hidden">
       <div class="page-head">
-        <div><span class="eyebrow">CONCILIACIÓN</span><h2>Pagos</h2></div>
+        <div><span class="eyebrow">FINANZAS</span><h2>Centro de control de pagos</h2><p class="muted">Consulta saldos, morosidad, pagos recibidos y operaciones que requieren revisión.</p></div>
       </div>
 
-      <article class="panel">
+      <div id="paymentControlCards" class="stats payment-control-cards"></div>
+
+      <article class="panel payment-control-panel">
         <div class="page-head compact-head">
-          <div><span class="eyebrow">BANDEJA OPERATIVA</span><h3>Pagos pendientes de revisión</h3></div>
+          <div><span class="eyebrow">ESTADO DE CUENTA</span><h3 id="paymentControlTitle">Todos los pagos</h3></div>
+          <button id="clearPaymentControlFilters" class="btn secondary" type="button">Limpiar filtros</button>
+        </div>
+        <div class="filters finance-filters payment-control-filters">
+          <input id="paymentControlSearch" type="search" placeholder="Buscar jugadora">
+          <select id="paymentControlMonth"><option value="">Todos los meses</option></select>
+          <select id="paymentControlCategory"><option value="">Todas las categorías</option></select>
+        </div>
+        <div class="table-wrap payment-control-table"><table>
+          <thead><tr><th>Jugadora</th><th>Categoría</th><th>Estado</th><th>Cuota</th><th>Pagado</th><th>Saldo</th><th>Vencimiento</th><th></th></tr></thead>
+          <tbody id="paymentControlBody"></tbody>
+        </table></div>
+      </article>
+
+      <article class="panel payment-review-panel">
+        <div class="page-head compact-head">
+          <div><span class="eyebrow">REQUIEREN REVISIÓN</span><h3>Pagos reportados por revisar</h3></div>
           <span id="paymentsInboxCount" class="badge reported">0 pendientes</span>
         </div>
         <div class="filters finance-filters">
@@ -418,6 +437,17 @@
       <div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Rol</th><th>Jugadoras vinculadas</th><th>Estado</th><th></th></tr></thead><tbody id="userAdminBody"></tbody></table></div>
     </section>
 
+    <section id="view-shirtAdmin" class="view hidden">
+      <div class="page-head"><div><span class="eyebrow">ADMINISTRACIÓN</span><h2>Solicitudes de camisetas</h2><p class="muted">Gestiona camisas de aficionado y uniformes de Iniciación.</p></div></div>
+      <div id="shirtAdminSummary" class="stats small"></div>
+      <article class="panel shirt-catalog-admin"><div class="page-head compact-head"><div><span class="eyebrow">CATÁLOGO</span><h3>Fotos de productos</h3><p class="muted">Estas imágenes serán visibles al hacer una solicitud.</p></div></div><div class="shirt-catalog-grid">
+      <div class="shirt-catalog-item"><div id="fanShirtAdminPreview" class="shirt-catalog-image"><span>Sin foto</span></div><strong>Camisa de aficionado</strong><input id="fanShirtPhotoFile" type="file" accept="image/*"><button id="saveFanShirtPhoto" class="btn secondary" type="button">Guardar foto</button></div>
+      <div class="shirt-catalog-item"><div id="initiationUniformAdminPreview" class="shirt-catalog-image"><span>Sin foto</span></div><strong>Uniforme de Iniciación</strong><input id="initiationUniformPhotoFile" type="file" accept="image/*"><button id="saveInitiationUniformPhoto" class="btn secondary" type="button">Guardar foto</button></div>
+      </div></article>
+      <div class="filters"><select id="shirtAdminStatusFilter"><option value="">Todos los estados</option><option value="pending">Pendiente</option><option value="processing">En proceso</option><option value="ready">Lista para entregar</option><option value="delivered">Entregada</option><option value="cancelled">Cancelada</option></select><select id="shirtAdminProductFilter"><option value="">Todos los productos</option><option value="fan_shirt">Camisa de aficionado</option><option value="initiation_uniform">Uniforme de Iniciación</option></select></div>
+      <div id="shirtAdminList" class="cards-list"></div>
+    </section>
+
     <section id="view-attendance" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">CONTROL DE EQUIPO</span><h2>Asistencia</h2></div></div>
       <article class="panel">
@@ -487,7 +517,7 @@
     </section>
 
     <section id="view-familyHome" class="view hidden">
-      <div class="page-head"><div><span class="eyebrow">PORTAL FAMILIAR</span><h2 id="familyWelcome">Mi familia</h2></div></div>
+      <div class="page-head"><div><span class="eyebrow">PORTAL FAMILIAR</span><h2 id="familyWelcome">Mi familia</h2></div><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button></div>
       <div id="familyPlayers" class="cards-grid"></div>
       <div class="grid two"><article class="panel"><h3>Próximos eventos</h3><div id="familyUpcoming"></div></article><article id="familyBalancePanel" class="panel"><h3>Saldo pendiente</h3><div id="familyBalance"></div></article></div>
     </section>
@@ -516,7 +546,7 @@
     <section id="view-familyPayments" class="view hidden"><div class="page-head"><div><span class="eyebrow">FINANZAS</span><h2>Mis mensualidades</h2></div><button id="openSinpeButton" class="btn primary">Reportar pago</button></div><div id="familyChargesList" class="cards-list"></div></section>
     <section id="view-familyAnnouncements" class="view hidden"><div class="page-head"><div><span class="eyebrow">INFORMACIÓN</span><h2>Comunicados</h2></div></div><div id="familyAnnouncementsList" class="cards-list"></div></section>
 
-    <section id="view-about" class="view hidden"><div class="page-head"><div><span class="eyebrow">SISTEMA</span><h2>Acerca de VolleyCore</h2></div></div><article class="panel"><p><strong>Versión:</strong> Stable 3.4.2</p><p><strong>Build:</strong> 2026-08-07 · Attendance Justification</p><p><strong>Organización:</strong> ASBAVOL</p><p><strong>Base de datos:</strong> Firebase Firestore</p></article></section>
+    <section id="view-about" class="view hidden"><div class="page-head"><div><span class="eyebrow">SISTEMA</span><h2>Acerca de VolleyCore</h2></div></div><article class="panel"><p><strong>Versión:</strong> UI 2.13</p><p><strong>Build:</strong> 2026-08-07 · Attendance Justification</p><p><strong>Organización:</strong> ASBAVOL</p><p><strong>Base de datos:</strong> Firebase Firestore</p></article></section>
 
     <section id="view-trainers" class="view hidden">
       <div class="page-head">
@@ -528,7 +558,7 @@
     </section>
 
     <section id="view-trainerHome" class="view hidden">
-      <div class="page-head"><div><span class="eyebrow">PORTAL DE ENTRENADOR</span><h2 id="trainerWelcome">Mi equipo</h2></div></div>
+      <div class="page-head"><div><span class="eyebrow">PORTAL DE ENTRENADOR</span><h2 id="trainerWelcome">Mi equipo</h2></div><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button></div>
       <div id="trainerSummary" class="stats"></div>
       <div class="grid two">
         <article class="panel"><h3>Próximos entrenamientos</h3><div id="trainerUpcomingTrainings"></div></article>
@@ -644,7 +674,8 @@
       <label>Player ID<input id="playerCode" required placeholder="ASB-0001"></label>
       <label>Nombre completo<input id="playerName" required></label>
       <label>Fecha de nacimiento<input id="playerBirthdate" type="date"></label>
-      <label>Tipo de jugadora<select id="playerType"><option value="minor">Menor de edad</option><option value="adult">Mayor de edad</option></select></label>
+      <label class="identity-field">Número de cédula / identificación<input id="playerIdentification" autocomplete="off" placeholder="Ej. 1-1234-5678"></label>
+      <label class="check-inline"><input id="playerNationalTeam" type="checkbox"> Seleccionada Nacional 🇨🇷</label>
       <label>Categoría principal<select id="playerCategory" required></select></label>
       <label>Número<input id="playerNumber"></label>
       <label>Posición<input id="playerPosition"></label>
@@ -813,6 +844,26 @@
   </div>
 </dialog>
 
+<dialog id="shirtRequestDialog" class="wide-dialog">
+  <form id="shirtRequestForm">
+    <div class="dialog-head"><div><span class="eyebrow">TIENDA DEL CLUB</span><h3>Solicitud de camiseta</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
+    <div class="dialog-content">
+      <div id="shirtProductPreview" class="shirt-product-preview"></div>
+      <div class="grid two">
+        <label>Producto<select id="shirtProduct" required><option value="fan_shirt">Camisa de aficionado</option><option value="initiation_uniform">Uniforme de Iniciación</option></select></label>
+        <label>Talla<select id="shirtSize" required><option value="">Selecciona una talla</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option></select></label>
+        <label>Cantidad<input id="shirtQuantity" type="number" min="1" max="20" value="1" required></label>
+        <label id="shirtPlayerNameField">Nombre de la jugadora (si aplica)<input id="shirtPlayerName" placeholder="Para Uniforme de Iniciación"></label>
+      </div>
+      <label>Observaciones<textarea id="shirtNotes" placeholder="Detalles adicionales de la solicitud"></textarea></label>
+      <button class="btn primary" type="submit">Enviar solicitud</button>
+      <hr>
+      <div class="page-head compact-head"><div><span class="eyebrow">SEGUIMIENTO</span><h3>Mis solicitudes</h3></div></div>
+      <div id="myShirtRequests" class="cards-list"></div>
+    </div>
+  </form>
+</dialog>
+
 <dialog id="seasonDialog"><form id="seasonForm"><div class="dialog-head"><h3 id="seasonDialogTitle">Nueva temporada</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="seasonDocId" type="hidden"><div class="grid two"><label>Nombre<input id="seasonName" placeholder="2027" required></label><label>Estado<select id="seasonStatus"><option value="active">Activa</option><option value="closed">Cerrada</option></select></label><label>Fecha de inicio<input id="seasonStart" type="date" required></label><label>Fecha final<input id="seasonEnd" type="date" required></label></div><label><span class="check-inline"><input id="seasonCurrent" type="checkbox"> Marcar como temporada actual</span></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
 
 <dialog id="trainingDialog"><form id="trainingForm"><div class="dialog-head"><h3 id="trainingDialogTitle">Nuevo entrenamiento recurrente</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="trainingDocId" type="hidden"><div class="grid two"><label>Categoría<select id="trainingCategory" required></select></label><label>Temporada<select id="trainingSeason" required></select></label><label>Hora de inicio<input id="trainingStartTime" type="time" required></label><label>Hora final<input id="trainingEndTime" type="time" required></label><label>Fecha de inicio<input id="trainingStartDate" type="date" required></label><label>Fecha final<input id="trainingEndDate" type="date" required></label><label>Gimnasio<select id="trainingVenue"></select></label><label>Estado<select id="trainingStatus"><option value="active">Activo</option><option value="inactive">Inactivo</option></select></label></div><fieldset><legend>Días de la semana</legend><div class="weekday-grid"><label><input type="checkbox" name="trainingDay" value="1"> Lunes</label><label><input type="checkbox" name="trainingDay" value="2"> Martes</label><label><input type="checkbox" name="trainingDay" value="3"> Miércoles</label><label><input type="checkbox" name="trainingDay" value="4"> Jueves</label><label><input type="checkbox" name="trainingDay" value="5"> Viernes</label><label><input type="checkbox" name="trainingDay" value="6"> Sábado</label><label><input type="checkbox" name="trainingDay" value="0"> Domingo</label></div></fieldset><label>Observaciones<textarea id="trainingNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar serie</button></div></form></dialog>
@@ -844,7 +895,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.12.js?v=20260807-stable342"></script>
+<script type="module" src="app-ui-2.13.4.js?v=20260807-stable342"></script>
 
 
 <script>

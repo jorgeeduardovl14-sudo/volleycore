@@ -454,3 +454,80 @@ html[data-theme="dark"] .player-link-ok{color:#8ee6a8!important;-webkit-text-fil
 html[data-theme="dark"] .player-link-warning{color:#ffce73!important;-webkit-text-fill-color:#ffce73!important}
 html[data-theme="dark"] .profile-warning-card{background:#332b1c!important;border-color:#69542a!important;color:#fff1ce!important}
 html[data-theme="dark"] :where(input,select,textarea,button):disabled{opacity:.72!important}
+
+html[data-theme="dark"] .shirt-request-card,
+html[data-theme="dark"] .shirt-admin-card{
+  background:#20252d!important;color:#f4f7fa!important;border-color:#3b4450!important;
+}
+html[data-theme="dark"] .national-team-badge{color:#f4f7fa!important}
+
+/* VolleyCore UI 2.13.1 — exhaustive dark-mode contrast pass.
+   Covers legacy/module-specific text classes that previously inherited light-mode colors. */
+html[data-theme="dark"] #appScreen .view,
+html[data-theme="dark"] #appScreen .view :where(
+  p,span,div,section,article,header,footer,li,dt,dd,caption,
+  .field-label,.payment-meta,.help-text,.hint,.note,.description,
+  .profile-data-list,.vc-feature-lines,.vc-opponent,.vc-activity-row,
+  .vc-event-row,.person-meta,.card-meta,.detail-value,.detail-label
+){color:var(--dm-text)!important}
+
+html[data-theme="dark"] #appScreen .view :where(
+  .muted,.subtitle,.page-subtitle,.help-text,.hint,.note,
+  .payment-meta,.card-meta,.person-meta,.detail-label
+){color:var(--dm-muted)!important}
+
+html[data-theme="dark"] #appScreen .view :where(
+  .panel,.stat,.payment-control-card,.payment-control-panel,.payment-review-panel,
+  .onvo-admin-panel,.payment-report-panel,.notice,.info-box,.summary-box,
+  details,details>summary
+){
+  background:var(--dm-surface)!important;
+  border-color:var(--dm-border)!important;
+}
+
+html[data-theme="dark"] #appScreen .view .payment-control-card.selected{
+  background:var(--dm-surface-2)!important;
+  border-color:#72d8e9!important;
+  outline-color:rgba(114,216,233,.25)!important;
+}
+html[data-theme="dark"] #appScreen .view .payment-control-card :where(span,strong,small){
+  color:var(--dm-text)!important;
+}
+html[data-theme="dark"] #appScreen .view .payment-control-card small{
+  color:var(--dm-muted)!important;
+}
+
+/* Keep semantic controls legible regardless of legacy text colors. */
+html[data-theme="dark"] #appScreen :where(button,.btn,.action)[disabled]{opacity:.62}
+html[data-theme="dark"] #appScreen :where(.btn.primary,.vc-cyan-button){color:#fff!important}
+html[data-theme="dark"] #appScreen :where(.btn.secondary,.action){color:var(--dm-text)!important}
+html[data-theme="dark"] #appScreen :where(.badge,.badge *){font-weight:700}
+html[data-theme="dark"] #appScreen .badge:where(.paid,.active,.approved){color:#dff9e7!important}
+html[data-theme="dark"] #appScreen .badge:where(.pending,.reported,.partial){color:#fff0c2!important}
+html[data-theme="dark"] #appScreen .badge:where(.overdue,.rejected,.cancelled,.inactive){color:#ffe2e2!important}
+html[data-theme="dark"] #appScreen .badge.national-team-badge{color:#fff!important}
+
+/* Legacy notice/info text was one of the most common low-contrast cases. */
+html[data-theme="dark"] #appScreen :where(.notice,.notice.info,.info-box){
+  color:var(--dm-text)!important;
+}
+html[data-theme="dark"] #appScreen :where(.notice,.notice.info,.info-box) :where(p,span,strong,small){
+  color:inherit!important;
+}
+
+/* Dialog labels and standalone text nodes in all modules. */
+html[data-theme="dark"] dialog :where(.field-label,.payment-meta,.help-text,.hint,.note,.description){
+  color:var(--dm-text)!important;
+}
+html[data-theme="dark"] dialog :where(.muted,.help-text,.hint,.note){color:var(--dm-muted)!important}
+
+/* UI 2.13.2 final semantic contrast audit */
+html[data-theme="dark"] .badge.injured,
+html[data-theme="dark"] .visual-status-badge.injured{background:#4b171a!important;color:#fff!important;border-color:#ff6b70!important}
+html[data-theme="dark"] .injury-symbol{fill:#ff5b61!important}
+html[data-theme="dark"] .national-team-badge{background:#183a63!important;color:#fff!important;border-color:#7db8ff!important}
+html[data-theme="dark"] .shirt-product-preview,
+html[data-theme="dark"] .shirt-catalog-item,
+html[data-theme="dark"] .shirt-catalog-image{background:var(--dm-surface)!important;color:var(--dm-text)!important;border-color:var(--dm-border)!important}
+html[data-theme="dark"] .shirt-photo-placeholder{background:var(--dm-surface-2)!important;color:var(--dm-text)!important}
+html[data-theme="dark"] #appScreen :where(.badge.active,.badge.inactive,.badge.injured,.badge.pending,.badge.paid,.badge.partial,.badge.overdue,.badge.reported,.badge.approved,.badge.rejected,.badge.cancelled,.badge.exempt,.badge.scheduled,.badge.changed,.badge.completed,.badge.published,.badge.draft,.badge.closed,.badge.present,.badge.absent){text-shadow:none!important}
