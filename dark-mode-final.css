@@ -520,3 +520,14 @@ html[data-theme="dark"] dialog :where(.field-label,.payment-meta,.help-text,.hin
   color:var(--dm-text)!important;
 }
 html[data-theme="dark"] dialog :where(.muted,.help-text,.hint,.note){color:var(--dm-muted)!important}
+
+/* UI 2.13.2 final semantic contrast audit */
+html[data-theme="dark"] .badge.injured,
+html[data-theme="dark"] .visual-status-badge.injured{background:#4b171a!important;color:#fff!important;border-color:#ff6b70!important}
+html[data-theme="dark"] .injury-symbol{fill:#ff5b61!important}
+html[data-theme="dark"] .national-team-badge{background:#183a63!important;color:#fff!important;border-color:#7db8ff!important}
+html[data-theme="dark"] .shirt-product-preview,
+html[data-theme="dark"] .shirt-catalog-item,
+html[data-theme="dark"] .shirt-catalog-image{background:var(--dm-surface)!important;color:var(--dm-text)!important;border-color:var(--dm-border)!important}
+html[data-theme="dark"] .shirt-photo-placeholder{background:var(--dm-surface-2)!important;color:var(--dm-text)!important}
+html[data-theme="dark"] #appScreen :where(.badge.active,.badge.inactive,.badge.injured,.badge.pending,.badge.paid,.badge.partial,.badge.overdue,.badge.reported,.badge.approved,.badge.rejected,.badge.cancelled,.badge.exempt,.badge.scheduled,.badge.changed,.badge.completed,.badge.published,.badge.draft,.badge.closed,.badge.present,.badge.absent){text-shadow:none!important}

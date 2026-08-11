@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore UI 2.13.1</title>
+  <title>VolleyCore UI 2.13.2</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260809-ui212">
 
@@ -261,7 +261,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.13.1</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.13.2</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button></div>
@@ -440,6 +440,10 @@
     <section id="view-shirtAdmin" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">ADMINISTRACIÓN</span><h2>Solicitudes de camisetas</h2><p class="muted">Gestiona camisas de aficionado y uniformes de Iniciación.</p></div></div>
       <div id="shirtAdminSummary" class="stats small"></div>
+      <article class="panel shirt-catalog-admin"><div class="page-head compact-head"><div><span class="eyebrow">CATÁLOGO</span><h3>Fotos de productos</h3><p class="muted">Estas imágenes serán visibles al hacer una solicitud.</p></div></div><div class="shirt-catalog-grid">
+      <div class="shirt-catalog-item"><div id="fanShirtAdminPreview" class="shirt-catalog-image"><span>Sin foto</span></div><strong>Camisa de aficionado</strong><input id="fanShirtPhotoFile" type="file" accept="image/*"><button id="saveFanShirtPhoto" class="btn secondary" type="button">Guardar foto</button></div>
+      <div class="shirt-catalog-item"><div id="initiationUniformAdminPreview" class="shirt-catalog-image"><span>Sin foto</span></div><strong>Uniforme de Iniciación</strong><input id="initiationUniformPhotoFile" type="file" accept="image/*"><button id="saveInitiationUniformPhoto" class="btn secondary" type="button">Guardar foto</button></div>
+      </div></article>
       <div class="filters"><select id="shirtAdminStatusFilter"><option value="">Todos los estados</option><option value="pending">Pendiente</option><option value="processing">En proceso</option><option value="ready">Lista para entregar</option><option value="delivered">Entregada</option><option value="cancelled">Cancelada</option></select><select id="shirtAdminProductFilter"><option value="">Todos los productos</option><option value="fan_shirt">Camisa de aficionado</option><option value="initiation_uniform">Uniforme de Iniciación</option></select></div>
       <div id="shirtAdminList" class="cards-list"></div>
     </section>
@@ -844,9 +848,10 @@
   <form id="shirtRequestForm">
     <div class="dialog-head"><div><span class="eyebrow">TIENDA DEL CLUB</span><h3>Solicitud de camiseta</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
     <div class="dialog-content">
+      <div id="shirtProductPreview" class="shirt-product-preview"></div>
       <div class="grid two">
         <label>Producto<select id="shirtProduct" required><option value="fan_shirt">Camisa de aficionado</option><option value="initiation_uniform">Uniforme de Iniciación</option></select></label>
-        <label>Talla<input id="shirtSize" required placeholder="Ej. S, M, L, 10, 12"></label>
+        <label>Talla<select id="shirtSize" required><option value="">Selecciona una talla</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option></select></label>
         <label>Cantidad<input id="shirtQuantity" type="number" min="1" max="20" value="1" required></label>
         <label id="shirtPlayerNameField">Nombre de la jugadora (si aplica)<input id="shirtPlayerName" placeholder="Para Uniforme de Iniciación"></label>
       </div>
@@ -890,7 +895,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.13.1.js?v=20260807-stable342"></script>
+<script type="module" src="app-ui-2.13.2.js?v=20260807-stable342"></script>
 
 
 <script>

@@ -1337,3 +1337,18 @@ html[data-theme="dark"] .onvo-payment-card{background:#20252d!important;color:#f
 .payment-review-panel{scroll-margin-top:90px}
 @media(max-width:900px){.payment-control-cards{grid-template-columns:repeat(2,minmax(140px,1fr))}}
 @media(max-width:580px){.payment-control-cards{grid-template-columns:1fr 1fr}.payment-control-card strong{font-size:1.4rem}}
+
+/* UI 2.13.2 store catalog and robust player status indicators */
+.shirt-product-preview{display:flex;gap:16px;align-items:center;margin-bottom:16px;padding:12px;border:1px solid #ddd;border-radius:14px}
+.shirt-product-preview img{width:120px;height:120px;object-fit:cover;border-radius:12px}
+.shirt-photo-placeholder{width:120px;height:120px;display:grid;place-items:center;font-size:42px;background:#f3f3f3;border-radius:12px}
+.shirt-catalog-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.shirt-catalog-item{display:grid;gap:10px}
+.shirt-catalog-image{height:180px;display:grid;place-items:center;border:1px dashed #bbb;border-radius:14px;overflow:hidden}
+.shirt-catalog-image img{width:100%;height:100%;object-fit:cover}
+.player-visual-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}
+.status-symbol{width:18px;height:18px;display:inline-block;vertical-align:-4px;margin-right:5px;flex:none}
+.injury-symbol{fill:#e31b23}
+.cr-flag-symbol{border-radius:2px}
+.badge.injured,.visual-status-badge.injured{background:#fff0f0;color:#8f1015;border:1px solid #e31b23}
+@media(max-width:650px){.shirt-catalog-grid{grid-template-columns:1fr}.shirt-product-preview img,.shirt-photo-placeholder{width:90px;height:90px}}
