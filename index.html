@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore UI 2.13</title>
+  <title>VolleyCore UI 2.13.1</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260809-ui212">
 
@@ -261,7 +261,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.13</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.13.1</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button></div>
@@ -325,12 +325,30 @@
 
     <section id="view-sinpeAdmin" class="view hidden">
       <div class="page-head">
-        <div><span class="eyebrow">CONCILIACIÓN</span><h2>Pagos</h2></div>
+        <div><span class="eyebrow">FINANZAS</span><h2>Centro de control de pagos</h2><p class="muted">Consulta saldos, morosidad, pagos recibidos y operaciones que requieren revisión.</p></div>
       </div>
 
-      <article class="panel">
+      <div id="paymentControlCards" class="stats payment-control-cards"></div>
+
+      <article class="panel payment-control-panel">
         <div class="page-head compact-head">
-          <div><span class="eyebrow">BANDEJA OPERATIVA</span><h3>Pagos pendientes de revisión</h3></div>
+          <div><span class="eyebrow">ESTADO DE CUENTA</span><h3 id="paymentControlTitle">Todos los pagos</h3></div>
+          <button id="clearPaymentControlFilters" class="btn secondary" type="button">Limpiar filtros</button>
+        </div>
+        <div class="filters finance-filters payment-control-filters">
+          <input id="paymentControlSearch" type="search" placeholder="Buscar jugadora">
+          <select id="paymentControlMonth"><option value="">Todos los meses</option></select>
+          <select id="paymentControlCategory"><option value="">Todas las categorías</option></select>
+        </div>
+        <div class="table-wrap payment-control-table"><table>
+          <thead><tr><th>Jugadora</th><th>Categoría</th><th>Estado</th><th>Cuota</th><th>Pagado</th><th>Saldo</th><th>Vencimiento</th><th></th></tr></thead>
+          <tbody id="paymentControlBody"></tbody>
+        </table></div>
+      </article>
+
+      <article class="panel payment-review-panel">
+        <div class="page-head compact-head">
+          <div><span class="eyebrow">REQUIEREN REVISIÓN</span><h3>Pagos reportados por revisar</h3></div>
           <span id="paymentsInboxCount" class="badge reported">0 pendientes</span>
         </div>
         <div class="filters finance-filters">
@@ -652,6 +670,7 @@
       <label>Player ID<input id="playerCode" required placeholder="ASB-0001"></label>
       <label>Nombre completo<input id="playerName" required></label>
       <label>Fecha de nacimiento<input id="playerBirthdate" type="date"></label>
+      <label class="identity-field">Número de cédula / identificación<input id="playerIdentification" autocomplete="off" placeholder="Ej. 1-1234-5678"></label>
       <label class="check-inline"><input id="playerNationalTeam" type="checkbox"> Seleccionada Nacional 🇨🇷</label>
       <label>Categoría principal<select id="playerCategory" required></select></label>
       <label>Número<input id="playerNumber"></label>
@@ -673,7 +692,6 @@
       <label class="photo-upload-control">Foto de perfil<input id="playerPhotoFile" type="file" accept="image/*"><small>Máximo 5 MB.</small></label>
     </div>
     <div class="grid two">
-      <label>Número de cédula / identificación<input id="playerIdentification" autocomplete="off"></label>
       <label>Teléfono de la jugadora<input id="playerPhone" type="tel"></label>
       <label>Correo electrónico<input id="playerEmail" type="email"></label>
       <label>Provincia<input id="playerProvince"></label>
@@ -872,7 +890,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.13.js?v=20260807-stable342"></script>
+<script type="module" src="app-ui-2.13.1.js?v=20260807-stable342"></script>
 
 
 <script>
