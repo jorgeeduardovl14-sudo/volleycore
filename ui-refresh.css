@@ -1313,3 +1313,14 @@ html[data-theme="dark"] .trainer-event-card{background:var(--vc-surface)!importa
 .onvo-payment-card{border-left:4px solid #2fafc7}
 html[data-theme="dark"] .onvo-admin-panel,
 html[data-theme="dark"] .onvo-payment-card{background:#20252d!important;color:#f4f7fa!important;border-color:#3b4450!important}
+
+/* VolleyCore UI 2.13 — shirt requests + player profile fields */
+.home-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.shirt-request-launch{white-space:nowrap}
+.shirt-request-card,.shirt-admin-card{border-left:4px solid #d6202f}
+.shirt-player-required .field-label,.shirt-player-required{font-weight:700}
+.national-team-badge{font-weight:800}
+@media(max-width:680px){
+  .shirt-request-launch{width:100%}
+  #shirtRequestDialog .grid.two{grid-template-columns:1fr}
+}

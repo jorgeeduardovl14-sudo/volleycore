@@ -454,3 +454,9 @@ html[data-theme="dark"] .player-link-ok{color:#8ee6a8!important;-webkit-text-fil
 html[data-theme="dark"] .player-link-warning{color:#ffce73!important;-webkit-text-fill-color:#ffce73!important}
 html[data-theme="dark"] .profile-warning-card{background:#332b1c!important;border-color:#69542a!important;color:#fff1ce!important}
 html[data-theme="dark"] :where(input,select,textarea,button):disabled{opacity:.72!important}
+
+html[data-theme="dark"] .shirt-request-card,
+html[data-theme="dark"] .shirt-admin-card{
+  background:#20252d!important;color:#f4f7fa!important;border-color:#3b4450!important;
+}
+html[data-theme="dark"] .national-team-badge{color:#f4f7fa!important}
