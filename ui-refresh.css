@@ -1352,3 +1352,26 @@ html[data-theme="dark"] .onvo-payment-card{background:#20252d!important;color:#f
 .cr-flag-symbol{border-radius:2px}
 .badge.injured,.visual-status-badge.injured{background:#fff0f0;color:#8f1015;border:1px solid #e31b23}
 @media(max-width:650px){.shirt-catalog-grid{grid-template-columns:1fr}.shirt-product-preview img,.shirt-photo-placeholder{width:90px;height:90px}}
+
+/* UI 2.13.5 — Header cleanup and VolleyCore branding */
+.vc-header-product-logo{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:54px;
+  height:54px;
+  flex:0 0 54px;
+  overflow:hidden;
+  border-radius:14px;
+}
+.vc-header-product-logo img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 39%;
+  transform:scale(1.34);
+}
+@media (max-width:760px){
+  .vc-header-product-logo{width:44px;height:44px;flex-basis:44px;border-radius:11px}
+}
