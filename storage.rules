@@ -6,15 +6,32 @@ service firebase.storage {
     function hasProfile(){ return signedIn() && firestore.exists(userPath()); }
     function userDoc(){ return firestore.get(userPath()); }
     function sameOrg(){ return hasProfile() && userDoc().data.orgId == 'asbavol'; }
-    function isAdmin(){ return sameOrg() && userDoc().data.role in ['admin','treasurer']; }
+    function isAdmin(){ return sameOrg() && userDoc().data.role == 'admin'; }
+    function isPortalUser(){ return sameOrg() && userDoc().data.role in ['family','player']; }
+    function isTrainer(){ return sameOrg() && userDoc().data.role in ['trainer','assistant'] && userDoc().data.status == 'active'; }
+    function trainerCategories(){ return isTrainer() && ('assignedCategoryIds' in userDoc().data) ? userDoc().data.assignedCategoryIds : []; }
+    function playerPath(playerId){ return /databases/(default)/documents/players/$(playerId); }
+    function playerExists(playerId){ return firestore.exists(playerPath(playerId)); }
+    function playerDoc(playerId){ return firestore.get(playerPath(playerId)); }
+    function canReadPlayerPhoto(playerId){
+      return isAdmin() || (playerExists(playerId) && playerDoc(playerId).data.orgId == 'asbavol' && (
+        (isPortalUser() && (request.auth.uid in playerDoc(playerId).data.linkedUserIds || userDoc().data.playerId == playerId))
+        || (isTrainer() && playerDoc(playerId).data.categoryIds.hasAny(trainerCategories()))
+      ));
+    }
     function validImage(){ return request.resource.size < 5 * 1024 * 1024 && request.resource.contentType.matches('image/.*'); }
-    match /orgs/asbavol/playerPhotos/{playerId}/{fileName} { allow read: if sameOrg(); allow write: if isAdmin() && validImage(); }
-    match /orgs/asbavol/categoryPhotos/{categoryId}/{fileName} { allow read: if sameOrg(); allow write: if isAdmin() && validImage(); }
+
+    match /orgs/asbavol/playerPhotos/{playerId}/{fileName} {
+      allow read: if canReadPlayerPhoto(playerId);
+      allow write: if isAdmin() && validImage();
+    }
+    match /orgs/asbavol/categoryPhotos/{categoryId}/{fileName} {
+      allow read: if sameOrg();
+      allow write: if isAdmin() && validImage();
+    }
     match /shirtCatalog/asbavol/{allPaths=**} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null
-        && firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.orgId == 'asbavol'
-        && firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'admin';
+      allow read: if sameOrg();
+      allow write: if isAdmin() && validImage();
     }
   }
 }

@@ -7,7 +7,9 @@ service cloud.firestore {
     function hasProfile(){ return signedIn() && exists(userPath()); }
     function userDoc(){ return get(userPath()); }
     function sameOrg(){ return hasProfile() && userDoc().data.orgId == 'asbavol'; }
-    function isAdmin(){ return sameOrg() && userDoc().data.role in ['admin','treasurer']; }
+    function isAdmin(){ return sameOrg() && userDoc().data.role == 'admin'; }
+    function isTreasurer(){ return sameOrg() && userDoc().data.role == 'treasurer'; }
+    function isFinance(){ return isAdmin() || isTreasurer(); }
     function isRoleAdmin(){ return sameOrg() && userDoc().data.role == 'admin'; }
     function isPortalUser(){ return sameOrg() && userDoc().data.role in ['family','player']; }
     function isTrainer(){ return sameOrg() && userDoc().data.role in ['trainer','assistant'] && userDoc().data.status == 'active'; }
@@ -118,19 +120,22 @@ service cloud.firestore {
       allow delete: if false;
     }
     match /announcements/{id} {
-      allow read: if isAdmin()
+      allow read: if isFinance()
         || (isPortalUser() && resource.data.orgId == 'asbavol' && resource.data.status == 'published')
         || (isTrainer() && resource.data.orgId == 'asbavol' && resource.data.status == 'published' && trainerHasCategory(resource.data.categoryId));
       allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
       allow delete: if false;
     }
     match /players/{id} {
-      allow read: if isAdmin()
+      function hasPrivateFields(data){
+        return data.keys().hasAny(['identificationNumber','phone','email','province','cantonDistrict','address','emergencyContact','insured','insurance','guardians']);
+      }
+      allow read: if isAdmin() || isTreasurer()
         || (isPortalUser() && resource.data.orgId == 'asbavol'
           && (request.auth.uid in resource.data.linkedUserIds || userDoc().data.playerId == id))
         || (isTrainer() && resource.data.orgId == 'asbavol' && trainerHasAnyCategory(resource.data.categoryIds));
-      allow create: if isAdmin() && request.resource.data.orgId == 'asbavol';
-      allow update: if (isAdmin() && request.resource.data.orgId == 'asbavol')
+      allow create: if isAdmin() && request.resource.data.orgId == 'asbavol' && !hasPrivateFields(request.resource.data);
+      allow update: if (isAdmin() && request.resource.data.orgId == 'asbavol' && !hasPrivateFields(request.resource.data))
         || (isPortalUser()
           && userDoc().data.playerId == id
           && resource.data.orgId == 'asbavol'
@@ -142,25 +147,39 @@ service cloud.firestore {
           && request.resource.data.linkedUserIds.size() == resource.data.linkedUserIds.size() + 1);
       allow delete: if false;
     }
-    match /charges/{id} {
+    match /playerPrivate/{id} {
       allow read: if isAdmin()
+        || (isPortalUser() && resource.data.orgId == 'asbavol'
+          && (request.auth.uid in resource.data.linkedUserIds || userDoc().data.playerId == id))
+        || (isTrainer()
+          && resource.data.orgId == 'asbavol'
+          && ('categoryIds' in resource.data)
+          && trainerHasAnyCategory(resource.data.categoryIds));
+      allow create, update: if isAdmin()
+        && request.resource.data.orgId == 'asbavol'
+        && request.resource.data.playerId == id
+        && ('categoryIds' in request.resource.data);
+      allow delete: if false;
+    }
+    match /charges/{id} {
+      allow read: if isFinance()
         || (isGuardian() && resource.data.orgId == 'asbavol' && request.auth.uid in resource.data.userIds)
         || (trainerCanSeeFinancial() && resource.data.orgId == 'asbavol' && trainerHasCategory(resource.data.categoryId));
-      allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow create, update: if isFinance() && request.resource.data.orgId == 'asbavol';
       allow delete: if false;
     }
     match /onvoPayments/{id} {
-      allow read: if isAdmin()
+      allow read: if isFinance()
         || (isPortalUser() && resource.data.orgId == 'asbavol' && resource.data.userId == request.auth.uid);
       allow create, update, delete: if false;
     }
     match /sinpeReports/{id} {
-      allow read: if isAdmin() || (isGuardian() && resource.data.orgId == 'asbavol' && resource.data.userId == request.auth.uid);
+      allow read: if isFinance() || (isGuardian() && resource.data.orgId == 'asbavol' && resource.data.userId == request.auth.uid);
       allow create: if isGuardian()
         && request.resource.data.orgId == 'asbavol'
         && request.resource.data.userId == request.auth.uid
         && request.resource.data.status == 'reported';
-      allow update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow update: if isFinance() && request.resource.data.orgId == 'asbavol';
       allow delete: if false;
     }
     match /linkRequests/{id} {
