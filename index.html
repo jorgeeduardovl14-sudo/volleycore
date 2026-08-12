@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore UI 2.13.4</title>
+  <title>VolleyCore UI 2.13.5</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="ui-refresh.css?v=20260809-ui212">
+  <link rel="stylesheet" href="ui-refresh.css?v=20260812-ui2135">
 
 <style>
 .month-checkbox-panel{grid-column:1/-1;border:1px solid #d6d9df;border-radius:14px;padding:14px;background:#fff}
@@ -105,18 +105,13 @@
         <span><i></i>LA GRAN FAMILIA<i></i></span>
         <small>ASBAVOL</small>
       </div>
-      <div class="vc-brand-divider"></div>
-      <div class="vc-product-wordmark"><b>Volley</b><strong>Core</strong><span>PLATAFORMA DE GESTIÓN</span></div>
     </div>
     <div class="top-actions">
       <button id="themeToggleButton" class="icon-button ui-theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema">◐</button>
       <button id="notificationBellButton" class="vc-notification vc-notification-button" type="button" aria-label="Notificaciones" title="Notificaciones">🔔<span id="notificationCount" class="notification-count hidden">0</span></button>
-      <div class="vc-top-user">
-        <div class="vc-user-bubble" aria-hidden="true">VC</div>
-        <div><strong class="vc-session-user-name">Usuario</strong><small class="vc-session-user-role">Perfil</small></div>
-      </div>
+      <img src="volleycore-mark.svg" class="vc-volleycore-mark" alt="VolleyCore">
       <span id="roleBadge" class="badge vc-role-hidden">Familia</span>
-      <button id="logoutButton" class="vc-logout-link" type="button">Salir</button>
+      <button id="logoutButton" class="vc-logout-link vc-top-logout-hidden" type="button" tabindex="-1" aria-hidden="true">Salir</button>
     </div>
   </header>
   <aside id="notificationPanel" class="notification-panel hidden" aria-label="Centro de notificaciones">
@@ -125,13 +120,8 @@
     <div class="notification-panel-actions"><button id="markAllNotificationsRead" class="btn secondary" type="button">Marcar todas como leídas</button></div>
   </aside>
   <nav id="adminNav" class="nav hidden">
-    <div class="vc-sidebar-brand">
+    <div class="vc-sidebar-brand vc-sidebar-shield-only">
       <img src="santa-barbara-shield-white.png" alt="Escudo Santa Bárbara">
-      <div class="vc-sidebar-wordmark">
-        <strong>SANTA<br>BÁRBARA</strong>
-        <span>LA GRAN FAMILIA</span>
-        <small>ASBAVOL</small>
-      </div>
     </div>
     <button data-view="dashboard" class="active"><span class="nav-icon">⌂</span>Inicio</button>
     <div class="nav-section-label">DEPORTIVO</div>
@@ -162,13 +152,8 @@
       <div><strong class="vc-session-user-name">Usuario</strong><small class="vc-session-user-role">Perfil</small></div>
       <span>⌄</span>
     </div></nav>
-  <nav id="familyNav" class="nav hidden"><div class="vc-sidebar-brand">
+  <nav id="familyNav" class="nav hidden"><div class="vc-sidebar-brand vc-sidebar-shield-only">
       <img src="santa-barbara-shield-white.png" alt="Escudo Santa Bárbara">
-      <div class="vc-sidebar-wordmark">
-        <strong>SANTA<br>BÁRBARA</strong>
-        <span>LA GRAN FAMILIA</span>
-        <small>ASBAVOL</small>
-      </div>
     </div>
     <button data-view="familyHome" class="active">Inicio</button><button data-view="familyCategories">Mis categorías</button><button data-view="familyLink">Vincular jugadora</button><button data-view="familyTrainings">Entrenamientos</button><button data-view="familyEvents">Eventos</button><button data-view="familyPayments">Mensualidades</button><button data-view="familyAnnouncements">Comunicados</button><button data-view="profile">Mi perfil</button>
   <button class="mobile-logout-button" type="button">⇥ Cerrar sesión</button>
@@ -177,13 +162,8 @@
       <div><strong class="vc-session-user-name">Usuario</strong><small class="vc-session-user-role">Perfil</small></div>
       <span>⌄</span>
     </div></nav>
-  <nav id="trainerNav" class="nav hidden"><div class="vc-sidebar-brand">
+  <nav id="trainerNav" class="nav hidden"><div class="vc-sidebar-brand vc-sidebar-shield-only">
       <img src="santa-barbara-shield-white.png" alt="Escudo Santa Bárbara">
-      <div class="vc-sidebar-wordmark">
-        <strong>SANTA<br>BÁRBARA</strong>
-        <span>LA GRAN FAMILIA</span>
-        <small>ASBAVOL</small>
-      </div>
     </div>
     <button data-view="trainerHome" class="active">Inicio</button>
     <button data-view="trainerPlayers">Mi equipo</button>
@@ -197,9 +177,8 @@
       <div class="vc-sidebar-avatar">VC</div>
       <div><strong class="vc-session-user-name">Usuario</strong><small class="vc-session-user-role">Perfil</small></div>
       <span>⌄</span>
-    </div></nav><nav id="pendingTrainerNav" class="nav hidden"><div class="vc-sidebar-brand">
+    </div></nav><nav id="pendingTrainerNav" class="nav hidden"><div class="vc-sidebar-brand vc-sidebar-shield-only">
       <img src="santa-barbara-shield-white.png" alt="Escudo Santa Bárbara">
-      <div class="vc-sidebar-wordmark"><strong>SANTA<br>BÁRBARA</strong><span>LA GRAN FAMILIA</span><small>ASBAVOL</small></div>
     </div>
     <button data-view="trainerPending" class="active"><span class="nav-icon">◷</span>Solicitud</button>
     <button data-view="profile"><span class="nav-icon">⚙</span>Mi perfil</button>
@@ -261,7 +240,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.13.4</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.13.5</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button></div>

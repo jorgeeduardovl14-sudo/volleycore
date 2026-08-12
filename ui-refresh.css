@@ -1352,3 +1352,57 @@ html[data-theme="dark"] .onvo-payment-card{background:#20252d!important;color:#f
 .cr-flag-symbol{border-radius:2px}
 .badge.injured,.visual-status-badge.injured{background:#fff0f0;color:#8f1015;border:1px solid #e31b23}
 @media(max-width:650px){.shirt-catalog-grid{grid-template-columns:1fr}.shirt-product-preview img,.shirt-photo-placeholder{width:90px;height:90px}}
+
+/* =========================================================
+   VolleyCore UI 2.13.5 — branding/header refinement
+   Keeps the approved interface palette intact.
+   ========================================================= */
+.vc-brand-header{
+  display:grid!important;
+  grid-template-columns:1fr auto 1fr!important;
+  align-items:center!important;
+}
+.vc-club-lockup{
+  grid-column:2!important;
+  justify-self:center!important;
+  justify-content:center!important;
+  gap:16px!important;
+}
+.vc-header-shield{width:72px!important;height:88px!important}
+.vc-club-wordmark{min-width:340px!important;max-width:380px!important}
+.vc-brand-divider,.vc-product-wordmark{display:none!important}
+.top-actions{
+  grid-column:3!important;
+  justify-self:end!important;
+  margin-left:0!important;
+  display:flex!important;
+  align-items:center!important;
+}
+.vc-top-user,.vc-top-logout-hidden{display:none!important}
+.vc-volleycore-mark{
+  display:block!important;
+  width:58px!important;
+  height:58px!important;
+  object-fit:contain!important;
+  margin-left:4px!important;
+}
+.vc-sidebar-brand.vc-sidebar-shield-only{
+  min-height:128px!important;
+  padding:7px 8px 12px!important;
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:center!important;
+}
+.vc-sidebar-brand.vc-sidebar-shield-only img{
+  width:82px!important;
+  height:100px!important;
+  margin:0 auto!important;
+  transform:translateX(6px);
+  object-fit:contain!important;
+}
+@media(max-width:760px){
+  .vc-brand-header{display:flex!important;justify-content:space-between!important}
+  .vc-club-lockup{display:flex!important;justify-content:flex-start!important;gap:8px!important}
+  .vc-volleycore-mark{width:42px!important;height:42px!important}
+  .vc-sidebar-brand.vc-sidebar-shield-only{display:none!important}
+}
