@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore Security 1.0 · UI 2.14.2</title>
+  <title>VolleyCore Security 1.0 · UI 2.14.3</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260812-ui2135">
 
@@ -240,7 +240,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore Security 1.0 · UI 2.14.2</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore Security 1.0 · UI 2.14.3</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button></div>
@@ -592,7 +592,7 @@
 
 <dialog id="familyMemberPickerDialog"><div class="dialog-head dialog-pad"><div><span class="eyebrow">GRUPO FAMILIAR</span><h3 id="familyMemberPickerTitle">Gestionar miembros</h3></div><button class="icon-button close-dialog" type="button">×</button></div><div class="dialog-content"><div class="picker-toolbar"><label>Buscar<input id="familyMemberSearch" type="search" placeholder="Nombre, correo, teléfono o Player ID"></label><label>Categoría<select id="familyMemberCategory"><option value="">Todas las categorías</option></select></label><label class="picker-check"><input id="familyMemberOnlyUnassigned" type="checkbox"> Solo mostrar personas sin familia</label></div><div class="grid two picker-columns"><fieldset><legend>Jugadoras</legend><div id="familyMemberPlayers" class="picker-list"></div></fieldset><fieldset><legend>Usuarios</legend><div id="familyMemberUsers" class="picker-list"></div></fieldset></div><p class="notice info">Marca las personas que deben pertenecer a esta familia. Si una persona ya está en otro grupo, VolleyCore pedirá confirmación antes de moverla.</p></div><div class="dialog-actions dialog-pad"><button class="btn secondary close-dialog" type="button">Cancelar</button><button id="saveFamilyMembersButton" class="btn primary" type="button">Guardar miembros</button></div></dialog>
 
-<dialog id="userDetailDialog"><div class="dialog-head dialog-pad"><h3 id="userDetailTitle">Perfil de usuario</h3><button class="icon-button close-dialog" type="button">×</button></div><div id="userDetailContent" class="dialog-content"></div><div class="dialog-actions dialog-pad"><button class="btn secondary close-dialog" type="button">Cerrar</button></div></dialog>
+<dialog id="userDetailDialog"><div class="dialog-head dialog-pad"><h3 id="userDetailTitle">Perfil de usuario</h3><button class="icon-button close-dialog" type="button">×</button></div><div id="userDetailContent" class="dialog-content"></div><div class="dialog-actions dialog-pad"><button id="deleteUserFromDetail" class="btn danger hidden" type="button">Eliminar usuario</button><button class="btn secondary close-dialog" type="button">Cerrar</button></div></dialog>
 <dialog id="roleManagerDialog" class="wide-dialog">
   <form id="roleManagerForm">
     <div class="dialog-head"><div><span class="eyebrow">ADMINISTRACIÓN</span><h3>Gestionar rol de usuario</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
@@ -621,7 +621,7 @@
     </fieldset>
     <p id="roleManagerPlayerNote" class="notice info hidden">Para el rol Jugadora es obligatorio vincular una ficha de jugadora. Las categorías se tomarán directamente de esa ficha.</p>
     <p class="notice warning">Los cambios de rol afectan inmediatamente el acceso del usuario. Solo un Administrador puede realizar cambios de rol.</p>
-    <div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button id="saveRoleManagerButton" class="btn primary" type="submit">Guardar rol</button></div>
+    <div class="dialog-actions"><button id="deleteUserFromRoleManager" type="button" class="btn danger">Eliminar usuario</button><button type="button" class="btn secondary close-dialog">Cancelar</button><button id="saveRoleManagerButton" class="btn primary" type="submit">Guardar rol</button></div>
   </form>
 </dialog>
 <dialog id="trainerDialog">
@@ -874,7 +874,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.14.2.js?v=20260812-security1"></script>
+<script type="module" src="app-ui-2.14.3.js?v=20260812-security1"></script>
 
 
 <script>
