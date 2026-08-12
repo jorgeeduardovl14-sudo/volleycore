@@ -1354,7 +1354,7 @@ html[data-theme="dark"] .onvo-payment-card{background:#20252d!important;color:#f
 @media(max-width:650px){.shirt-catalog-grid{grid-template-columns:1fr}.shirt-product-preview img,.shirt-photo-placeholder{width:90px;height:90px}}
 
 /* =========================================================
-   VolleyCore UI 2.13.5 — branding/header refinement
+   VolleyCore UI 2.13.6 — final VolleyCore logo integration
    Keeps the approved interface palette intact.
    ========================================================= */
 .vc-brand-header{
@@ -1381,8 +1381,8 @@ html[data-theme="dark"] .onvo-payment-card{background:#20252d!important;color:#f
 .vc-top-user,.vc-top-logout-hidden{display:none!important}
 .vc-volleycore-mark{
   display:block!important;
-  width:58px!important;
-  height:58px!important;
+  width:76px!important;
+  height:76px!important;
   object-fit:contain!important;
   margin-left:4px!important;
 }
@@ -1403,6 +1403,6 @@ html[data-theme="dark"] .onvo-payment-card{background:#20252d!important;color:#f
 @media(max-width:760px){
   .vc-brand-header{display:flex!important;justify-content:space-between!important}
   .vc-club-lockup{display:flex!important;justify-content:flex-start!important;gap:8px!important}
-  .vc-volleycore-mark{width:42px!important;height:42px!important}
+  .vc-volleycore-mark{width:52px!important;height:52px!important}
   .vc-sidebar-brand.vc-sidebar-shield-only{display:none!important}
 }
