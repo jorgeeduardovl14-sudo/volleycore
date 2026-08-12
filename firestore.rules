@@ -145,7 +145,7 @@ service cloud.firestore {
           && request.auth.uid in request.resource.data.linkedUserIds
           && request.resource.data.linkedUserIds.hasAll(resource.data.linkedUserIds)
           && request.resource.data.linkedUserIds.size() == resource.data.linkedUserIds.size() + 1);
-      allow delete: if false;
+      allow delete: if isAdmin();
     }
     match /playerPrivate/{id} {
       allow read: if isAdmin()
@@ -159,7 +159,7 @@ service cloud.firestore {
         && request.resource.data.orgId == 'asbavol'
         && request.resource.data.playerId == id
         && ('categoryIds' in request.resource.data);
-      allow delete: if false;
+      allow delete: if isAdmin();
     }
     match /charges/{id} {
       allow read: if isFinance()

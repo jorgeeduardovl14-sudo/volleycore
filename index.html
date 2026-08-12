@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore Security 1.0 · UI 2.14.1</title>
+  <title>VolleyCore Security 1.0 · UI 2.14.2</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260812-ui2135">
 
@@ -240,7 +240,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore Security 1.0 · UI 2.14.1</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore Security 1.0 · UI 2.14.2</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button></div>
@@ -571,7 +571,7 @@
       <div class="grid two"><article class="panel"><dl class="details"><div><dt>Nombre</dt><dd id="profileName">—</dd></div><div><dt>Correo</dt><dd id="profileEmail">—</dd></div><div><dt>Teléfono</dt><dd id="profilePhone">—</dd></div><div><dt>Rol</dt><dd id="profileRole">—</dd></div></dl></article><article class="panel"><form id="profileForm"><label>Nombre completo<input id="editFullName" required></label><label>Teléfono<input id="editPhone" required></label><button class="btn primary">Guardar cambios</button></form></article></div>
     </section>
   </section>
-<dialog id="playerDetailDialog"><div class="dialog-head"><h3 id="playerDetailTitle">Perfil de jugadora</h3><button class="icon-button close-dialog" type="button">×</button></div><div id="playerDetailContent"></div></dialog>
+<dialog id="playerDetailDialog"><div class="dialog-head"><h3 id="playerDetailTitle">Perfil de jugadora</h3><button class="icon-button close-dialog" type="button">×</button></div><div id="playerDetailContent"></div><div class="dialog-actions dialog-pad"><button id="deletePlayerFromDetail" class="btn danger hidden" type="button">Eliminar jugadora</button><button class="btn secondary close-dialog" type="button">Cerrar</button></div></dialog>
 <dialog id="playerFinancialDialog">
   <div class="dialog-head dialog-pad">
     <div><span class="eyebrow">ESTADO FINANCIERO</span><h3 id="playerFinancialTitle">Mensualidades</h3></div>
@@ -717,7 +717,7 @@
   </section>
 
   <label>Observaciones<textarea id="playerNotes"></textarea></label>
-  <div class="dialog-actions sticky-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div>
+  <div class="dialog-actions sticky-actions"><button id="deletePlayerFromEdit" type="button" class="btn danger hidden">Eliminar jugadora</button><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div>
 </form>
 </dialog>
 
@@ -874,7 +874,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.14.1.js?v=20260812-security1"></script>
+<script type="module" src="app-ui-2.14.2.js?v=20260812-security1"></script>
 
 
 <script>
