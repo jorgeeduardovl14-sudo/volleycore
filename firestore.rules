@@ -100,6 +100,12 @@ service cloud.firestore {
           && request.resource.data.targetRole == 'admin'
           && request.resource.data.createdBy == request.auth.uid
           && request.resource.data.categoryId == '')
+        || (isPortalUser()
+          && request.resource.data.kind == 'link_request'
+          && request.resource.data.targetRole == 'admin'
+          && request.resource.data.createdBy == request.auth.uid
+          && request.resource.data.categoryId == ''
+          && request.resource.data.sourceId is string)
       );
       allow update: if sameOrg() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['readBy']) && request.resource.data.readBy.hasAll(resource.data.readBy) && request.auth.uid in request.resource.data.readBy;
       allow delete: if false;

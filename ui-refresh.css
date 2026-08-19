@@ -1425,3 +1425,23 @@ html[data-theme="dark"] .onvo-payment-card{background:#20252d!important;color:#f
 .trainer-summary-stat.selected{
   box-shadow:0 0 0 2px color-mix(in srgb, var(--primary, #b11f24) 35%, transparent);
 }
+
+/* UI 2.14.6 — Linking requests administration */
+.nav-count-badge{
+  margin-left:auto;
+  min-width:22px;
+  height:22px;
+  padding:0 6px;
+  border-radius:999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.75rem;
+  font-weight:800;
+  background:#b51e2b;
+  color:#fff;
+}
+.link-admin-summary{width:100%;border:0;font:inherit;text-align:left;cursor:pointer;appearance:none}
+.link-admin-summary.selected{outline:2px solid rgba(181,30,43,.32);outline-offset:2px}
+.link-request-card .grid.two{align-items:start}
+html[data-theme="dark"] .link-admin-summary.selected{outline-color:rgba(114,216,233,.45)}
