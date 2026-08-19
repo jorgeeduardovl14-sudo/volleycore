@@ -1445,3 +1445,54 @@ html[data-theme="dark"] .onvo-payment-card{background:#20252d!important;color:#f
 .link-admin-summary.selected{outline:2px solid rgba(181,30,43,.32);outline-offset:2px}
 .link-request-card .grid.two{align-items:start}
 html[data-theme="dark"] .link-admin-summary.selected{outline-color:rgba(114,216,233,.45)}
+
+
+/* UI 2.14.7 — Parent monthly-fee focus */
+.family-payment-tabs{
+  display:flex;
+  gap:8px;
+  margin:0 0 16px;
+  padding:5px;
+  width:max-content;
+  max-width:100%;
+  background:var(--vc-surface-2);
+  border:1px solid var(--vc-border);
+  border-radius:14px;
+}
+.family-payment-tab{
+  border:1px solid transparent;
+  border-radius:10px;
+  background:transparent;
+  color:var(--vc-muted);
+  min-height:40px;
+  padding:8px 14px;
+  font-weight:800;
+  cursor:pointer;
+}
+.family-payment-tab.active{
+  background:var(--vc-surface);
+  color:var(--vc-text);
+  border-color:var(--vc-border);
+  box-shadow:0 3px 10px rgba(15,23,42,.06);
+}
+.family-payment-tab span{
+  display:inline-flex;
+  min-width:22px;
+  height:22px;
+  align-items:center;
+  justify-content:center;
+  margin-left:5px;
+  padding:0 6px;
+  border-radius:999px;
+  background:var(--vc-red-soft);
+  color:var(--vc-red);
+  font-size:.72rem;
+}
+.family-payment-history-filters{
+  grid-template-columns:1fr 1fr 1fr!important;
+}
+@media(max-width:700px){
+  .family-payment-tabs{width:100%}
+  .family-payment-tab{flex:1}
+  .family-payment-history-filters{grid-template-columns:1fr!important}
+}

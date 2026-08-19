@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore Security 1.0 · UI 2.14.6</title>
+  <title>VolleyCore Security 1.0 · UI 2.14.7</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260812-ui2135">
 
@@ -241,7 +241,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore Security 1.0 · UI 2.14.6</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore Security 1.0 · UI 2.14.7</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button></div>
@@ -541,7 +541,28 @@
       <div id="familyEventsList" class="cards-list"></div>
     </section>
 
-    <section id="view-familyPayments" class="view hidden"><div class="page-head"><div><span class="eyebrow">FINANZAS</span><h2>Mis mensualidades</h2></div><button id="openSinpeButton" class="btn primary">Reportar pago</button></div><div id="familyChargesList" class="cards-list"></div></section>
+    <section id="view-familyPayments" class="view hidden">
+      <div class="page-head">
+        <div><span class="eyebrow">FINANZAS</span><h2>Mis mensualidades</h2><p class="muted">Aquí aparecen primero únicamente las mensualidades que requieren tu atención.</p></div>
+        <button id="openSinpeButton" class="btn primary">Reportar pago</button>
+      </div>
+      <div class="family-payment-tabs" role="tablist" aria-label="Vista de mensualidades">
+        <button id="familyPaymentsPendingTab" class="family-payment-tab active" type="button" data-family-payment-view="pending" role="tab" aria-selected="true">Pendientes <span id="familyPaymentsPendingCount">0</span></button>
+        <button id="familyPaymentsHistoryTab" class="family-payment-tab" type="button" data-family-payment-view="history" role="tab" aria-selected="false">Historial</button>
+      </div>
+      <div id="familyPaymentHistoryFilters" class="filters family-payment-history-filters hidden">
+        <select id="familyPaymentHistoryStatus" aria-label="Filtrar historial por estado">
+          <option value="">Todos los estados</option>
+          <option value="paid">Pagadas</option>
+          <option value="pending">Pendientes</option>
+          <option value="partial">Parciales</option>
+          <option value="exempt">Exoneradas</option>
+        </select>
+        <select id="familyPaymentHistoryPlayer" aria-label="Filtrar historial por jugadora"><option value="">Todas las jugadoras</option></select>
+        <input id="familyPaymentHistoryMonth" type="month" aria-label="Filtrar historial por mes">
+      </div>
+      <div id="familyChargesList" class="cards-list"></div>
+    </section>
     <section id="view-familyAnnouncements" class="view hidden"><div class="page-head"><div><span class="eyebrow">INFORMACIÓN</span><h2>Comunicados</h2></div></div><div id="familyAnnouncementsList" class="cards-list"></div></section>
 
     <section id="view-about" class="view hidden"><div class="page-head"><div><span class="eyebrow">SISTEMA</span><h2>Acerca de VolleyCore</h2></div></div><article class="panel"><p><strong>Versión:</strong> UI 2.13</p><p><strong>Build:</strong> 2026-08-07 · Attendance Justification</p><p><strong>Organización:</strong> ASBAVOL</p><p><strong>Base de datos:</strong> Firebase Firestore</p></article></section>
@@ -893,7 +914,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.14.6.js?v=20260812-security1"></script>
+<script type="module" src="app-ui-2.14.7.js?v=20260812-security1"></script>
 
 
 <script>

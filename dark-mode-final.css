@@ -531,3 +531,54 @@ html[data-theme="dark"] .shirt-catalog-item,
 html[data-theme="dark"] .shirt-catalog-image{background:var(--dm-surface)!important;color:var(--dm-text)!important;border-color:var(--dm-border)!important}
 html[data-theme="dark"] .shirt-photo-placeholder{background:var(--dm-surface-2)!important;color:var(--dm-text)!important}
 html[data-theme="dark"] #appScreen :where(.badge.active,.badge.inactive,.badge.injured,.badge.pending,.badge.paid,.badge.partial,.badge.overdue,.badge.reported,.badge.approved,.badge.rejected,.badge.cancelled,.badge.exempt,.badge.scheduled,.badge.changed,.badge.completed,.badge.published,.badge.draft,.badge.closed,.badge.present,.badge.absent){text-shadow:none!important}
+
+
+/* =========================================================
+   VolleyCore UI 2.14.7 — dark-mode contrast hardening
+   Catch legacy/dynamic elements that still carried black text.
+   ========================================================= */
+html[data-theme="dark"] #appScreen .container .view :where(
+  .panel,.stat,.table-wrap,.recent-item,.person-row,.family-charge-card,
+  .cards-list>*,.cards-grid>*,.filters,.family-payment-tabs,.family-payment-history-filters,
+  .payment-meta,.charge-values,.details,.profile-data-list,.check-list,.picker-list
+) :where(h1,h2,h3,h4,h5,h6,p,div,span,strong,label,legend,dt,dd,td,th){
+  color:var(--dm-text)!important;
+}
+html[data-theme="dark"] #appScreen .container .view :where(
+  .panel,.stat,.table-wrap,.recent-item,.person-row,.family-charge-card,
+  .cards-list>*,.cards-grid>*,.filters,.family-payment-tabs,.family-payment-history-filters
+) :where(.muted,.subtitle,.page-subtitle,small){
+  color:var(--dm-muted)!important;
+}
+html[data-theme="dark"] #appScreen .container .view .eyebrow{color:var(--dm-link)!important}
+html[data-theme="dark"] #appScreen .container .view :where(a,.link-button){color:var(--dm-link)!important}
+
+/* Preserve status/button semantics after the universal contrast rule. */
+html[data-theme="dark"] #appScreen .container .view .btn.primary,
+html[data-theme="dark"] #appScreen .container .view .btn.primary *{color:#fff!important}
+html[data-theme="dark"] #appScreen .container .view .btn.secondary,
+html[data-theme="dark"] #appScreen .container .view .btn.secondary *{color:var(--dm-text)!important}
+
+html[data-theme="dark"] #appScreen .container .view .badge.paid,
+html[data-theme="dark"] #appScreen .container .view .badge.approved,
+html[data-theme="dark"] #appScreen .container .view .badge.active{color:#74e39c!important}
+html[data-theme="dark"] #appScreen .container .view .badge.pending,
+html[data-theme="dark"] #appScreen .container .view .badge.reported,
+html[data-theme="dark"] #appScreen .container .view .badge.partial{color:#ffd37a!important}
+html[data-theme="dark"] #appScreen .container .view .badge.overdue,
+html[data-theme="dark"] #appScreen .container .view .badge.rejected,
+html[data-theme="dark"] #appScreen .container .view .badge.inactive{color:#ff9a9a!important}
+html[data-theme="dark"] #appScreen .container .view .badge.exempt,
+html[data-theme="dark"] #appScreen .container .view .badge.neutral{color:#c8d0dc!important}
+
+/* Family payment tabs */
+html[data-theme="dark"] .family-payment-tab{
+  background:var(--dm-surface-2)!important;
+  color:var(--dm-text)!important;
+  border-color:var(--dm-border)!important;
+}
+html[data-theme="dark"] .family-payment-tab.active{
+  background:#23343a!important;
+  color:#9be8f3!important;
+  border-color:#4b9cac!important;
+}
