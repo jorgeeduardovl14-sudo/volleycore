@@ -54,6 +54,20 @@ service cloud.firestore {
       allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
       allow delete: if false;
     }
+    match /exitRecords/{id} {
+      allow read: if isAdmin() && resource.data.orgId == 'asbavol';
+      allow create: if isAdmin()
+        && request.resource.data.orgId == 'asbavol'
+        && request.resource.data.processedBy == request.auth.uid
+        && request.resource.data.entityType in ['player','user','trainer']
+        && request.resource.data.reason in ['transfer','dissatisfaction','schedule','financial','injury','study','move','family','retirement','administrative','other'];
+      allow update: if isAdmin()
+        && request.resource.data.orgId == resource.data.orgId
+        && request.resource.data.entityId == resource.data.entityId
+        && request.resource.data.entityType == resource.data.entityType
+        && request.resource.data.processedBy == resource.data.processedBy;
+      allow delete: if false;
+    }
     match /categories/{id} {
       allow read: if sameOrg() && resource.data.orgId == 'asbavol';
       allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';

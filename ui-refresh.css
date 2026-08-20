@@ -1496,3 +1496,10 @@ html[data-theme="dark"] .link-admin-summary.selected{outline-color:rgba(114,216,
   .family-payment-tab{flex:1}
   .family-payment-history-filters{grid-template-columns:1fr!important}
 }
+
+/* UI 2.14.8 — Offboarding / retention log */
+.exit-log-filters{grid-template-columns:2fr 1fr 1fr 1fr 1fr!important}
+.exit-log-card{position:relative}
+.exit-record-person{margin-bottom:16px}
+@media(max-width:900px){.exit-log-filters{grid-template-columns:1fr 1fr!important}}
+@media(max-width:620px){.exit-log-filters{grid-template-columns:1fr!important}}
