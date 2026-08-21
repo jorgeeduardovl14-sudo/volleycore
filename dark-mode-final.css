@@ -628,3 +628,9 @@ html[data-theme="dark"] .detail-stack p{border-color:var(--dm-border)!important;
 html[data-theme="dark"] .finance-summary-card:hover,
 html[data-theme="dark"] .offboarding-card:hover,
 html[data-theme="dark"] .shirt-admin-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.34)!important}
+
+/* UI 2.14.12 — pilot modules dark mode */
+html[data-theme="dark"] .pilot-score-line span{background:var(--dm-surface-2)!important;border-color:var(--dm-border)!important;color:var(--dm-text)!important}
+html[data-theme="dark"] .pilot-category-settings{border-color:var(--dm-border)!important}
+html[data-theme="dark"] .pilot-feedback-card,
+html[data-theme="dark"] .pilot-feature-card{background:var(--dm-surface)!important;color:var(--dm-text)!important}

@@ -1526,3 +1526,19 @@ html[data-theme="dark"] .link-admin-summary.selected{outline-color:rgba(114,216,
 .detail-stack{display:grid;gap:10px}
 .detail-stack p{margin:0;padding:10px 0;border-bottom:1px solid var(--vc-border)}
 .detail-stack p:last-child{border-bottom:0}
+
+/* =========================================================
+   UI 2.14.12 — Pilot feedback + confirmed KPI interaction
+   ========================================================= */
+.offboarding-summary-card,.shirt-summary-card{cursor:pointer!important}
+.offboarding-summary-card:hover,.shirt-summary-card:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(15,23,42,.10)}
+.pilot-form-card form{display:grid;gap:14px}
+.pilot-rating-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.pilot-score-line{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.pilot-score-line span{padding:7px 10px;border-radius:10px;background:var(--vc-surface-2);border:1px solid var(--vc-border)}
+.pilot-setting-columns section{display:grid;gap:8px;align-content:start}
+.pilot-category-settings{max-height:260px;overflow:auto;padding:8px;border:1px solid var(--vc-border);border-radius:12px}
+.pilot-settings-disabled{opacity:.45;pointer-events:none}
+.pilot-feedback-card,.pilot-feature-card{border-left:3px solid var(--vc-cyan)}
+@media(max-width:850px){.pilot-rating-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.pilot-rating-grid{grid-template-columns:1fr}}
