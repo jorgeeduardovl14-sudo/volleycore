@@ -107,7 +107,20 @@ service cloud.firestore {
           && request.resource.data.categoryId == ''
           && request.resource.data.sourceId is string)
       );
-      allow update: if sameOrg() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['readBy']) && request.resource.data.readBy.hasAll(resource.data.readBy) && request.auth.uid in request.resource.data.readBy;
+      allow update: if sameOrg() && (
+        (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['readBy'])
+          && request.resource.data.get('readBy', []).hasAll(resource.data.get('readBy', []))
+          && request.resource.data.get('readBy', []).size() == resource.data.get('readBy', []).size() + 1
+          && request.auth.uid in request.resource.data.get('readBy', [])
+        )
+        || (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['hiddenBy'])
+          && request.resource.data.get('hiddenBy', []).hasAll(resource.data.get('hiddenBy', []))
+          && request.resource.data.get('hiddenBy', []).size() == resource.data.get('hiddenBy', []).size() + 1
+          && request.auth.uid in request.resource.data.get('hiddenBy', [])
+        )
+      );
       allow delete: if false;
     }
     match /exitRecords/{id} {

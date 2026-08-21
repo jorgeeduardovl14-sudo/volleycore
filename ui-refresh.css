@@ -1519,3 +1519,10 @@ html[data-theme="dark"] .link-admin-summary.selected{outline-color:rgba(114,216,
 .notification-dismiss{border:0;background:transparent;cursor:pointer;font-size:1.25rem;color:var(--vc-muted);border-radius:8px;margin:6px 4px}
 .notification-dismiss:hover{background:var(--vc-surface-2);color:var(--vc-text)}
 .notification-panel-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* UI 2.14.10 — interaction consistency */
+.finance-summary-card{cursor:pointer}
+.finance-summary-card:hover,.offboarding-card:hover,.shirt-admin-card:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(15,23,42,.09)}
+.detail-stack{display:grid;gap:10px}
+.detail-stack p{margin:0;padding:10px 0;border-bottom:1px solid var(--vc-border)}
+.detail-stack p:last-child{border-bottom:0}

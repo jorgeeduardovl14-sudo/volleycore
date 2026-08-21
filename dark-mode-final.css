@@ -622,3 +622,9 @@ html[data-theme="dark"] .vc-dashboard-match-row small{color:var(--dm-muted)!impo
 html[data-theme="dark"] .notification-row{border-color:var(--dm-border)!important}
 html[data-theme="dark"] .notification-dismiss{color:var(--dm-muted)!important}
 html[data-theme="dark"] .notification-dismiss:hover{background:var(--dm-surface-2)!important;color:var(--dm-text)!important}
+
+/* UI 2.14.10 — new clickable/detail elements */
+html[data-theme="dark"] .detail-stack p{border-color:var(--dm-border)!important;color:var(--dm-text)!important}
+html[data-theme="dark"] .finance-summary-card:hover,
+html[data-theme="dark"] .offboarding-card:hover,
+html[data-theme="dark"] .shirt-admin-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.34)!important}
