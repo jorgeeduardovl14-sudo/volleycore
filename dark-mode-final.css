@@ -583,129 +583,42 @@ html[data-theme="dark"] .family-payment-tab.active{
   border-color:#4b9cac!important;
 }
 
-
 /* =========================================================
-   VolleyCore UI 2.14.8 — application-wide dark mode QA layer
-   Loaded LAST. This block standardizes contrast across every module,
-   including dynamic JavaScript content and semantic status badges.
+   VolleyCore UI 2.14.8 — FULL DARK MODE CONTRAST AUDIT
+   Final module-wide rules; loaded last.
    ========================================================= */
+html[data-theme="dark"] #appScreen .container .view{color:var(--dm-text)!important}
+html[data-theme="dark"] #appScreen .container .view :where(h1,h2,h3,h4,h5,h6,p,label,legend,summary,dt,dd,td,th,strong,.field-label,.profile-label,.charge-values,.payment-meta,.person-row,.recent-item,.family-card,.family-charge-card,.athlete-card,.event-card,.offboarding-card,.trainer-request-card,.trainer-event-card){color:var(--dm-text)!important}
+html[data-theme="dark"] #appScreen .container .view :where(.muted,.subtitle,.page-subtitle,small,.helper-text){color:var(--dm-muted)!important}
+html[data-theme="dark"] #appScreen .container .view :where(.panel,.stat,.table-wrap,.filters,.cards-list>*,.cards-grid>*,.recent-item,.person-row,.check-item,.picker-item,.guardian-row,.attendance-row,.player-editor-section,.category-editor-section,.family-charge-card,.offboarding-card,.trainer-request-card,.trainer-event-card){background-color:var(--dm-surface)!important;border-color:var(--dm-border)!important}
+html[data-theme="dark"] #appScreen .container .view :where(input,select,textarea){background:var(--dm-surface-2)!important;color:var(--dm-text)!important;border-color:var(--dm-border)!important}
+html[data-theme="dark"] #appScreen .container .view :where(input,textarea)::placeholder{color:#929cab!important}
+html[data-theme="dark"] #appScreen .container .view table,html[data-theme="dark"] #appScreen .container .view tbody,html[data-theme="dark"] #appScreen .container .view tr,html[data-theme="dark"] #appScreen .container .view td{color:var(--dm-text)!important;border-color:var(--dm-border)!important}
+html[data-theme="dark"] #appScreen .container .view thead th{background:#282e38!important;color:#eef1f5!important}
+html[data-theme="dark"] #appScreen .container .view .eyebrow,html[data-theme="dark"] #appScreen .container .view :where(a,.link-button){color:#72d8e9!important}
 
-/* Core module text and dynamic content. */
-html[data-theme="dark"] #appScreen .container .view{
-  color:var(--dm-text)!important;
-}
-html[data-theme="dark"] #appScreen .container .view :where(
-  .panel,.stat,.table-wrap,.cards-list>*,.cards-grid>*,.recent-item,.person-row,
-  .family-charge-card,.exit-log-card,.link-request-card,.trainer-request-card,
-  .shirt-request-card,.shirt-admin-card,.attendance-row,.check-item,.picker-item,
-  .details,.mini-list>div,.payment-meta,.charge-values,.profile-section,
-  .player-editor-section,.category-editor-section
-){
-  color:var(--dm-text)!important;
-  border-color:var(--dm-border)!important;
-}
-html[data-theme="dark"] #appScreen .container .view :where(
-  .panel,.stat,.table-wrap,.cards-list>*,.cards-grid>*,.family-charge-card,
-  .exit-log-card,.link-request-card,.trainer-request-card,.shirt-request-card,
-  .shirt-admin-card,.attendance-row,.check-item,.picker-item
-){
-  background:var(--dm-surface)!important;
-}
+/* Explicit status palette: readable regardless of inherited legacy colors. */
+html[data-theme="dark"] #appScreen .badge{background:#2b3039!important;color:#eef1f5!important;border:1px solid #414957!important}
+html[data-theme="dark"] #appScreen .badge:is(.active,.approved,.paid,.insured,.ready){background:#123421!important;color:#8ef0ad!important;border-color:#285c3a!important}
+html[data-theme="dark"] #appScreen .badge:is(.pending,.reported,.partial,.processing){background:#3a2c0d!important;color:#ffd77f!important;border-color:#6a5222!important}
+html[data-theme="dark"] #appScreen .badge:is(.overdue,.morosa,.rejected,.inactive,.cancelled,.injured){background:#42191d!important;color:#ff9ea3!important;border-color:#713139!important}
+html[data-theme="dark"] #appScreen .badge:is(.exempt,.neutral,.scheduled){background:#27303a!important;color:#d7e0ea!important;border-color:#485462!important}
+html[data-theme="dark"] #appScreen .badge.national-team-badge{background:#163248!important;color:#a9dcff!important;border-color:#315d79!important}
 
-/* Typography hierarchy. */
-html[data-theme="dark"] #appScreen .container .view :where(h1,h2,h3,h4,h5,h6,strong,dt,dd,td,th,label,legend){
-  color:var(--dm-text)!important;
-}
-html[data-theme="dark"] #appScreen .container .view :where(.muted,.subtitle,.page-subtitle,small){
-  color:var(--dm-muted)!important;
-}
-html[data-theme="dark"] #appScreen .container .view .eyebrow{color:var(--dm-link)!important}
-html[data-theme="dark"] #appScreen .container .view :where(a,.link-button){color:var(--dm-link)!important}
+html[data-theme="dark"] #appScreen .btn.primary,html[data-theme="dark"] #appScreen .btn.primary *{color:#fff!important}
+html[data-theme="dark"] #appScreen :where(.btn.secondary,.action,.icon-button,.multi-select-toggle),html[data-theme="dark"] #appScreen :where(.btn.secondary,.action,.icon-button,.multi-select-toggle) *{background-color:var(--dm-surface-2)!important;color:var(--dm-text)!important;border-color:var(--dm-border)!important}
 
-/* Inputs, filters, menu controls. */
-html[data-theme="dark"] #appScreen .container .view :where(input,select,textarea,.multi-select-toggle),
-html[data-theme="dark"] dialog :where(input,select,textarea,.multi-select-toggle){
-  background:var(--dm-surface-2)!important;
-  color:var(--dm-text)!important;
-  border-color:var(--dm-border)!important;
-}
-html[data-theme="dark"] #appScreen .container .view :where(input,textarea)::placeholder,
-html[data-theme="dark"] dialog :where(input,textarea)::placeholder{color:#929cab!important}
+/* Dialog audit */
+html[data-theme="dark"] dialog,html[data-theme="dark"] dialog form,html[data-theme="dark"] dialog :where(section,fieldset,.dialog-head,.dialog-actions,.dialog-content){background:var(--dm-surface)!important;color:var(--dm-text)!important;border-color:var(--dm-border)!important}
+html[data-theme="dark"] dialog :where(h1,h2,h3,h4,h5,h6,p,label,legend,dt,dd,strong,span){color:var(--dm-text)!important}
+html[data-theme="dark"] dialog :where(.muted,small){color:var(--dm-muted)!important}
+html[data-theme="dark"] dialog .eyebrow{color:#72d8e9!important}
+html[data-theme="dark"] dialog :where(input,select,textarea){background:var(--dm-surface-2)!important;color:var(--dm-text)!important;border-color:var(--dm-border)!important}
 
-/* Generic badges: never allow inherited white-on-white or black-on-dark. */
-html[data-theme="dark"] #appScreen .container .view .badge,
-html[data-theme="dark"] dialog .badge{
-  background:var(--dm-surface-3)!important;
-  color:#e4e9ef!important;
-  border:1px solid #47505e!important;
-}
-
-/* Success / paid / active */
-html[data-theme="dark"] #appScreen :where(.badge.paid,.badge.approved,.badge.active,.badge.insured,.badge.present,.badge.ready),
-html[data-theme="dark"] dialog :where(.badge.paid,.badge.approved,.badge.active,.badge.insured,.badge.present,.badge.ready){
-  background:#123322!important;color:#8df0b2!important;border-color:#275f40!important;
-}
-/* Pending / partial / review / scheduled */
-html[data-theme="dark"] #appScreen :where(.badge.pending,.badge.reported,.badge.partial,.badge.scheduled,.badge.processing),
-html[data-theme="dark"] dialog :where(.badge.pending,.badge.reported,.badge.partial,.badge.scheduled,.badge.processing){
-  background:#3a2e12!important;color:#ffd77e!important;border-color:#675223!important;
-}
-/* Risk / overdue / rejected / inactive / injury / cancelled */
-html[data-theme="dark"] #appScreen :where(.badge.overdue,.badge.rejected,.badge.inactive,.badge.injured,.badge.cancelled,.badge.absent),
-html[data-theme="dark"] dialog :where(.badge.overdue,.badge.rejected,.badge.inactive,.badge.injured,.badge.cancelled,.badge.absent){
-  background:#421b20!important;color:#ff9ea6!important;border-color:#6e3038!important;
-}
-/* Exempt / neutral / completed / closed */
-html[data-theme="dark"] #appScreen :where(.badge.exempt,.badge.neutral,.badge.completed,.badge.closed,.badge.first-division),
-html[data-theme="dark"] dialog :where(.badge.exempt,.badge.neutral,.badge.completed,.badge.closed,.badge.first-division){
-  background:#29303a!important;color:#d3dae4!important;border-color:#4a5564!important;
-}
-/* National team visual identity remains blue/cyan and legible. */
-html[data-theme="dark"] #appScreen .badge.national-team-badge{
-  background:#143541!important;color:#9eeaf5!important;border-color:#316a78!important;
-}
-
-/* Notices */
-html[data-theme="dark"] #appScreen :where(.notice.info,.notice.success,.notice.warning,.notice.error),
-html[data-theme="dark"] dialog :where(.notice.info,.notice.success,.notice.warning,.notice.error){
-  border:1px solid var(--dm-border)!important;
-}
-html[data-theme="dark"] #appScreen .notice.info,html[data-theme="dark"] dialog .notice.info{background:#132c38!important;color:#a4e5f1!important}
-html[data-theme="dark"] #appScreen .notice.success,html[data-theme="dark"] dialog .notice.success{background:#123322!important;color:#9aefb9!important}
-html[data-theme="dark"] #appScreen .notice.warning,html[data-theme="dark"] dialog .notice.warning{background:#3a2a12!important;color:#ffd590!important}
-html[data-theme="dark"] #appScreen .notice.error,html[data-theme="dark"] dialog .notice.error{background:#421b20!important;color:#ffabb1!important}
-
-/* Buttons stay readable regardless of nested spans/icons. */
-html[data-theme="dark"] #appScreen :where(.btn.primary,.btn.danger),
-html[data-theme="dark"] #appScreen :where(.btn.primary,.btn.danger) *,
-html[data-theme="dark"] dialog :where(.btn.primary,.btn.danger),
-html[data-theme="dark"] dialog :where(.btn.primary,.btn.danger) *{color:#fff!important}
-html[data-theme="dark"] #appScreen :where(.btn.secondary,.action),
-html[data-theme="dark"] #appScreen :where(.btn.secondary,.action) *,
-html[data-theme="dark"] dialog :where(.btn.secondary,.action),
-html[data-theme="dark"] dialog :where(.btn.secondary,.action) *{color:var(--dm-text)!important}
-
-/* KPI and dashboard semantic icons — do not inherit generic text color. */
-html[data-theme="dark"] #appScreen .vc-round-icon.cyan{color:#8ce9f5!important}
-html[data-theme="dark"] #appScreen .vc-round-icon.red{color:#ff9ca4!important}
-html[data-theme="dark"] #appScreen .vc-round-icon.green{color:#8df0b2!important}
-
-/* Tables / monthly fees: explicit final override for the issue found in QA. */
-html[data-theme="dark"] #view-finances table :where(td,th,strong),
-html[data-theme="dark"] #view-familyPayments .family-charge-card :where(h3,strong,p,span){
-  color:var(--dm-text)!important;
-}
-html[data-theme="dark"] #view-finances table .muted,
-html[data-theme="dark"] #view-familyPayments .family-charge-card .muted{color:var(--dm-muted)!important}
-/* Re-apply semantic badges AFTER monthly-fee text rules. */
-html[data-theme="dark"] #view-finances .badge.paid,
-html[data-theme="dark"] #view-familyPayments .badge.paid{background:#123322!important;color:#8df0b2!important;border-color:#275f40!important}
-html[data-theme="dark"] #view-finances .badge.pending,
-html[data-theme="dark"] #view-finances .badge.partial,
-html[data-theme="dark"] #view-familyPayments .badge.pending,
-html[data-theme="dark"] #view-familyPayments .badge.partial,
-html[data-theme="dark"] #view-familyPayments .badge.reported{background:#3a2e12!important;color:#ffd77e!important;border-color:#675223!important}
-html[data-theme="dark"] #view-finances .badge.overdue,
-html[data-theme="dark"] #view-familyPayments .badge.overdue{background:#421b20!important;color:#ff9ea6!important;border-color:#6e3038!important}
-html[data-theme="dark"] #view-finances .badge.exempt,
-html[data-theme="dark"] #view-familyPayments .badge.exempt{background:#29303a!important;color:#d3dae4!important;border-color:#4a5564!important}
+/* UI 2.14.9 — interaction audit dark mode */
+html[data-theme="dark"] .clickable-row:hover td{background:#292f38!important}
+html[data-theme="dark"] .vc-dashboard-match-row{border-color:var(--dm-border)!important}
+html[data-theme="dark"] .vc-dashboard-match-row small{color:var(--dm-muted)!important}
+html[data-theme="dark"] .notification-row{border-color:var(--dm-border)!important}
+html[data-theme="dark"] .notification-dismiss{color:var(--dm-muted)!important}
+html[data-theme="dark"] .notification-dismiss:hover{background:var(--dm-surface-2)!important;color:var(--dm-text)!important}

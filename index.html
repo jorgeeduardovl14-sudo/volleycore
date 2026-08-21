@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore Security 1.0 · UI 2.14.8</title>
+  <title>VolleyCore Security 1.0 · UI 2.14.9</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260812-ui2135">
 
@@ -117,7 +117,7 @@
   <aside id="notificationPanel" class="notification-panel hidden" aria-label="Centro de notificaciones">
     <div class="notification-panel-head"><div><span class="eyebrow">NOTIFICACIONES</span><h3>Actividad de tus categorías</h3></div><button id="closeNotificationPanel" class="icon-button" type="button">×</button></div>
     <div id="notificationList" class="notification-list"></div>
-    <div class="notification-panel-actions"><button id="markAllNotificationsRead" class="btn secondary" type="button">Marcar todas como leídas</button></div>
+    <div class="notification-panel-actions"><button id="markAllNotificationsRead" class="btn secondary" type="button">Marcar todas como leídas</button><button id="clearReadNotifications" class="btn secondary" type="button">Limpiar leídas</button></div>
   </aside>
   <nav id="adminNav" class="nav hidden">
     <div class="vc-sidebar-brand vc-sidebar-shield-only">
@@ -142,7 +142,7 @@
     <div class="nav-section-label">ADMINISTRACIÓN</div>
     <button data-view="userAdmin"><span class="nav-icon">👥</span>Administración de usuarios</button>
     <button data-view="linkAdmin"><span class="nav-icon">🔗</span>Solicitudes de vinculación <span id="linkAdminNavBadge" class="nav-count-badge hidden">0</span></button>
-    <button data-view="exitLog"><span class="nav-icon">↪</span>Bitácora de bajas</button>
+    <button data-view="offboarding"><span class="nav-icon">↪</span>Bitácora de bajas</button>
     <button data-view="shirtAdmin"><span class="nav-icon">👕</span>Solicitudes de camisetas</button>
     <button data-view="announcements"><span class="nav-icon">✦</span>Comunicados</button>
     <button data-view="import"><span class="nav-icon">⇧</span>Importar jugadoras</button>
@@ -198,18 +198,18 @@
               <h2 id="dashboardGreeting">¡Bienvenido!</h2>
               <p class="page-subtitle">Aquí tienes un resumen de lo más importante del club.</p>
             </div>
-            <div class="home-actions"><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button><div id="dashboardToday" class="vc-date-chip">Hoy</div></div>
+            <div class="home-actions"><div id="dashboardToday" class="vc-date-chip">Hoy</div></div>
           </div>
 
           <div id="summaryCards" class="stats vc-kpi-grid"></div>
 
           <div class="vc-feature-grid">
-            <article class="panel vc-feature-card vc-feature-training">
-              <div class="vc-feature-title"><span class="vc-round-icon cyan">◉</span><strong>PRÓXIMO ENTRENAMIENTO</strong></div>
+            <article class="panel vc-feature-card vc-feature-training clickable-card" data-dashboard-view="trainings" role="button" tabindex="0">
+              <div class="vc-feature-title"><span class="vc-round-icon cyan">◉</span><strong>ENTRENAMIENTOS</strong></div>
               <div id="dashboardNextTraining"></div>
             </article>
-            <article class="panel vc-feature-card vc-feature-match">
-              <div class="vc-feature-title"><span class="vc-round-icon red">▣</span><strong>PRÓXIMO PARTIDO</strong></div>
+            <article class="panel vc-feature-card vc-feature-match clickable-card" data-dashboard-view="events" role="button" tabindex="0">
+              <div class="vc-feature-title"><span class="vc-round-icon red">▣</span><strong>PRÓXIMOS PARTIDOS</strong></div>
               <div id="dashboardNextMatch"></div>
             </article>
           </div>
@@ -242,7 +242,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore Security 1.0 · UI 2.14.8</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore Security 1.0 · UI 2.14.9</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button></div>
@@ -429,26 +429,22 @@
       <div id="linkAdminList" class="cards-list"></div>
     </section>
 
+    <section id="view-offboarding" class="view hidden">
+      <div class="page-head"><div><span class="eyebrow">ADMINISTRACIÓN</span><h2>Bitácora de bajas</h2><p class="muted">Historial de salidas e inactivaciones de jugadoras, usuarios y personal deportivo.</p></div></div>
+      <div id="offboardingSummary" class="stats small"></div>
+      <div class="filters offboarding-filters">
+        <input id="offboardingSearch" type="search" placeholder="Buscar persona, motivo o equipo destino">
+        <select id="offboardingEntityFilter"><option value="">Todos los tipos</option><option value="player">Jugadoras</option><option value="user">Usuarios</option><option value="trainer">Personal deportivo</option></select>
+        <select id="offboardingReasonFilter"><option value="">Todos los motivos</option></select>
+      </div>
+      <div id="offboardingList" class="cards-list"></div>
+    </section>
+
     <section id="view-userAdmin" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">ADMINISTRACIÓN</span><h2>Administración de usuarios</h2><p class="muted">Gestiona roles, estado y acceso de las cuentas registradas en VolleyCore.</p></div></div>
       <div id="userAdminSummary" class="stats small"></div>
       <div class="filters"><input id="userAdminSearch" type="search" placeholder="Buscar por nombre o correo"><select id="userAdminRoleFilter"><option value="">Todos los roles</option><option value="admin">Administrador</option><option value="treasurer">Tesorería</option><option value="trainer">Entrenador</option><option value="assistant">Asistente</option><option value="player">Jugadora</option><option value="family">Familia</option></select><select id="userAdminStatusFilter"><option value="">Todos los estados</option><option value="active">Activo</option><option value="inactive">Inactivo</option><option value="pending">Pendiente</option><option value="rejected">Rechazado</option></select></div>
       <div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Rol</th><th>Jugadoras vinculadas</th><th>Estado</th><th></th></tr></thead><tbody id="userAdminBody"></tbody></table></div>
-    </section>
-
-    <section id="view-exitLog" class="view hidden">
-      <div class="page-head">
-        <div><span class="eyebrow">ADMINISTRACIÓN</span><h2>Bitácora de bajas</h2><p class="muted">Historial de bajas de jugadoras, usuarios, entrenadores y asistentes. Los registros se conservan aunque la persona posteriormente regrese.</p></div>
-      </div>
-      <div id="exitLogSummary" class="stats small"></div>
-      <div class="filters exit-log-filters">
-        <input id="exitLogSearch" type="search" placeholder="Buscar persona, equipo destino o detalle">
-        <select id="exitLogEntityType"><option value="">Todos los tipos</option><option value="player">Jugadoras</option><option value="user">Usuarios</option><option value="trainer">Entrenadores / asistentes</option></select>
-        <select id="exitLogReason"><option value="">Todos los motivos</option><option value="transfer">Cambio de equipo</option><option value="dissatisfaction">Insatisfacción</option><option value="schedule">Horarios</option><option value="financial">Razones económicas</option><option value="injury">Lesión / salud</option><option value="study">Estudio</option><option value="move">Mudanza</option><option value="family">Decisión familiar</option><option value="retirement">Retiro del deporte</option><option value="administrative">Administrativo</option><option value="other">Otro</option></select>
-        <select id="exitLogCategory"><option value="">Todas las categorías</option></select>
-        <input id="exitLogMonth" type="month" aria-label="Mes de baja">
-      </div>
-      <div id="exitLogList" class="cards-list"></div>
     </section>
 
     <section id="view-shirtAdmin" class="view hidden">
@@ -641,6 +637,32 @@
 </dialog>
 </main>
 
+<dialog id="offboardingDialog">
+  <form id="offboardingForm">
+    <div class="dialog-head"><div><span class="eyebrow">BITÁCORA DE BAJA</span><h3 id="offboardingDialogTitle">Registrar baja</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
+    <input id="offboardingEntityType" type="hidden"><input id="offboardingEntityId" type="hidden"><input id="offboardingEntityName" type="hidden">
+    <p class="notice warning">Para inactivar este registro debemos documentar el motivo. La información quedará en la bitácora administrativa.</p>
+    <div class="grid two">
+      <label>Fecha efectiva<input id="offboardingEffectiveDate" type="date" required></label>
+      <label>Tipo de baja<select id="offboardingExitType" required><option value="definitive">Definitiva</option><option value="temporary">Temporal</option></select></label>
+      <label>Motivo principal<select id="offboardingReason" required>
+        <option value="">Seleccionar…</option>
+        <option value="team_change">Cambio de equipo</option><option value="relocation">Mudanza</option><option value="study">Estudios</option><option value="injury">Lesión</option>
+        <option value="financial">Razones económicas</option><option value="schedule">Incompatibilidad de horarios</option>
+        <option value="sport_dissatisfaction">Insatisfacción deportiva</option><option value="administrative_dissatisfaction">Insatisfacción administrativa</option>
+        <option value="family_decision">Decisión familiar</option><option value="retirement">Retiro del deporte</option><option value="employment_end">Fin de relación / función</option><option value="other">Otro</option>
+      </select></label>
+      <label id="offboardingDestinationTeamField" class="hidden">Equipo destino<input id="offboardingDestinationTeam" placeholder="Nombre del equipo"></label>
+      <label id="offboardingDissatisfactionField" class="hidden">Área de insatisfacción<select id="offboardingDissatisfaction">
+        <option value="">Seleccionar…</option><option value="coach">Entrenador/a</option><option value="playing_time">Tiempo de juego</option><option value="communication">Comunicación</option><option value="treatment">Trato</option><option value="organization">Organización</option><option value="facilities">Instalaciones</option><option value="costs">Costos / pagos</option><option value="schedule">Horarios</option><option value="team_environment">Ambiente de equipo</option><option value="other">Otro</option>
+      </select></label>
+    </div>
+    <label>Detalle / contexto<textarea id="offboardingDetails" required placeholder="Explica brevemente qué ocurrió y cualquier información útil para seguimiento."></textarea></label>
+    <label>Observaciones adicionales<textarea id="offboardingNotes"></textarea></label>
+    <div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Registrar baja y continuar</button></div>
+  </form>
+</dialog>
+
 <dialog id="familyDialog"><form id="familyForm"><div class="dialog-head"><h3 id="familyDialogTitle">Nueva familia</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="familyDocId" type="hidden"><div class="grid two"><label>Código familiar<input id="familyCode" required placeholder="FAM-0001"></label><label>Nombre de la familia<input id="familyName" required placeholder="Familia Vargas Molina"></label><label>Teléfono principal<input id="familyPhone"></label><label>Estado<select id="familyStatus"><option value="active">Activa</option><option value="inactive">Inactiva</option></select></label></div><label>Dirección<textarea id="familyAddress"></textarea></label><label>Observaciones<textarea id="familyNotes"></textarea></label><div class="grid two"><fieldset><legend>Usuarios de la familia</legend><div id="familyUsersEditor" class="check-list"></div></fieldset><fieldset><legend>Jugadoras de la familia</legend><div id="familyPlayersEditor" class="check-list"></div></fieldset></div><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar familia</button></div></form></dialog>
 
 <dialog id="familyDetailDialog"><div class="dialog-head dialog-pad"><div><span id="familyDetailCode" class="eyebrow"></span><h3 id="familyDetailTitle">Familia</h3></div><button class="icon-button close-dialog" type="button">×</button></div><div id="familyDetailContent" class="dialog-content"></div><div class="dialog-actions dialog-pad"><button id="manageFamilyMembersFromDetail" class="btn secondary" type="button">Gestionar miembros</button><button id="editFamilyFromDetail" class="btn primary" type="button">Editar datos</button><button class="btn secondary close-dialog" type="button">Cerrar</button></div></dialog>
@@ -680,45 +702,6 @@
     <div class="dialog-actions"><button id="deleteUserFromRoleManager" type="button" class="btn danger">Eliminar usuario</button><button type="button" class="btn secondary close-dialog">Cancelar</button><button id="saveRoleManagerButton" class="btn primary" type="submit">Guardar rol</button></div>
   </form>
 </dialog>
-<dialog id="exitRecordDialog" class="wide-dialog">
-  <form id="exitRecordForm">
-    <div class="dialog-head">
-      <div><span class="eyebrow">BITÁCORA DE BAJAS</span><h3>Registrar motivo de baja</h3></div>
-      <button id="exitRecordClose" class="icon-button" type="button">×</button>
-    </div>
-    <input id="exitRecordEntityType" type="hidden">
-    <input id="exitRecordEntityId" type="hidden">
-    <article class="panel exit-record-person"><strong id="exitRecordEntityName">Persona</strong><p id="exitRecordEntityContext" class="muted"></p></article>
-    <div class="grid two">
-      <label>Fecha de baja<input id="exitRecordDate" type="date" required></label>
-      <label>Tipo de baja<select id="exitRecordExitType" required><option value="definitive">Definitiva</option><option value="temporary">Temporal</option></select></label>
-      <label>Motivo principal<select id="exitRecordReason" required>
-        <option value="">Seleccionar</option>
-        <option value="transfer">Cambio de equipo</option>
-        <option value="dissatisfaction">Insatisfacción</option>
-        <option value="schedule">Incompatibilidad de horarios</option>
-        <option value="financial">Razones económicas</option>
-        <option value="injury">Lesión / salud</option>
-        <option value="study">Estudio</option>
-        <option value="move">Mudanza</option>
-        <option value="family">Decisión familiar</option>
-        <option value="retirement">Retiro del deporte</option>
-        <option value="administrative">Razón administrativa</option>
-        <option value="other">Otro</option>
-      </select></label>
-      <label id="exitDestinationField" class="hidden">Equipo / organización destino<input id="exitRecordDestination" placeholder="Nombre del nuevo equipo"></label>
-      <label id="exitDissatisfactionField" class="hidden">Área de insatisfacción<select id="exitRecordDissatisfaction">
-        <option value="">Seleccionar</option><option value="coach">Entrenador / cuerpo técnico</option><option value="playing_time">Tiempo de juego / rol deportivo</option><option value="communication">Comunicación</option><option value="treatment">Trato recibido</option><option value="organization">Organización</option><option value="facilities">Instalaciones</option><option value="cost">Costos / pagos</option><option value="schedule">Horarios</option><option value="team_environment">Ambiente de equipo</option><option value="other">Otro</option>
-      </select></label>
-      <label>Posibilidad de retorno<select id="exitRecordReturn"><option value="unknown">No determinado</option><option value="yes">Sí</option><option value="no">No</option></select></label>
-    </div>
-    <label>Detalle del motivo<textarea id="exitRecordDetail" placeholder="Describe brevemente qué ocurrió o cualquier contexto relevante."></textarea></label>
-    <label>Observaciones administrativas<textarea id="exitRecordNotes" placeholder="Seguimiento, acuerdos, pendientes, etc."></textarea></label>
-    <p class="notice info">Este registro queda en la bitácora administrativa y no elimina el historial previo de la persona.</p>
-    <div class="dialog-actions"><button id="exitRecordCancel" class="btn secondary" type="button">Cancelar</button><button class="btn primary" type="submit">Registrar baja</button></div>
-  </form>
-</dialog>
-
 <dialog id="trainerDialog">
   <form id="trainerForm">
     <div class="dialog-head"><h3>Asignar perfil de entrenador</h3><button class="icon-button close-dialog" type="button">×</button></div>
@@ -969,7 +952,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.14.8.js?v=20260812-security1"></script>
+<script type="module" src="app-ui-2.14.9.js?v=20260812-security1"></script>
 
 
 <script>

@@ -1498,8 +1498,24 @@ html[data-theme="dark"] .link-admin-summary.selected{outline-color:rgba(114,216,
 }
 
 /* UI 2.14.8 — Offboarding / retention log */
-.exit-log-filters{grid-template-columns:2fr 1fr 1fr 1fr 1fr!important}
-.exit-log-card{position:relative}
-.exit-record-person{margin-bottom:16px}
-@media(max-width:900px){.exit-log-filters{grid-template-columns:1fr 1fr!important}}
-@media(max-width:620px){.exit-log-filters{grid-template-columns:1fr!important}}
+.offboarding-card{position:relative}
+.offboarding-filters{grid-template-columns:2fr 1fr 1fr!important}
+@media(max-width:800px){.offboarding-filters{grid-template-columns:1fr!important}}
+
+/* UI 2.14.9 — interaction consistency audit */
+.clickable-card,.clickable-row,.clickable-stat,[data-dashboard-view]{cursor:pointer}
+.clickable-card:hover,.clickable-stat:hover,.vc-feature-card[data-dashboard-view]:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(15,23,42,.09)}
+.clickable-row:hover td{background:rgba(15,23,42,.035)}
+.clickable-card:focus-visible,.clickable-row:focus-visible,.clickable-stat:focus-visible,[data-dashboard-view]:focus-visible{outline:3px solid rgba(38,180,196,.35);outline-offset:2px}
+.clickable-stat{appearance:none;width:100%;font:inherit;text-align:left}
+.vc-card-link{display:inline-block;margin-top:12px;font-weight:800}
+.vc-dashboard-match-list{display:grid;gap:10px}
+.vc-dashboard-match-row{display:grid;gap:2px;padding-bottom:9px;border-bottom:1px solid var(--vc-border)}
+.vc-dashboard-match-row:last-child{border-bottom:0;padding-bottom:0}
+.vc-dashboard-match-row span{font-weight:700}
+.vc-dashboard-match-row small{color:var(--vc-muted)}
+.notification-row{display:grid;grid-template-columns:minmax(0,1fr) 34px;align-items:stretch;border-bottom:1px solid var(--vc-border)}
+.notification-row .notification-item{border-bottom:0}
+.notification-dismiss{border:0;background:transparent;cursor:pointer;font-size:1.25rem;color:var(--vc-muted);border-radius:8px;margin:6px 4px}
+.notification-dismiss:hover{background:var(--vc-surface-2);color:var(--vc-text)}
+.notification-panel-actions{display:flex;gap:8px;flex-wrap:wrap}
