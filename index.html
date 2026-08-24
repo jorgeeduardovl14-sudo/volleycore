@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore Security 1.0 · UI 2.14.21</title>
+  <title>VolleyCore Security 1.0 · UI 2.14.22</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260812-ui2135">
 
@@ -248,7 +248,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore Security 1.0 · UI 2.14.21</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore Security 1.0 · UI 2.14.22</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button></div>
@@ -1021,12 +1021,12 @@
 <label id="eventVenueRegisteredField">Sede registrada<select id="eventVenue"></select></label>
 <label id="eventAwayVenueField" class="hidden">Lugar / gimnasio visitante<input id="eventAwayVenueName" placeholder="Ej. Gimnasio Municipal de Cartago"></label>
 <label id="eventAwayAddressField" class="hidden">Dirección visitante<input id="eventAwayAddress" placeholder="Dirección o referencia"></label>
-<label>Enlace de ubicación<input id="eventLocationUrl" type="url" placeholder="https://waze.com/… o https://maps.google.com/…"></label><label>Uniforme<select id="eventUniform"><option value="">Por definir</option><option value="red">Rojo</option><option value="black">Negro</option><option value="white">Blanco</option><option value="cyan_fuchsia">Celeste / Fucsia</option></select></label><label>Estado<select id="eventStatus"><option value="scheduled">Programado</option><option value="changed">Modificado</option><option value="cancelled">Cancelado</option><option value="completed">Completado</option></select></label></div><label>Observaciones<textarea id="eventNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
+<label>Enlace de ubicación<input id="eventLocationUrl" type="url" placeholder="https://waze.com/… o https://maps.google.com/…"></label><label>Uniforme<select id="eventUniform"><option value="">Por definir</option><option value="red">Rojo</option><option value="black">Negro</option><option value="white">Blanco</option><option value="cyan_fuchsia">Celeste / Fucsia</option></select></label><label>Estado<select id="eventStatus"><option value="scheduled">Programado</option><option value="changed">Modificado</option><option value="cancelled">Cancelado</option><option value="completed">Completado</option></select></label></div><label>Observaciones<textarea id="eventNotes"></textarea></label><div class="dialog-actions"><button id="deleteEventFromEditor" type="button" class="btn secondary danger-action hidden">Eliminar evento</button><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar cambios</button></div></form></dialog>
 
 <dialog id="eventDetailDialog" class="wide-dialog">
   <div class="dialog-head"><h3 id="eventDetailTitle">Detalle del evento</h3><button class="icon-button close-dialog" type="button">×</button></div>
   <div id="eventDetailContent"></div>
-  <div class="dialog-actions"><button id="eventCalendarButton" type="button" class="btn secondary">📅 Agregar al calendario</button><button type="button" class="btn secondary close-dialog">Cerrar</button><button id="editEventFromDetail" type="button" class="btn primary">Editar evento</button></div>
+  <div class="dialog-actions"><button id="eventCalendarButton" type="button" class="btn secondary">📅 Agregar al calendario</button><button id="deleteEventFromDetail" type="button" class="btn secondary danger-action hidden">Eliminar evento</button><button type="button" class="btn secondary close-dialog">Cerrar</button><button id="editEventFromDetail" type="button" class="btn primary">Editar evento</button></div>
 </dialog>
 
 <dialog id="calendarChoiceDialog" class="calendar-choice-dialog">
@@ -1103,7 +1103,7 @@
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>if(window.pdfjsLib){window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";}</script>
-<script type="module" src="app-ui-2.14.21.js?v=20260821-ui21411"></script>
+<script type="module" src="app-ui-2.14.22.js?v=20260821-ui21411"></script>
 
 
 <script>

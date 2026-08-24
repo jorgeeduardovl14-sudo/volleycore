@@ -1595,3 +1595,9 @@ html[data-theme="dark"] .link-admin-summary.selected{outline-color:rgba(114,216,
 .sports-detail-event{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .compact-fieldset{padding:10px 12px}
 @media(max-width:700px){.sports-create-grid{grid-template-columns:1fr}.page-head>.actions{width:100%}}
+
+/* UI 2.14.22 — event editing/deletion */
+#deleteEventFromEditor,#deleteEventFromDetail{margin-right:auto}
+.sports-detail-event>.actions{flex:0 0 auto}
+.danger-action.btn{border-color:#b91c1c;color:#991b1b}
+.danger-action.btn:hover{background:#fee2e2}
