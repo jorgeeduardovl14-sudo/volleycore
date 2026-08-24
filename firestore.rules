@@ -12,6 +12,8 @@ service cloud.firestore {
     function isFinance(){ return isAdmin() || isTreasurer(); }
     function isRoleAdmin(){ return sameOrg() && userDoc().data.role == 'admin'; }
     function isPortalUser(){ return sameOrg() && userDoc().data.role in ['family','player']; }
+    function isMarketing(){ return signedIn() && userDoc().data.role == 'marketing'; }
+    function marketingHasCategory(categoryId){ return isMarketing() && categoryId in userDoc().data.get('assignedCategoryIds', []); }
     function isTrainer(){ return sameOrg() && userDoc().data.role in ['trainer','assistant'] && userDoc().data.status == 'active'; }
     function trainerCategories(){ return isTrainer() && ('assignedCategoryIds' in userDoc().data) ? userDoc().data.assignedCategoryIds : []; }
     function trainerHasCategory(categoryId){ return isTrainer() && categoryId in trainerCategories(); }
@@ -149,6 +151,13 @@ service cloud.firestore {
           )
         );
     }
+    match /marketingContent/{id} {
+      allow read: if isAdmin() || (sameOrg() && isMarketing() && marketingHasCategory(resource.data.categoryId));
+      allow create: if sameOrg() && isMarketing() && request.resource.data.createdBy == request.auth.uid && marketingHasCategory(request.resource.data.categoryId);
+      allow update: if sameOrg() && isMarketing() && request.resource.data.categoryId == resource.data.categoryId && request.resource.data.createdBy == resource.data.createdBy && marketingHasCategory(resource.data.categoryId);
+      allow delete: if isAdmin();
+    }
+
     match /pilotSettings/{id} {
       allow read: if sameOrg();
       allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';

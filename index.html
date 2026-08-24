@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore Security 1.0 · UI 2.14.12</title>
+  <title>VolleyCore Security 1.0 · UI 2.14.13</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260812-ui2135">
 
@@ -134,8 +134,8 @@
     <button data-view="seasons"><span class="nav-icon">◫</span>Temporadas</button>
     <button data-view="venues"><span class="nav-icon">⌖</span>Gimnasios</button>
     <div class="nav-section-label">FINANZAS</div>
-    <button data-view="sinpeAdmin"><span class="nav-icon">▣</span>Pagos</button>
-    <button data-view="finances"><span class="nav-icon">₡</span>Mensualidades</button>
+    <button data-view="sinpeAdmin"><span class="nav-icon">▣</span>Registro de pagos</button>
+    <button data-view="finances"><span class="nav-icon">₡</span>Control de mensualidades</button>
     <button data-view="reports"><span class="nav-icon">▥</span>Reportes</button>
     <div class="nav-section-label">FAMILIAS</div>
     <button data-view="users"><span class="nav-icon">♣</span>Familias</button>
@@ -155,10 +155,14 @@
       <div><strong class="vc-session-user-name">Usuario</strong><small class="vc-session-user-role">Perfil</small></div>
       <span>⌄</span>
     </div></nav>
+  <nav id="marketingNav" class="nav hidden">
+    <div class="vc-sidebar-brand vc-sidebar-shield-only"><img src="./santa-barbara-shield-white.png" alt="Santa Bárbara"></div>
+    <button data-view="marketingHome">Dashboard</button><button data-view="marketingCalendar">Calendario</button><button data-view="marketingEvents">Eventos</button><button data-view="marketingAnnouncements">Comunicados</button><button data-view="marketingRoster">Jugadoras / Rosters</button><button data-view="marketingContent">Contenido</button><button data-view="profile">Mi perfil</button><button data-view="about">Acerca de</button>
+  </nav>
   <nav id="familyNav" class="nav hidden"><div class="vc-sidebar-brand vc-sidebar-shield-only">
       <img src="santa-barbara-shield-white.png" alt="Escudo Santa Bárbara">
     </div>
-    <button data-view="familyHome" class="active">Inicio</button><button data-view="familyCategories">Mis categorías</button><button data-view="familyLink">Vincular jugadora</button><button data-view="familyTrainings">Entrenamientos</button><button data-view="familyEvents">Eventos</button><button data-view="familyPayments">Mensualidades</button><button data-view="familyAnnouncements">Comunicados</button><button class="pilot-survey-nav" data-view="pilotSurvey">Evaluación piloto</button><button class="pilot-feature-nav" data-view="pilotFeature">Solicitar mejora</button><button data-view="profile">Mi perfil</button>
+    <button data-view="familyHome" class="active">Inicio</button><button data-view="familyCategories">Mis categorías</button><button data-view="familyLink">Vincular jugadora</button><button data-view="familyTrainings">Entrenamientos</button><button data-view="familyEvents">Eventos</button><button data-view="familyPayments">Control de mensualidades</button><button data-view="familyAnnouncements">Comunicados</button><button class="pilot-survey-nav" data-view="pilotSurvey">Evaluación piloto</button><button class="pilot-feature-nav" data-view="pilotFeature">Solicitar mejora</button><button data-view="profile">Mi perfil</button>
   <button class="mobile-logout-button" type="button">⇥ Cerrar sesión</button>
   <div class="vc-sidebar-user">
       <div class="vc-sidebar-avatar">VC</div>
@@ -245,7 +249,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore Security 1.0 · UI 2.14.12</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore Security 1.0 · UI 2.14.13</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button></div>
@@ -301,7 +305,7 @@
     </section>
 
     <section id="view-finances" class="view hidden">
-      <div class="page-head"><div><span class="eyebrow">FINANZAS</span><h2>Mensualidades</h2></div><button id="generateChargesButton" class="btn primary">Generar mensualidades</button></div>
+      <div class="page-head"><div><span class="eyebrow">FINANZAS</span><h2>Control de mensualidades</h2></div><button id="generateChargesButton" class="btn primary">Generar mensualidades</button></div>
       <div class="filters finance-filters"><input id="chargeMonthFilter" type="month" aria-label="Mes"><select id="chargeCategoryFilter" aria-label="Categoría"><option value="">Todas las categorías</option></select><select id="chargeStatusFilter" aria-label="Estado"><option value="">Todos los estados</option><option value="overdue">Morosos</option><option value="pending">Pendiente dentro del plazo</option><option value="partial">Parcial</option><option value="paid">Pagado</option><option value="exempt">Exonerado</option></select></div>
       <div id="financeSummary" class="stats small"></div>
       <div class="table-wrap"><table><thead><tr><th>Jugadora</th><th>Categoría</th><th>Mes</th><th>Monto</th><th>Pagado</th><th>Estado</th><th></th></tr></thead><tbody id="chargesBody"></tbody></table></div>
@@ -446,7 +450,7 @@
     <section id="view-userAdmin" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">ADMINISTRACIÓN</span><h2>Administración de usuarios</h2><p class="muted">Gestiona roles, estado y acceso de las cuentas registradas en VolleyCore.</p></div></div>
       <div id="userAdminSummary" class="stats small"></div>
-      <div class="filters"><input id="userAdminSearch" type="search" placeholder="Buscar por nombre o correo"><select id="userAdminRoleFilter"><option value="">Todos los roles</option><option value="admin">Administrador</option><option value="treasurer">Tesorería</option><option value="trainer">Entrenador</option><option value="assistant">Asistente</option><option value="player">Jugadora</option><option value="family">Familia</option></select><select id="userAdminStatusFilter"><option value="">Todos los estados</option><option value="active">Activo</option><option value="inactive">Inactivo</option><option value="pending">Pendiente</option><option value="rejected">Rechazado</option></select></div>
+      <div class="filters"><input id="userAdminSearch" type="search" placeholder="Buscar por nombre o correo"><select id="userAdminRoleFilter"><option value="">Todos los roles</option><option value="admin">Administrador</option><option value="treasurer">Tesorería</option><option value="trainer">Entrenador</option><option value="assistant">Asistente</option><option value="marketing">Mercadeo</option><option value="player">Jugadora</option><option value="family">Familia</option></select><select id="userAdminStatusFilter"><option value="">Todos los estados</option><option value="active">Activo</option><option value="inactive">Inactivo</option><option value="pending">Pendiente</option><option value="rejected">Rechazado</option></select></div>
       <div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Rol</th><th>Jugadoras vinculadas</th><th>Estado</th><th></th></tr></thead><tbody id="userAdminBody"></tbody></table></div>
     </section>
 
@@ -498,7 +502,13 @@
     </section>
 
 
-    <section id="view-pilotSurvey" class="view hidden">
+    <section id="view-marketingHome" class="view hidden"><div class="page-head"><div><span class="eyebrow">MERCADEO</span><h2>Dashboard de Mercadeo</h2><p class="muted">Eventos, comunicación y contenido de las categorías asignadas.</p></div></div><div id="marketingSummary" class="stats small"></div><div class="grid two"><article class="panel"><h3>Próximos eventos</h3><div id="marketingUpcomingEvents"></div></article><article class="panel"><h3>Contenido pendiente</h3><div id="marketingPendingContent"></div></article></div></section>
+<section id="view-marketingCalendar" class="view hidden"><div class="page-head"><div><span class="eyebrow">MERCADEO</span><h2>Calendario</h2></div></div><article class="panel"><div id="marketingCalendarList"></div></article></section>
+<section id="view-marketingEvents" class="view hidden"><div class="page-head"><div><span class="eyebrow">MERCADEO</span><h2>Eventos</h2><p class="muted">Vista de eventos de las categorías asignadas.</p></div></div><article class="panel"><div id="marketingEventsList"></div></article></section>
+<section id="view-marketingAnnouncements" class="view hidden"><div class="page-head"><div><span class="eyebrow">MERCADEO</span><h2>Comunicados</h2></div></div><article class="panel"><div id="marketingAnnouncementsList"></div></article></section>
+<section id="view-marketingRoster" class="view hidden"><div class="page-head"><div><span class="eyebrow">MERCADEO</span><h2>Jugadoras / Rosters</h2><p class="muted">Vista deportiva limitada; sin información financiera, médica, familiar o administrativa privada.</p></div></div><div class="filters"><select id="marketingRosterCategory"></select><input id="marketingRosterSearch" type="search" placeholder="Buscar jugadora"></div><div id="marketingRosterList" class="cards-grid"></div></section>
+<section id="view-marketingContent" class="view hidden"><div class="page-head"><div><span class="eyebrow">MERCADEO</span><h2>Contenido</h2><p class="muted">Content Planner para piezas asociadas a la actividad deportiva.</p></div></div><article class="panel"><div class="filters"><select id="marketingContentStatus"><option value="">Todos los estados</option><option value="pending">Pendiente</option><option value="preparing">En preparación</option><option value="published">Publicado</option></select></div><div id="marketingContentList"></div></article></section>
+<section id="view-pilotSurvey" class="view hidden">
       <div class="page-head">
         <div><span class="eyebrow">PILOTO VOLLEYCORE</span><h2>Evaluación de la herramienta</h2><p class="muted">Tu experiencia nos ayuda a validar la plataforma antes del lanzamiento general.</p></div>
       </div>
@@ -557,16 +567,8 @@
       <article class="panel">
         <div class="page-head compact-head"><div><span class="eyebrow">CONFIGURACIÓN</span><h3>Visibilidad por categoría</h3><p class="muted">Por defecto ambos módulos están visibles para todas las categorías. Puedes limitar cada uno de forma independiente.</p></div></div>
         <div class="grid two pilot-setting-columns">
-          <section>
-            <label class="check-item"><input id="pilotSurveyEnabled" type="checkbox"><span><strong>Evaluación piloto habilitada</strong></span></label>
-            <label class="check-item"><input id="pilotSurveyAllCategories" type="checkbox"><span>Visible para todas las categorías</span></label>
-            <div id="pilotSurveyCategorySettings" class="check-list pilot-category-settings"></div>
-          </section>
-          <section>
-            <label class="check-item"><input id="pilotFeatureEnabled" type="checkbox"><span><strong>Feature Requests habilitados</strong></span></label>
-            <label class="check-item"><input id="pilotFeatureAllCategories" type="checkbox"><span>Visible para todas las categorías</span></label>
-            <div id="pilotFeatureCategorySettings" class="check-list pilot-category-settings"></div>
-          </section>
+          <section class="pilot-setting-box"><div class="pilot-setting-head"><strong>Evaluación piloto</strong><label class="switch-line"><input id="pilotSurveyEnabled" type="checkbox"><span>Habilitado</span></label></div><label>Alcance<select id="pilotSurveyScope"><option value="all">Todas las categorías</option><option value="selected">Categorías específicas</option></select></label><div id="pilotSurveyCategorySettings" class="check-list pilot-category-settings"></div></section>
+          <section class="pilot-setting-box"><div class="pilot-setting-head"><strong>Feature Requests</strong><label class="switch-line"><input id="pilotFeatureEnabled" type="checkbox"><span>Habilitado</span></label></div><label>Alcance<select id="pilotFeatureScope"><option value="all">Todas las categorías</option><option value="selected">Categorías específicas</option></select></label><div id="pilotFeatureCategorySettings" class="check-list pilot-category-settings"></div></section>
         </div>
         <div class="actions"><button id="savePilotSettings" class="btn primary" type="button">Guardar configuración</button></div>
       </article>
@@ -781,7 +783,7 @@
         <option value="family">Familia / encargado</option>
         <option value="player">Jugadora</option>
         <option value="trainer">Entrenador</option>
-        <option value="assistant">Asistente</option>
+        <option value="assistant">Asistente</option><option value="marketing">Mercadeo</option>
         <option value="treasurer">Tesorería</option>
         <option value="admin">Administrador</option>
       </select></label>
@@ -807,8 +809,8 @@
     <div class="dialog-head"><h3>Asignar perfil de entrenador</h3><button class="icon-button close-dialog" type="button">×</button></div>
     <label>Usuario<select id="trainerUserId" required></select></label>
     <div class="grid two">
-      <label>Rol<select id="trainerRole"><option value="trainer">Entrenador</option><option value="assistant">Asistente</option></select></label>
-      <label>Nivel<select id="trainerLevel"><option value="head">Entrenador principal</option><option value="assistant">Asistente</option><option value="coordinator">Coordinador deportivo</option></select></label>
+      <label>Rol<select id="trainerRole"><option value="trainer">Entrenador</option><option value="assistant">Asistente</option><option value="marketing">Mercadeo</option></select></label>
+      <label>Nivel<select id="trainerLevel"><option value="head">Entrenador principal</option><option value="assistant">Asistente</option><option value="marketing">Mercadeo</option><option value="coordinator">Coordinador deportivo</option></select></label>
       <label>Estado<select id="trainerStatus"><option value="active">Activo</option><option value="inactive">Inactivo</option></select></label>
     </div>
     <fieldset><legend>Categorías asignadas</legend><div id="trainerCategoriesEditor" class="check-list"></div></fieldset>
@@ -1052,7 +1054,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.14.12.js?v=20260821-ui21411"></script>
+<script type="module" src="app-ui-2.14.13.js?v=20260821-ui21411"></script>
 
 
 <script>

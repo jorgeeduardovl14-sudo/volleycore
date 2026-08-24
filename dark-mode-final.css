@@ -634,3 +634,5 @@ html[data-theme="dark"] .pilot-score-line span{background:var(--dm-surface-2)!im
 html[data-theme="dark"] .pilot-category-settings{border-color:var(--dm-border)!important}
 html[data-theme="dark"] .pilot-feedback-card,
 html[data-theme="dark"] .pilot-feature-card{background:var(--dm-surface)!important;color:var(--dm-text)!important}
+
+html[data-theme="dark"] .pilot-setting-box{border-color:var(--dm-border)!important;background:var(--dm-surface)!important}

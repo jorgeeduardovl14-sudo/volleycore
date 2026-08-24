@@ -1542,3 +1542,6 @@ html[data-theme="dark"] .link-admin-summary.selected{outline-color:rgba(114,216,
 .pilot-feedback-card,.pilot-feature-card{border-left:3px solid var(--vc-cyan)}
 @media(max-width:850px){.pilot-rating-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.pilot-rating-grid{grid-template-columns:1fr}}
+
+/* UI 2.14.13 */
+.pilot-summary-card{cursor:pointer!important}.pilot-setting-box{border:1px solid var(--vc-border);border-radius:14px;padding:14px}.pilot-setting-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.switch-line{display:flex!important;align-items:center;gap:7px}.public-player-card{text-align:center}
