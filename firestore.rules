@@ -64,7 +64,7 @@ service cloud.firestore {
     match /seasons/{id} {
       allow read: if sameOrg() && resource.data.orgId == 'asbavol';
       allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
-      allow delete: if false;
+      allow delete: if isAdmin() && resource.data.orgId == 'asbavol';
     }
     match /trainingSeries/{id} {
       allow read: if (isAdmin() || trainerHasCategory(resource.data.categoryId) || isPortalUser()) && resource.data.orgId == 'asbavol';
