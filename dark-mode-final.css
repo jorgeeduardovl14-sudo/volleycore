@@ -646,3 +646,12 @@ html[data-theme="dark"] .training-match-legend{border-color:var(--dm-border)!imp
 
 /* UI 2.14.17 */
 html[data-theme="dark"] .training-block[style*="#111827"],html[data-theme="dark"] .training-month-item[style*="#111827"]{background:#111827!important;color:#fff!important;border-color:#f8fafc!important}html[data-theme="dark"] .training-block[style*="#facc15"],html[data-theme="dark"] .training-month-item[style*="#facc15"]{color:#111827!important}
+
+/* UI 2.14.20 */
+html[data-theme="dark"] .training-event-group{
+  background:color-mix(in srgb,var(--training-color) 20%,#151922)!important;
+  color:var(--dm-text)!important;
+}
+html[data-theme="dark"] .training-event-group[style*="#111827"]{
+  background:#111827!important;color:#fff!important;border-color:#f8fafc!important;
+}

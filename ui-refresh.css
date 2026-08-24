@@ -1557,3 +1557,29 @@ html[data-theme="dark"] .link-admin-summary.selected{outline-color:rgba(114,216,
 
 /* UI 2.14.17 */
 .training-stats{gap:8px!important;margin-bottom:10px!important}.compact-training-stat{min-height:68px!important;padding:10px 14px!important}.compact-training-stat strong{font-size:1.35rem!important;line-height:1!important}.compact-training-stat span{font-size:.72rem!important;margin-top:4px!important}.training-festival-block{border-style:dashed!important}.training-month-item.festival{border-style:dashed}.training-block[style*="#111827"],.training-month-item[style*="#111827"]{color:#fff}.training-block[style*="#111827"] small,.training-month-item[style*="#111827"] span{color:#e5e7eb}
+
+/* UI 2.14.20 — grouped competition dates */
+.training-event-group{
+  border-left:5px solid var(--training-color);
+  border-radius:10px;
+  background:color-mix(in srgb,var(--training-color) 10%,white);
+  overflow:hidden;
+}
+.training-event-group>header{
+  display:flex;align-items:center;gap:7px;padding:8px 9px 6px;font-size:12px;
+}
+.training-event-group-list{display:flex;flex-direction:column}
+.training-group-event-row{
+  border:0;border-top:1px solid color-mix(in srgb,var(--training-color) 24%,transparent);
+  background:transparent;text-align:left;padding:7px 9px;cursor:pointer;color:inherit;
+  display:flex;flex-direction:column;gap:3px;width:100%;
+}
+.training-group-event-row:hover{background:color-mix(in srgb,var(--training-color) 10%,transparent)}
+.training-group-event-main{display:flex;flex-direction:column;gap:2px;font-size:11px}
+.training-group-event-main b{font-size:10px;letter-spacing:.03em}
+.training-group-event-row small{opacity:.75}
+.training-event-group.month-group{border-left-width:4px;border-radius:7px}
+.training-event-group.month-group>header{padding:5px 6px 4px;font-size:10px}
+.training-event-group.month-group .training-group-event-row{padding:5px 6px}
+.training-event-group.month-group .training-group-event-main{font-size:9px}
+.training-event-group.month-group .training-group-event-main b{font-size:9px}
