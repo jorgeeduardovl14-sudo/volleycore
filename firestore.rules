@@ -90,15 +90,19 @@ service cloud.firestore {
       allow update, delete: if false;
     }
     match /events/{id} {
-      allow read: if (isAdmin() || trainerHasCategory(resource.data.categoryId) || isPortalUser()) && resource.data.orgId == 'asbavol';
-      allow create: if request.resource.data.orgId == 'asbavol'
-        && (isAdmin() || (isTrainer() && trainerHasCategory(request.resource.data.categoryId)));
-      allow update: if request.resource.data.orgId == 'asbavol'
-        && (isAdmin()
-          || (isTrainer()
-            && trainerHasCategory(resource.data.categoryId)
-            && trainerHasCategory(request.resource.data.categoryId)));
-      allow delete: if false;
+      allow read: if sameOrg() && resource.data.orgId == 'asbavol';
+      allow create: if isAdmin()
+        || (isTrainer() && request.resource.data.orgId == 'asbavol'
+          && request.resource.data.categoryId in userDoc().data.get('assignedCategoryIds', []));
+      allow update: if isAdmin()
+        || (isTrainer()
+          && resource.data.categoryId in userDoc().data.get('assignedCategoryIds', [])
+          && request.resource.data.categoryId in userDoc().data.get('assignedCategoryIds', [])
+          && request.resource.data.orgId == resource.data.orgId);
+      allow delete: if isAdmin()
+        || (isTrainer()
+          && resource.data.orgId == 'asbavol'
+          && resource.data.categoryId in userDoc().data.get('assignedCategoryIds', []));
     }
     match /notifications/{id} {
       allow read: if sameOrg() && resource.data.orgId == 'asbavol';

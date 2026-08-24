@@ -1583,21 +1583,3 @@ html[data-theme="dark"] .link-admin-summary.selected{outline-color:rgba(114,216,
 .training-event-group.month-group .training-group-event-row{padding:5px 6px}
 .training-event-group.month-group .training-group-event-main{font-size:9px}
 .training-event-group.month-group .training-group-event-main b{font-size:9px}
-
-/* UI 2.14.21 — Unified Sports Calendar */
-.sports-create-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.sports-create-option{cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:5px;min-height:100px}
-.sports-create-option strong{font-size:1.05rem}.sports-create-option span{font-size:.85rem;opacity:.75}
-.training-event-group{width:100%;border:0;text-align:left;cursor:pointer;color:inherit}
-.training-event-group:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(15,23,42,.12)}
-.sports-group-venue{display:block;padding:0 9px 6px;opacity:.75}
-.training-group-event-row{cursor:default}
-.sports-detail-event{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.compact-fieldset{padding:10px 12px}
-@media(max-width:700px){.sports-create-grid{grid-template-columns:1fr}.page-head>.actions{width:100%}}
-
-/* UI 2.14.22 — event editing/deletion */
-#deleteEventFromEditor,#deleteEventFromDetail{margin-right:auto}
-.sports-detail-event>.actions{flex:0 0 auto}
-.danger-action.btn{border-color:#b91c1c;color:#991b1b}
-.danger-action.btn:hover{background:#fee2e2}

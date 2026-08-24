@@ -640,7 +640,7 @@ function openCategoryDetail(id){
   $('#categoryDetailContent').innerHTML=categoryDetailHTML(id);
   const addVideo=$('#addCategoryVideoButton');
   if(addVideo){addVideo.dataset.categoryId=id;addVideo.classList.remove('hidden');}
-  $('#categoryCalendarButton').dataset.categoryId=id;$('#categoryCalendarDownloadButton').dataset.categoryId=id;
+  $('#categoryCalendarButton').dataset.categoryId=id;
   $('#categoryCalendarButton').textContent='⇧ Importar calendario de categoría';
   $('#categoryDetailDialog').showModal();
 }
@@ -651,7 +651,7 @@ function openFamilyCategoryDetail(id){
   $('#categoryDetailContent').innerHTML=categoryDetailHTML(id,{familyMode:true});
   const addVideo=$('#addCategoryVideoButton');
   if(addVideo)addVideo.classList.add('hidden');
-  $('#categoryCalendarButton').dataset.categoryId=id;$('#categoryCalendarDownloadButton').dataset.categoryId=id;
+  $('#categoryCalendarButton').dataset.categoryId=id;
   $('#categoryCalendarButton').textContent='📅 Agregar calendario';
   $('#categoryDetailDialog').showModal();
 }
@@ -850,67 +850,42 @@ function trainingColor(categoryId){const key=trainingCategoryKey(catName(categor
 function trainingWeekStart(){const d=new Date(`${today()}T12:00:00`),day=d.getDay(),diff=(day===0?-6:1-day)+(trainingWeekOffset*7);d.setDate(d.getDate()+diff);return d.toISOString().slice(0,10)}
 function trainingMonthDate(){const d=new Date(`${today().slice(0,7)}-01T12:00:00`);d.setMonth(d.getMonth()+trainingMonthOffset);return d}
 function isoDateLocal(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
-
-function sportsCategoryIds(item){
-  return [...new Set([...(item?.categoryIds||[]),...(item?.categoryId?[item.categoryId]:[])])].filter(Boolean);
-}
-function sportsCategoryNames(item){return sportsCategoryIds(item).map(catName).filter(Boolean).join(' + ')||'Sin categoría'}
-function sportsHasCategory(item,categoryId){return !categoryId||sportsCategoryIds(item).includes(categoryId)}
-function sportsTypeLabel(type,count=1){
-  if(type==='training')return 'ENTRENAMIENTO';
-  if(type==='festival')return 'FESTIVAL';
-  if(type==='match')return count>1?`${count} PARTIDOS`:'PARTIDO';
-  return 'EVENTO';
-}
-function sportsEventVisualType(group){
-  if(group.some(e=>e.type==='festival'))return'festival';
-  if(group.every(e=>e.type==='match'))return'match';
-  return'other';
-}
 function trainingMinutes(t){const [sh,sm]=(t.startTime||'00:00').split(':').map(Number),[eh,em]=(t.endTime||'00:00').split(':').map(Number);return Math.max(0,(eh*60+em)-(sh*60+sm))}
-function trainingFilteredSeries(){const cat=$('#trainingCategoryFilter').value,se=$('#trainingSeasonFilter').value,venue=$('#trainingVenueFilter').value,tp=$('#sportsActivityTypeFilter')?.value||'';return trainingSeries.filter(t=>sportsHasCategory(t,cat)&&(!se||t.seasonId===se)&&(!venue||t.venueId===venue)&&t.status!=='inactive'&&(!tp||tp==='training'))}
-function trainingFilteredEvents(from,to){
-  const cat=$('#trainingCategoryFilter').value,se=$('#trainingSeasonFilter').value,venue=$('#trainingVenueFilter').value,tp=$('#sportsActivityTypeFilter')?.value||'';
-  return events.filter(e=>e.status!=='cancelled'&&e.date>=from&&e.date<=to&&sportsHasCategory(e,cat)&&(!se||e.seasonId===se)&&(!venue||e.venueId===venue||e.sourceVenueName===venueName(venue))&&(!tp||(tp==='other'?!['match','festival'].includes(e.type):e.type===tp)));
-}
+function trainingFilteredSeries(){const cat=$('#trainingCategoryFilter').value,se=$('#trainingSeasonFilter').value,venue=$('#trainingVenueFilter').value;return trainingSeries.filter(t=>(!cat||t.categoryId===cat)&&(!se||t.seasonId===se)&&(!venue||t.venueId===venue)&&t.status!=='inactive')}
+function trainingFilteredEvents(from,to){const cat=$('#trainingCategoryFilter').value,se=$('#trainingSeasonFilter').value,venue=$('#trainingVenueFilter').value;return events.filter(e=>['match','festival'].includes(e.type)&&e.status!=='cancelled'&&e.date>=from&&e.date<=to&&(!cat||e.categoryId===cat)&&(!se||e.seasonId===se)&&(!venue||e.venueId===venue))}
 function trainingFilteredMatches(from,to){return trainingFilteredEvents(from,to).filter(e=>e.type==='match')}
 function timeToMinutes(v){if(!v)return null;const [h,m]=String(v).split(':').map(Number);return Number.isFinite(h)&&Number.isFinite(m)?h*60+m:null}
 function rangesOverlap(aStart,aEnd,bStart,bEnd){const as=timeToMinutes(aStart),ae=timeToMinutes(aEnd),bs=timeToMinutes(bStart),be=timeToMinutes(bEnd);if(as===null||bs===null)return aStart===bStart;const a2=ae===null?as+120:ae,b2=be===null?bs+120:be;return as<b2&&bs<a2}
-function trainingSuppressedByMatch(o,t,matches){const tids=sportsCategoryIds(t);return matches.some(e=>e.date===o.date&&sportsCategoryIds(e).some(id=>tids.includes(id))&&rangesOverlap(o.startTime,o.endTime,e.startTime,e.endTime))}
+function trainingSuppressedByMatch(o,t,matches){return matches.some(e=>e.categoryId===t.categoryId&&e.date===o.date&&rangesOverlap(o.startTime,o.endTime,e.startTime,e.endTime))}
 function eventDisplayIcon(e){if(e.type==='festival')return '🎪';return eventEffectiveHomeAway(e)==='away'?'🚌':'🏠'}
 function eventDisplayLabel(e){return e.type==='festival'?'FESTIVAL':(eventEffectiveHomeAway(e)==='away'?'VISITA':'CASA')}
 function eventTimeLabel(e){const start=e.startTime||'Hora por definir',end=e.endTime||'';return end?`${start} – ${end}`:start}
 function renderTrainingLegend(list){const ids=[...new Set(list.map(t=>t.categoryId).filter(Boolean))];$('#trainingLegend').innerHTML=ids.map(id=>`<span class="training-legend-item"><i style="--training-color:${trainingColor(id)}"></i>${esc(catName(id))}</span>`).join('')+`<span class="training-legend-item training-match-legend">🏠 Casa</span><span class="training-legend-item">🚌 Visita</span><span class="training-legend-item">🎪 Festival</span>`}
 
-function trainingCalendarEventGroupKey(e){return `${sportsCategoryIds(e).sort().join('+')}__${e.date||''}`}
-function sportsGroupToken(group){
-  const first=group[0];return encodeURIComponent(`${first.date}|${sportsCategoryIds(first).sort().join(',')}`);
-}
+function trainingCalendarEventGroupKey(e){return `${e.categoryId||''}__${e.date||''}`}
 function renderGroupedSportsEvents(eventsForDay,{month=false}={}){
   const groups=new Map();
   [...eventsForDay].sort((a,b)=>(a.startTime||'').localeCompare(b.startTime||'')).forEach(e=>{
-    const key=trainingCalendarEventGroupKey(e);if(!groups.has(key))groups.set(key,[]);groups.get(key).push(e);
+    const key=trainingCalendarEventGroupKey(e);
+    if(!groups.has(key))groups.set(key,[]);
+    groups.get(key).push(e);
   });
   return [...groups.values()].map(group=>{
-    const first=group[0],categoryId=sportsCategoryIds(first)[0]||first.categoryId,color=trainingColor(categoryId),visual=sportsEventVisualType(group);
-    const locationNames=[...new Set(group.map(eventLocationName).filter(Boolean))];
-    const typeTitle=visual==='festival'?'FESTIVAL':visual==='match'?sportsTypeLabel('match',group.length):'EVENTO';
-    const schedule=group.map(e=>`${e.startTime||'—'}${e.opponent?' · vs '+e.opponent:''}`).join(' | ');
-    return `<button type="button" class="training-event-group ${month?'month-group':''} ${visual==='festival'?'has-festival':''}" style="--training-color:${color}" data-open-sports-group="${sportsGroupToken(group)}">
-      <header><span class="training-category-dot"></span><strong>${esc(typeTitle)} · ${esc(sportsCategoryNames(first))}</strong></header>
-      ${locationNames.length===1?`<small class="sports-group-venue">${esc(locationNames[0])}</small>`:''}
-      <div class="training-event-group-list">${group.map(e=>`<span class="training-group-event-row"><span class="training-group-event-main"><b>${eventDisplayIcon(e)} ${esc(eventTimeLabel(e))}</b><span>${e.opponent?'vs '+esc(e.opponent):esc(e.title||typeLabel(e.type))}</span></span></span>`).join('')}</div>
-    </button>`;
+    const first=group[0],categoryId=first.categoryId,color=trainingColor(categoryId);
+    const hasFestival=group.some(e=>e.type==='festival');
+    const title=group.length>1?`${catName(categoryId)} · ${group.length} eventos`:catName(categoryId);
+    const rows=group.map(e=>{
+      const location=eventLocationName(e);
+      return `<button type="button" class="training-group-event-row ${e.type==='festival'?'festival':''}" data-edit-event="${e.id}" title="Editar ${esc(e.title||typeLabel(e.type))}">
+        <span class="training-group-event-main"><b>${eventDisplayIcon(e)} ${esc(e.type==='match'?'PARTIDO':typeLabel(e.type).toUpperCase())}</b><span>${esc(eventTimeLabel(e))}${e.opponent?' · vs '+esc(e.opponent):''}</span></span>
+        ${month?'':`<small>${esc(location)}</small>`}
+      </button>`;
+    }).join('');
+    return `<article class="training-event-group ${month?'month-group':''} ${hasFestival?'has-festival':''}" style="--training-color:${color}">
+      <header><span class="training-category-dot"></span><strong>${esc(title)}</strong></header>
+      <div class="training-event-group-list">${rows}</div>
+    </article>`;
   }).join('');
-}
-function openSportsDayGroup(token){
-  const decoded=decodeURIComponent(token||''),[date,idsRaw]=decoded.split('|'),ids=(idsRaw||'').split(',').filter(Boolean);
-  const group=events.filter(e=>e.date===date&&sportsCategoryIds(e).slice().sort().join(',')===ids.slice().sort().join(',')&&e.status!=='cancelled').sort((a,b)=>(a.startTime||'').localeCompare(b.startTime||''));
-  if(!group.length)return;
-  const first=group[0],visual=sportsEventVisualType(group),locations=[...new Set(group.map(eventLocationName).filter(Boolean))];
-  $('#sportsDayDetailTitle').textContent=`${visual==='festival'?'Festival':visual==='match'?sportsTypeLabel('match',group.length):'Evento'} · ${sportsCategoryNames(first)} · ${date}`;
-  $('#sportsDayDetailContent').innerHTML=`${locations.length===1?`<article class="panel"><strong>Sede</strong><p>${esc(locations[0])}</p></article>`:''}<div class="cards-list">${group.map(e=>`<article class="panel sports-detail-event"><div><span class="eyebrow">${esc(typeLabel(e.type))}</span><h3>${eventDisplayIcon(e)} ${esc(e.startTime||'Hora por definir')}${e.endTime?' – '+esc(e.endTime):''}</h3><p>${e.opponent?`<strong>Rival:</strong> ${esc(e.opponent)}<br>`:''}${locations.length!==1?`<strong>Sede:</strong> ${esc(eventLocationName(e))}<br>`:''}<strong>Condición:</strong> ${esc(eventDisplayLabel(e))}</p></div><div class="actions"><button class="btn secondary" type="button" data-edit-event="${e.id}">Editar</button><button class="btn secondary danger-action" type="button" data-delete-event="${e.id}">Eliminar</button></div></article>`).join('')}</div>`;
-  $('#sportsDayDetailDialog').showModal();
 }
 function renderTrainingMonth(list){
   const md=trainingMonthDate(),first=new Date(md.getFullYear(),md.getMonth(),1,12),last=new Date(md.getFullYear(),md.getMonth()+1,0,12);
@@ -927,7 +902,7 @@ function renderTrainingMonth(list){
     const inMonth=date.slice(0,7)===isoDateLocal(md).slice(0,7),items=entries.filter(x=>x.date===date);
     const eventItems=items.filter(x=>x.kind==='event').map(x=>x.event);
     const trainingItems=items.filter(x=>x.kind==='training');
-    return`<section class="training-month-day ${inMonth?'':'outside-month'}"><header>${Number(date.slice(8,10))}</header><div class="training-month-items">${renderGroupedSportsEvents(eventItems,{month:true})}${trainingItems.map(x=>{const t=x.series;return`<button type="button" class="training-month-item training" style="--training-color:${trainingColor(t.categoryId)}" data-training-occurrence="${t.id}|${x.date}"><b>🏐 ENTRENAMIENTO · ${esc(sportsCategoryNames(t))}</b><span>${esc(x.startTime)} – ${esc(x.endTime)} · ${esc(venueName(x.venueId||t.venueId))}</span></button>`}).join('')}</div></section>`;
+    return`<section class="training-month-day ${inMonth?'':'outside-month'}"><header>${Number(date.slice(8,10))}</header><div class="training-month-items">${renderGroupedSportsEvents(eventItems,{month:true})}${trainingItems.map(x=>{const t=x.series;return`<button type="button" class="training-month-item training" style="--training-color:${trainingColor(t.categoryId)}" data-edit-training="${t.id}"><b>🏐 ${esc(catName(t.categoryId))}</b><span>${esc(x.startTime)} – ${esc(x.endTime)} · ${esc(venueName(x.venueId||t.venueId))}</span></button>`}).join('')}</div></section>`;
   }).join('')}</div>`;
 }
 function renderTrainings(){
@@ -936,7 +911,7 @@ function renderTrainings(){
   const weekEvents=trainingFilteredEvents(ws,we),weekMatches=weekEvents.filter(e=>e.type==='match');
   const weekOcc=list.flatMap(t=>occurrences(t,ws,we).filter(o=>o.status!=='cancelled'&&!trainingSuppressedByMatch(o,t,weekMatches)).map(o=>({...o,series:t})));
   const upcoming=list.flatMap(t=>occurrences(t,today(),datePlus(today(),60)).filter(o=>o.status!=='cancelled')).length,activeCats=new Set(list.map(t=>t.categoryId)).size,hours=weekOcc.reduce((s,o)=>s+trainingMinutes(o.series),0)/60;
-  $('#trainingStats').innerHTML=[[upcoming+weekEvents.filter(e=>e.date>=today()).length,'Próximas actividades','upcoming'],[weekOcc.length+weekEvents.length,'Esta semana','week'],[new Set([...list.flatMap(sportsCategoryIds),...weekEvents.flatMap(sportsCategoryIds)]).size,'Categorías activas','categories'],[hours.toFixed(hours%1?1:0),'Horas de entrenamiento','hours']].map(([v,l,a])=>`<button type="button" class="stat clickable-stat training-stat-card compact-training-stat" data-training-stat="${a}"><strong>${v}</strong><span>${l}</span></button>`).join('');
+  $('#trainingStats').innerHTML=[[upcoming,'Próximos entrenamientos','upcoming'],[weekOcc.length,'Esta semana','week'],[activeCats,'Categorías activas','categories'],[hours.toFixed(hours%1?1:0),'Horas programadas','hours']].map(([v,l,a])=>`<button type="button" class="stat clickable-stat training-stat-card compact-training-stat" data-training-stat="${a}"><strong>${v}</strong><span>${l}</span></button>`).join('');
   renderTrainingLegend(list);
   $('#trainingPrevWeek').textContent=trainingViewMode==='month'?'‹ Mes anterior':'‹ Semana anterior';$('#trainingNextWeek').textContent=trainingViewMode==='month'?'Mes siguiente ›':'Semana siguiente ›';$('#trainingTodayWeek').textContent=trainingViewMode==='month'?'Este mes':'Esta semana';$('.training-week-nav')?.classList.toggle('hidden',trainingViewMode==='list');
   if(trainingViewMode==='week'){
@@ -946,32 +921,42 @@ function renderTrainings(){
       const dayEvents=weekEvents.filter(e=>e.date===date);
       const dayTrainings=weekOcc.filter(o=>o.date===date).sort((a,b)=>(a.startTime||'').localeCompare(b.startTime||''));
       const groupedEvents=renderGroupedSportsEvents(dayEvents);
-      const trainingsHtml=dayTrainings.map(x=>{const t=x.series;return`<button class="training-block" style="--training-color:${trainingColor(t.categoryId)}" data-training-occurrence="${t.id}|${x.date}" type="button"><span class="training-category-dot"></span><strong>🏐 ENTRENAMIENTO · ${esc(sportsCategoryNames(t))}</strong><span>${esc(x.startTime)} – ${esc(x.endTime)}</span><small>${esc(venueName(x.venueId||t.venueId))}</small>${x.status==='changed'?'<em>Modificado</em>':''}</button>`}).join('');
+      const trainingsHtml=dayTrainings.map(x=>{const t=x.series;return`<button class="training-block" style="--training-color:${trainingColor(t.categoryId)}" data-edit-training="${t.id}" type="button"><span class="training-category-dot"></span><strong>${esc(catName(t.categoryId))}</strong><span>${esc(x.startTime)} – ${esc(x.endTime)}</span><small>${esc(venueName(x.venueId||t.venueId))}</small>${x.status==='changed'?'<em>Modificado</em>':''}</button>`}).join('');
       return`<section class="training-day"><header><strong>${name}</strong><span>${date.slice(8,10)}/${date.slice(5,7)}</span></header><div class="training-day-body">${groupedEvents}${trainingsHtml}${!groupedEvents&&!trainingsHtml?'<span class="training-empty">Sin entrenamientos ni partidos</span>':''}</div></section>`;
     }).join('');
   }else if(trainingViewMode==='month'){renderTrainingMonth(list)}
-  const listEvents=trainingFilteredEvents(today(),datePlus(today(),365));
-  const listGroups=new Map();listEvents.forEach(e=>{const k=trainingCalendarEventGroupKey(e);if(!listGroups.has(k))listGroups.set(k,[]);listGroups.get(k).push(e)});
-  const eventListHtml=[...listGroups.values()].sort((a,b)=>`${a[0].date} ${a[0].startTime||''}`.localeCompare(`${b[0].date} ${b[0].startTime||''}`)).map(group=>{const first=group[0],visual=sportsEventVisualType(group),locations=[...new Set(group.map(eventLocationName).filter(Boolean))],label=visual==='festival'?'FESTIVAL':visual==='match'?sportsTypeLabel('match',group.length):'EVENTO';return `<button type="button" class="panel training-list-card clickable-card" style="--training-color:${trainingColor(sportsCategoryIds(first)[0]||first.categoryId)}" data-open-sports-group="${sportsGroupToken(group)}"><div class="page-head compact-head"><div><span class="eyebrow">${esc(label)} · ${esc(sportsCategoryNames(first))}</span><h3>${esc(first.date)}</h3></div></div>${locations.length===1?`<p><strong>Sede:</strong> ${esc(locations[0])}</p>`:''}<p>${group.map(e=>`${esc(e.startTime||'—')}${e.opponent?' · vs '+esc(e.opponent):''}`).join('<br>')}</p></button>`}).join('');
-  const trainingListHtml=list.map(t=>`<article class="panel training-list-card clickable-card" style="--training-color:${trainingColor(t.categoryId)}" data-edit-training="${t.id}" role="button" tabindex="0"><div class="page-head compact-head"><div><span class="eyebrow">ENTRENAMIENTO · ${esc(sportsCategoryNames(t))} · ${esc(seasonName(t.seasonId))}</span><h3>${esc(daysLabel(t.days))}</h3></div><span class="badge ${t.status}">${statusLabel(t.status)}</span></div><p><strong>${esc(t.startTime)} – ${esc(t.endTime)}</strong> · ${esc(venueName(t.venueId))}</p><div class="actions"><button class="action" data-edit-training="${t.id}">Editar serie</button><button class="action" data-training-exception="${t.id}">Cambiar/cancelar fecha</button><button class="action" data-training-future="${t.id}">Cambiar siguientes</button></div></article>`).join('');
-  $('#trainingsList').innerHTML=eventListHtml+trainingListHtml||'<p class="muted">No hay actividades para los filtros seleccionados.</p>';
+  $('#trainingsList').innerHTML=list.map(t=>`<article class="panel training-list-card clickable-card" style="--training-color:${trainingColor(t.categoryId)}" data-edit-training="${t.id}" role="button" tabindex="0"><div class="page-head compact-head"><div><span class="eyebrow">${esc(catName(t.categoryId))} · ${esc(seasonName(t.seasonId))}</span><h3>${esc(daysLabel(t.days))}</h3></div><span class="badge ${t.status}">${statusLabel(t.status)}</span></div><p><strong>${esc(t.startTime)} – ${esc(t.endTime)}</strong> · ${esc(venueName(t.venueId))}</p><div class="actions"><button class="action" data-edit-training="${t.id}">Editar serie</button><button class="action" data-training-exception="${t.id}">Cambiar/cancelar fecha</button><button class="action" data-training-future="${t.id}">Cambiar siguientes</button></div></article>`).join('')||'<p class="muted">No hay entrenamientos recurrentes.</p>';
   $('#trainingCalendar').classList.toggle('hidden',trainingViewMode!=='week');$('#trainingMonthCalendar').classList.toggle('hidden',trainingViewMode!=='month');$('#trainingsList').classList.toggle('hidden',trainingViewMode!=='list');
 }
-function renderFamilyTrainings(){const list=familyTrainingSeries;$('#familyTrainingsList').innerHTML=list.map(t=>{const upcomingExceptions=familyTrainingExceptions.filter(x=>x.seriesId===t.id&&x.date>=today()).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);return`<article class="panel"><span class="eyebrow">ENTRENAMIENTO · ${esc(sportsCategoryNames(t))} · ${esc(seasonName(t.seasonId))}</span><h3>${esc(daysLabel(t.days))}</h3><p><strong>${esc(t.startTime)} – ${esc(t.endTime)}</strong></p><p>${esc(venueName(t.venueId))}</p>${venueLinks(t.venueId)}${upcomingExceptions.length?`<h4>Próximos cambios</h4>${upcomingExceptions.map(x=>`<div class="recent-item"><div><strong>${esc(x.date)}</strong><div class="muted">${x.action==='cancelled'?'Cancelado':`${esc(x.startTime||t.startTime)} – ${esc(x.endTime||t.endTime)} · ${esc(venueName(x.venueId||t.venueId))}`}</div></div><span class="badge ${x.action}">${statusLabel(x.action)}</span></div>`).join('')}`:''}</article>`}).join('')||'<p class="muted">No hay entrenamientos configurados para tus categorías.</p>'}
+function renderFamilyTrainings(){const list=familyTrainingSeries;$('#familyTrainingsList').innerHTML=list.map(t=>{const upcomingExceptions=familyTrainingExceptions.filter(x=>x.seriesId===t.id&&x.date>=today()).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);return`<article class="panel"><span class="eyebrow">${esc(catName(t.categoryId))} · ${esc(seasonName(t.seasonId))}</span><h3>${esc(daysLabel(t.days))}</h3><p><strong>${esc(t.startTime)} – ${esc(t.endTime)}</strong></p><p>${esc(venueName(t.venueId))}</p>${venueLinks(t.venueId)}${upcomingExceptions.length?`<h4>Próximos cambios</h4>${upcomingExceptions.map(x=>`<div class="recent-item"><div><strong>${esc(x.date)}</strong><div class="muted">${x.action==='cancelled'?'Cancelado':`${esc(x.startTime||t.startTime)} – ${esc(x.endTime||t.endTime)} · ${esc(venueName(x.venueId||t.venueId))}`}</div></div><span class="badge ${x.action}">${statusLabel(x.action)}</span></div>`).join('')}`:''}</article>`}).join('')||'<p class="muted">No hay entrenamientos configurados para tus categorías.</p>'}
+function eventCreatorName(e){
+  const u=allUsers.find(x=>x.id===e.createdBy);
+  return e.createdByName||u?.fullName||u?.email||e.createdBy||'—';
+}
+function canManageEvent(e){
+  if(profile?.role==='admin')return true;
+  if(isCoachingRole(profile?.role)){
+    const assigned=profile.assignedCategoryIds||[];
+    const ids=[...(e.categoryIds||[]),...(e.categoryId?[e.categoryId]:[])];
+    return ids.length>0&&ids.every(id=>assigned.includes(id));
+  }
+  return false;
+}
 function eventAdminCard(e,{past=false}={}){
   const locationUrl=safeExternalUrl(e.locationUrl||'');
   return `<article class="panel event-card ${past?'past-event-card':''}">
     <div>
-      <span class="eyebrow">${esc(typeLabel(e.type))} · ${esc(sportsCategoryNames(e))} · ${esc(seasonName(e.seasonId))}</span>
+      <span class="eyebrow">${esc(typeLabel(e.type))} · ${esc(catName(e.categoryId))} · ${esc(seasonName(e.seasonId))}</span>
       <h3>${esc(e.title)}</h3>
       <p><strong>${esc(e.date)}</strong> · ${esc(e.startTime||'')} ${e.endTime?'– '+esc(e.endTime):''}</p>
       <p>${esc(eventLocationName(e))}${e.opponent?' · Rival: '+esc(e.opponent):''}${e.homeAway==='away'&&e.awayAddress?`<br>${esc(e.awayAddress)}`:''}</p>
       ${locationUrl?`<a href="${esc(locationUrl)}" target="_blank" rel="noopener">Abrir ubicación</a>`:venueLinks(e.venueId)}
       <p class="muted">${esc(e.notes||'')}</p>
+      <p class="muted"><strong>Creado por:</strong> ${esc(eventCreatorName(e))}</p>
     </div>
     <div>
       <span class="badge ${e.status}">${esc(statusLabel(e.status))}</span>
-      <div class="actions"><button class="action" data-edit-event="${e.id}">Editar</button><button class="action danger-action" data-delete-event="${e.id}">Eliminar</button></div>
+      ${canManageEvent(e)?`<div class="actions"><button class="action" data-edit-event="${e.id}">Editar</button><button class="action danger-action" data-delete-event="${e.id}">Eliminar</button></div>`:''}
     </div>
   </article>`;
 }
@@ -981,7 +966,7 @@ function dateDaysAgo(days){
 }
 function renderEvents(){
   const cat=$('#eventCategoryFilter').value,tp=$('#eventTypeFilter').value,se=$('#eventSeasonFilter').value;
-  const filtered=events.filter(e=>sportsHasCategory(e,cat)&&(!tp||e.type===tp)&&(!se||e.seasonId===se));
+  const filtered=events.filter(e=>(!cat||e.categoryId===cat)&&(!tp||e.type===tp)&&(!se||e.seasonId===se));
   const current=filtered.filter(e=>e.date>=today()).sort((a,b)=>`${a.date} ${a.startTime||''}`.localeCompare(`${b.date} ${b.startTime||''}`));
   const cutoff=dateDaysAgo(7);
   const past=filtered.filter(e=>e.date<today()&&e.date>=cutoff).sort((a,b)=>`${b.date} ${b.startTime||''}`.localeCompare(`${a.date} ${a.startTime||''}`));
@@ -2065,7 +2050,7 @@ function renderCategoryEditorRelations(categoryId){
     </div></article>`).join('')||'<p class="muted">No hay entrenamientos configurados.</p>';
   }
 
-  const games=events.filter(e=>sportsHasCategory(e,categoryId)).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  const games=events.filter(e=>e.categoryId===categoryId).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
   if($('#categoryEventsEditorList')){
     $('#categoryEventsEditorList').innerHTML=games.map(e=>`<article class="panel"><div class="page-head compact-head">
       <div><strong>${esc(e.title)}</strong><div class="muted">${esc(e.date||'')} · ${esc(e.startTime||'')} ${e.opponent?'· '+esc(e.opponent):''}</div></div>
@@ -2414,27 +2399,14 @@ async function confirmCategoryCalendar(){
   const seasonId=c.seasonId||seasons.find(s=>s.isCurrent)?.id||seasons[0]?.id||'';
   const b=$('#confirmCategoryCalendarButton');busy(b,true,'Importando…');
   try{
-    for(const r of ready)await addDoc(collection(db,'events'),{orgId:ORG_ID,categoryId,seasonId,type:r.type,title:r.type==='festival'?'Festival':r.opponent?`Partido vs ${r.opponent}`:'Partido',opponent:r.opponent,date:r.date,startTime:r.startTime,endTime:r.endTime,homeAway:r.homeAway,venueId:r.venueId,sourceVenueName:r.sourceVenueName||r.venueText||'',awayVenueName:r.awayVenueName,awayAddress:r.awayAddress,locationUrl:'',uniform:'',status:'scheduled',notes:r.notes,createdBy:auth.currentUser.uid,createdByRole:profile?.role||'',importedFrom:/\.pdf$/i.test($('#categoryCalendarImportFile').files[0]?.name||'')?'category_calendar_pdf':'category_calendar',createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
+    for(const r of ready)await addDoc(collection(db,'events'),{orgId:ORG_ID,categoryId,seasonId,type:r.type,title:r.type==='festival'?'Festival':r.opponent?`Partido vs ${r.opponent}`:'Partido',opponent:r.opponent,date:r.date,startTime:r.startTime,endTime:r.endTime,homeAway:r.homeAway,venueId:r.venueId,sourceVenueName:r.sourceVenueName||r.venueText||'',awayVenueName:r.awayVenueName,awayAddress:r.awayAddress,locationUrl:'',uniform:'',status:'scheduled',notes:r.notes,createdBy:auth.currentUser.uid,createdByName:profile?.fullName||profile?.email||'',createdByRole:profile?.role||'',importedFrom:/\.pdf$/i.test($('#categoryCalendarImportFile').files[0]?.name||'')?'category_calendar_pdf':'category_calendar',createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
     await logAdminAudit('calendar_import',c,{}, {eventsImported:ready.length},'Importación de calendario por categoría');
     $('#categoryCalendarImportDialog').close();await loadAdminData();toast(`${ready.length} eventos importados a ${c.name}.`);
   }catch(x){alert(err(x))}finally{busy(b,false)}
 }
-
-function syntheticTrainingCalendarEvents(categoryId=''){
-  const from=today(),to=datePlus(today(),365);
-  return trainingSeries.filter(t=>t.status!=='inactive'&&sportsHasCategory(t,categoryId)).flatMap(t=>occurrences(t,from,to).filter(o=>o.status!=='cancelled').map(o=>({
-    id:`training_${t.id}_${o.date}`,categoryId:t.categoryId,categoryIds:sportsCategoryIds(t),type:'training',
-    title:`Entrenamiento · ${sportsCategoryNames(t)}`,date:o.date,startTime:o.startTime,endTime:o.endTime,
-    venueId:o.venueId||t.venueId,homeAway:'',notes:o.notes||t.notes||'',status:'scheduled'
-  })));
-}
-function downloadFullSportsCalendarFile(){
-  const list=[...events.filter(e=>e.date>=today()&&e.status!=='cancelled'),...syntheticTrainingCalendarEvents()].sort((a,b)=>`${a.date} ${a.startTime||''}`.localeCompare(`${b.date} ${b.startTime||''}`));
-  downloadICS('VolleyCore-Calendario-Deportivo.ics','VolleyCore · Calendario Deportivo',list);
-}
 function downloadCategoryCalendar(categoryId){
   const c=categories.find(x=>x.id===categoryId);if(!c)return;
-  const list=[...events.filter(e=>sportsHasCategory(e,categoryId)&&e.date>=today()&&e.status!=='cancelled'),...syntheticTrainingCalendarEvents(categoryId)]
+  const list=events.filter(e=>e.categoryId===categoryId&&e.date>=today()&&e.status!=='cancelled')
     .sort((a,b)=>`${a.date} ${a.startTime||''}`.localeCompare(`${b.date} ${b.startTime||''}`));
   downloadICS(`VolleyCore-${(c.name||'categoria').replace(/[^\w-]+/g,'-')}.ics`,`${c.name} · VolleyCore`,list);
 }
@@ -2454,27 +2426,19 @@ function uniformLabel(value){return value==='red'?'Rojo':value==='black'?'Negro'
 function safeExternalUrl(url){
   try{const u=new URL(url);return ['http:','https:'].includes(u.protocol)?u.href:''}catch{return''}
 }
-function canManageSportsEvent(e){
-  if(!e)return false;
-  if(['admin','treasurer'].includes(profile?.role))return true;
-  return isCoachingRole(profile?.role)&&sportsCategoryIds(e).every(id=>(profile.assignedCategoryIds||[]).includes(id));
-}
 function openEventDetail(id){
   const e=events.find(x=>x.id===id)||trainerEvents.find(x=>x.id===id);if(!e)return;
   const locationUrl=safeExternalUrl(e.locationUrl||'');
   $('#eventDetailTitle').textContent=e.title||'Detalle del evento';
   $('#eventDetailContent').innerHTML=`
     <div class="category-detail-grid">
-      <article class="panel"><span class="eyebrow">${esc(typeLabel(e.type))}</span><h4>${esc(e.title)}</h4><p><strong>Categoría(s):</strong> ${esc(sportsCategoryNames(e))}<br><strong>Temporada:</strong> ${esc(seasonName(e.seasonId))}<br>${e.opponent?`<strong>Rival:</strong> ${esc(e.opponent)}<br>`:''}<strong>Estado:</strong> ${esc(statusLabel(e.status))}</p></article>
+      <article class="panel"><span class="eyebrow">${esc(typeLabel(e.type))}</span><h4>${esc(e.title)}</h4><p><strong>Categoría:</strong> ${esc(catName(e.categoryId))}<br><strong>Temporada:</strong> ${esc(seasonName(e.seasonId))}<br>${e.opponent?`<strong>Rival:</strong> ${esc(e.opponent)}<br>`:''}<strong>Estado:</strong> ${esc(statusLabel(e.status))}</p></article>
       <article class="panel"><span class="eyebrow">FECHA Y LUGAR</span><h4>${esc(e.date||'')}</h4><p><strong>Hora:</strong> ${esc(e.startTime||'—')}${e.endTime?' – '+esc(e.endTime):''}<br><strong>Lugar:</strong> ${esc(eventLocationName(e))}<br>${e.homeAway==='away'&&e.awayAddress?`<strong>Dirección:</strong> ${esc(e.awayAddress)}<br>`:''}<strong>Casa / visita:</strong> ${esc(e.homeAway==='home'?'Casa':e.homeAway==='away'?'Visita':'No aplica')}<br><strong>Uniforme:</strong> ${esc(uniformLabel(e.uniform))}</p>${locationUrl?`<a class="btn vc-cyan-button event-location-link" href="${esc(locationUrl)}" target="_blank" rel="noopener noreferrer">Abrir ubicación / Waze →</a>`:''}</article>
     </div>
     ${e.notes?`<article class="panel"><h4>Observaciones</h4><p>${esc(e.notes)}</p></article>`:''}`;
-  const canManage=canManageSportsEvent(e);
   $('#editEventFromDetail').dataset.eventId=e.id;
-  $('#deleteEventFromDetail').dataset.eventId=e.id;
   $('#eventCalendarButton').dataset.eventId=e.id;
-  $('#editEventFromDetail').classList.toggle('hidden',!canManage);
-  $('#deleteEventFromDetail').classList.toggle('hidden',!canManage);
+  $('#editEventFromDetail').classList.toggle('hidden',!(['admin','treasurer'].includes(profile?.role)||(isCoachingRole(profile?.role)&&(profile.assignedCategoryIds||[]).includes(e.categoryId))));
   $('#eventDetailDialog').showModal();
 }
 function openEvent(e){
@@ -2482,8 +2446,6 @@ function openEvent(e){
   const coaching=isCoachingRole(profile?.role),allowedIds=profile?.assignedCategoryIds||[];
   const allowedCategories=coaching?categories.filter(c=>allowedIds.includes(c.id)):categories;
   $('#eventCategory').innerHTML=allowedCategories.filter(c=>c.status==='active').map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');
-  const selectedIds=e?sportsCategoryIds(e):[];
-  $('#eventCategoriesEditor').innerHTML=allowedCategories.filter(c=>c.status==='active').map(c=>`<label class="check-item"><input type="checkbox" value="${c.id}" ${selectedIds.includes(c.id)?'checked':''}><span>${esc(c.name)}</span></label>`).join('');
   $('#eventDocId').value=e?.id||'';
   $('#eventCategory').value=e?.categoryId||allowedCategories[0]?.id||'';
   $('#eventSeason').value=e?.seasonId||seasons.find(s=>s.isCurrent)?.id||seasons[0]?.id||'';
@@ -2503,24 +2465,37 @@ function openEvent(e){
   $('#eventStatus').value=e?.status||'scheduled';
   $('#eventNotes').value=e?.notes||'';
   $('#eventDialogTitle').textContent=e?'Editar evento':'Nuevo evento';
-  $('#deleteEventFromEditor').dataset.eventId=e?.id||'';
-  $('#deleteEventFromEditor').classList.toggle('hidden',!e||!canManageSportsEvent(e));
   $('#eventDialog').showModal();
 }
 async function deleteEventById(id){
-  const event=events.find(e=>e.id===id)||trainerEvents.find(e=>e.id===id);
-  if(!event)return alert('No se encontró el evento.');
-  if(!canManageSportsEvent(event))return alert('No tienes permiso para eliminar este evento.');
-  const label=event.type==='match'?'partido':event.type==='festival'?'festival':'evento';
-  const ok=confirm(`¿Eliminar definitivamente este ${label}?\n\n${event.title||typeLabel(event.type)}\n${event.date||''}${event.startTime?' · '+event.startTime:''}\n${event.opponent?'Rival: '+event.opponent+'\n':''}\nEsta acción no se puede deshacer.`);
-  if(!ok)return;
+  const e=events.find(x=>x.id===id);if(!e)return alert('No se encontró el evento.');
+  if(!canManageEvent(e))return alert('No tienes permiso para eliminar este evento.');
+  if(!confirm(`¿Eliminar "${e.title}"?\n\nEsta acción no se puede deshacer.`))return;
   try{
+    const deletedSnapshot={...e};
     await deleteDoc(doc(db,'events',id));
-    events=events.filter(e=>e.id!==id);
-    trainerEvents=trainerEvents.filter(e=>e.id!==id);
-    ['eventDialog','eventDetailDialog','sportsDayDetailDialog'].forEach(dialogId=>{const d=$('#'+dialogId);if(d?.open)d.close()});
-    if(isCoachingRole(profile?.role)){await loadTrainerData();renderTrainerEvents();}else{await loadAdminData();renderTrainings();renderEvents();renderDashboard();}
-    toast(`${label.charAt(0).toUpperCase()+label.slice(1)} eliminado correctamente.`);
+    events=events.filter(x=>x.id!==id);
+    const ids=[...(e.categoryIds||[]),...(e.categoryId?[e.categoryId]:[])].filter(Boolean);
+    for(const categoryId of [...new Set(ids)]){
+      try{
+        await createCategoryNotification({
+          kind:'event_deleted',
+          categoryId,
+          title:'Evento eliminado',
+          body:`${e.title} · ${e.date}${e.startTime?' · '+e.startTime:''} · eliminado por ${profile?.fullName||profile?.email||'un usuario autorizado'}`,
+          sourceId:id
+        });
+      }catch(_){}
+    }
+    try{
+      await addDoc(collection(db,'adminAudit'),{
+        orgId:ORG_ID,action:'event_delete',targetId:id,targetName:e.title||'Evento',
+        actorId:auth.currentUser.uid,actorName:profile?.fullName||profile?.email||'',
+        before:deletedSnapshot,after:{},reason:'Eliminación de evento',
+        createdAt:serverTimestamp()
+      });
+    }catch(_){}
+    renderEvents();if(state.currentView==='trainings')renderTrainings();toast('Evento eliminado.');
   }catch(x){alert(err(x))}
 }
 
@@ -2556,8 +2531,7 @@ async function deleteSeason(id){
   }catch(x){alert(err(x))}
 }
 function openSeason(s){$('#seasonForm').reset();$('#seasonDocId').value=s?.id||'';$('#seasonName').value=s?.name||String(new Date().getFullYear());$('#seasonStart').value=s?.startDate||`${new Date().getFullYear()}-01-01`;$('#seasonEnd').value=s?.endDate||`${new Date().getFullYear()}-12-31`;$('#seasonStatus').value=s?.status||'active';$('#seasonCurrent').checked=!!s?.isCurrent;$('#seasonDialogTitle').textContent=s?'Editar temporada':'Nueva temporada';$('#seasonDialog').showModal()}
-function openTraining(t){$('#trainingForm').reset();$('#trainingDocId').value=t?.id||'';const selectedIds=t?sportsCategoryIds(t):[];$('#trainingCategoriesEditor').innerHTML=categories.filter(c=>c.status==='active').map(c=>`<label class="check-item"><input type="checkbox" value="${c.id}" ${selectedIds.includes(c.id)?'checked':''}><span>${esc(c.name)}</span></label>`).join('');$('#trainingCategory').value=t?.categoryId||categories[0]?.id||'';$('#trainingSeason').value=t?.seasonId||seasons.find(s=>s.isCurrent)?.id||seasons[0]?.id||'';$('#trainingStartTime').value=t?.startTime||'';$('#trainingEndTime').value=t?.endTime||'';$('#trainingStartDate').value=t?.startDate||seasons.find(s=>s.isCurrent)?.startDate||today();$('#trainingEndDate').value=t?.endDate||seasons.find(s=>s.isCurrent)?.endDate||`${new Date().getFullYear()}-12-31`;$('#trainingVenue').value=t?.venueId||'';$('#trainingStatus').value=t?.status||'active';$('#trainingNotes').value=t?.notes||'';$$('input[name="trainingDay"]').forEach(i=>i.checked=(t?.days||[]).includes(Number(i.value)));$('#trainingDialogTitle').textContent=t?'Editar entrenamiento recurrente':'Nuevo entrenamiento recurrente';$('#trainingDialog').showModal()}
-function openTrainingOccurrenceChoice(seriesId,date){const t=trainingSeries.find(x=>x.id===seriesId);if(!t)return;$('#trainingOccurrenceSeriesId').value=seriesId;$('#trainingOccurrenceDate').value=date;$('#trainingOccurrenceChoiceTitle').textContent=`Entrenamiento · ${sportsCategoryNames(t)} · ${date}`;$('#trainingOccurrenceChoiceDialog').showModal()}
+function openTraining(t){$('#trainingForm').reset();$('#trainingDocId').value=t?.id||'';$('#trainingCategory').value=t?.categoryId||categories[0]?.id||'';$('#trainingSeason').value=t?.seasonId||seasons.find(s=>s.isCurrent)?.id||seasons[0]?.id||'';$('#trainingStartTime').value=t?.startTime||'';$('#trainingEndTime').value=t?.endTime||'';$('#trainingStartDate').value=t?.startDate||seasons.find(s=>s.isCurrent)?.startDate||today();$('#trainingEndDate').value=t?.endDate||seasons.find(s=>s.isCurrent)?.endDate||`${new Date().getFullYear()}-12-31`;$('#trainingVenue').value=t?.venueId||'';$('#trainingStatus').value=t?.status||'active';$('#trainingNotes').value=t?.notes||'';$$('input[name="trainingDay"]').forEach(i=>i.checked=(t?.days||[]).includes(Number(i.value)));$('#trainingDialogTitle').textContent=t?'Editar entrenamiento recurrente':'Nuevo entrenamiento recurrente';$('#trainingDialog').showModal()}
 function openTrainingException(t){$('#trainingExceptionForm').reset();$('#trainingExceptionSeriesId').value=t.id;$('#trainingExceptionDate').value=t.startDate>today()?t.startDate:today();$('#trainingExceptionStart').value=t.startTime;$('#trainingExceptionEnd').value=t.endTime;$('#trainingExceptionVenue').value=t.venueId||'';$('#trainingExceptionDialog').showModal()}
 function openTrainingFuture(t){$('#trainingFutureForm').reset();$('#trainingFutureSeriesId').value=t.id;$('#trainingFutureDate').value=t.startDate>today()?t.startDate:today();$('#trainingFutureStart').value=t.startTime;$('#trainingFutureEnd').value=t.endTime;$('#trainingFutureVenue').value=t.venueId||'';$('#trainingFutureDialog').showModal()}
 function openAnnouncement(a){$('#announcementForm').reset();$('#announcementDocId').value=a?.id||'';$('#announcementTitle').value=a?.title||'';$('#announcementCategory').value=a?.categoryId||'';$('#announcementBody').value=a?.body||'';$('#announcementStatus').value=a?.status||'published';$('#announcementDialogTitle').textContent=a?'Editar comunicado':'Nuevo comunicado';$('#announcementDialog').showModal()}
@@ -2636,7 +2610,6 @@ $('#calendarDeviceButton').onclick=()=>{
   $('#calendarChoiceDialog').close();openNativeCalendarICS(e);
 };
 $('#categoryCalendarButton').onclick=e=>profile?.role==='admin'?openCategoryCalendarImport(e.currentTarget.dataset.categoryId):downloadCategoryCalendar(e.currentTarget.dataset.categoryId);
-$('#categoryCalendarDownloadButton').onclick=e=>downloadCategoryCalendar(e.currentTarget.dataset.categoryId);
 $('#downloadCalendarTemplateButton').onclick=downloadCategoryCalendarTemplate;
 $('#previewCategoryCalendarButton').onclick=()=>previewCategoryCalendar().catch(e=>alert(err(e)));
 $('#confirmCategoryCalendarButton').onclick=()=>confirmCategoryCalendar().catch(e=>alert(err(e)));
@@ -2818,24 +2791,10 @@ $('#addEventFromCategoryButton').onclick=()=>{const id=$('#categoryDocId').value
 $('#addTrainingFromCategoryButton').onclick=()=>{const id=$('#categoryDocId').value;if(id)openTrainingForCategory(id);};
 
 $('#playerCategory').onchange=()=>{const selected=$$('#playerCategoriesEditor input:checked').map(i=>i.value);renderPlayerReinforcementEditor(selected);syncPlayerFinancialUI();};$('#playerInsured').onchange=syncInsuranceFields;
-$('#newFamilyButton').onclick=()=>openFamily();$('#newSeasonButton').onclick=()=>openSeason();$('#newCategoryButton').onclick=()=>openCategory();$('#newVenueButton').onclick=()=>openVenue();$('#newEventButton').onclick=()=>openEvent();
-$('#trainingOccurrenceChoiceDialog').onclick=e=>{const b=e.target.closest('[data-training-choice]');if(!b)return;const id=$('#trainingOccurrenceSeriesId').value,date=$('#trainingOccurrenceDate').value,t=trainingSeries.find(x=>x.id===id);if(!t)return;$('#trainingOccurrenceChoiceDialog').close();if(b.dataset.trainingChoice==='single'){openTrainingException(t);$('#trainingExceptionDate').value=date;return}if(b.dataset.trainingChoice==='future'){openTrainingFuture(t);$('#trainingFutureDate').value=date;return}openTraining(t)};
-$('#downloadFullSportsCalendar').onclick=downloadFullSportsCalendarFile;
-$('#deleteEventFromEditor').onclick=()=>{const id=$('#deleteEventFromEditor').dataset.eventId;if(id)deleteEventById(id);};
-$('#deleteEventFromDetail').onclick=()=>{const id=$('#deleteEventFromDetail').dataset.eventId;if(id)deleteEventById(id);};
-$('#newSportsActivityButton').onclick=()=>$('#sportsCreateDialog').showModal();
-$('#sportsCreateDialog').onclick=e=>{const b=e.target.closest('[data-create-sports]');if(!b)return;$('#sportsCreateDialog').close();if(b.dataset.createSports==='training')return openTraining();openEvent();$('#eventType').value=b.dataset.createSports==='other'?'other':b.dataset.createSports;$('#eventDialogTitle').textContent=b.dataset.createSports==='festival'?'Nuevo festival':b.dataset.createSports==='match'?'Nuevo partido':'Nuevo evento';};
-$('#trainingCalendar').onclick=e=>{const g=e.target.closest('[data-open-sports-group]');if(g){e.preventDefault();return openSportsDayGroup(g.dataset.openSportsGroup)}const o=e.target.closest('[data-training-occurrence]');if(o){const [id,date]=o.dataset.trainingOccurrence.split('|');return openTrainingOccurrenceChoice(id,date)}};
-$('#trainingMonthCalendar').onclick=e=>{const g=e.target.closest('[data-open-sports-group]');if(g){e.preventDefault();return openSportsDayGroup(g.dataset.openSportsGroup)}const o=e.target.closest('[data-training-occurrence]');if(o){const [id,date]=o.dataset.trainingOccurrence.split('|');return openTrainingOccurrenceChoice(id,date)}};
-$('#trainingsList').addEventListener('click',e=>{const g=e.target.closest('[data-open-sports-group]');if(g){e.preventDefault();e.stopPropagation();openSportsDayGroup(g.dataset.openSportsGroup)}});
-$('#sportsDayDetailContent').onclick=e=>{
-  const del=e.target.closest('[data-delete-event]');if(del)return deleteEventById(del.dataset.deleteEvent);
-  const edit=e.target.closest('[data-edit-event]');if(!edit)return;
-  $('#sportsDayDetailDialog').close();openEvent(events.find(x=>x.id===edit.dataset.editEvent)||trainerEvents.find(x=>x.id===edit.dataset.editEvent));
-};$('#newAnnouncementButton').onclick=()=>openAnnouncement();
+$('#newFamilyButton').onclick=()=>openFamily();$('#newSeasonButton').onclick=()=>openSeason();$('#newTrainingButton').onclick=()=>openTraining();$('#newCategoryButton').onclick=()=>openCategory();$('#newVenueButton').onclick=()=>openVenue();$('#newEventButton').onclick=()=>openEvent();$('#newAnnouncementButton').onclick=()=>openAnnouncement();
 $('#addGuardianButton').onclick=()=>{if($$('.guardian-row').length>=3)return alert('Máximo 3 encargados.');$('#guardiansEditor').insertAdjacentHTML('beforeend',guardianRow())};
 $('#guardiansEditor').onclick=e=>{if(e.target.classList.contains('remove-guardian'))e.target.closest('.guardian-row').remove()};
-$('#playerSearch').oninput=renderPlayers;$('#playerCategoryFilter').onchange=renderPlayers;$('#playerStatusFilter').onchange=renderPlayers;$('#eventCategoryFilter').onchange=renderEvents;$('#eventTypeFilter').onchange=renderEvents;$('#eventSeasonFilter').onchange=renderEvents;$('#trainingCategoryFilter').onchange=renderTrainings;$('#trainingSeasonFilter').onchange=renderTrainings;$('#trainingVenueFilter').onchange=renderTrainings;$('#sportsActivityTypeFilter').onchange=renderTrainings;
+$('#playerSearch').oninput=renderPlayers;$('#playerCategoryFilter').onchange=renderPlayers;$('#playerStatusFilter').onchange=renderPlayers;$('#eventCategoryFilter').onchange=renderEvents;$('#eventTypeFilter').onchange=renderEvents;$('#eventSeasonFilter').onchange=renderEvents;$('#trainingCategoryFilter').onchange=renderTrainings;$('#trainingSeasonFilter').onchange=renderTrainings;$('#trainingVenueFilter').onchange=renderTrainings;
 $('#trainingPrevWeek').onclick=()=>{if(trainingViewMode==='month')trainingMonthOffset--;else trainingWeekOffset--;renderTrainings()};
 $('#trainingNextWeek').onclick=()=>{if(trainingViewMode==='month')trainingMonthOffset++;else trainingWeekOffset++;renderTrainings()};
 $('#trainingTodayWeek').onclick=()=>{if(trainingViewMode==='month')trainingMonthOffset=0;else trainingWeekOffset=0;renderTrainings()};
@@ -2884,7 +2843,7 @@ document.addEventListener('click',e=>{
   renderLinkAdmin();
 });document.addEventListener('click',e=>{if(!e.target.closest('#paymentReportMonthsBox'))togglePaymentMonthsMenu(false);});updatePaymentReportStatusOptions();updatePaymentReportPeriodControls();
 
-document.body.onclick=e=>{const t=e.target.closest('[data-edit-player],[data-edit-category],[data-view-category],[data-edit-venue],[data-edit-event],[data-edit-season],[data-edit-training],[data-training-exception],[data-training-future],[data-copy-address],[data-edit-announcement],[data-edit-charge],[data-approve-sinpe],[data-reject-sinpe],[data-view-player],[data-approve-link],[data-reject-link],[data-add-player-family],[data-view-family],[data-edit-family],[data-manage-family-members],[data-view-user],[data-manage-role],[data-player-finances],[data-edit-trainer],[data-approve-trainer],[data-reject-trainer],[data-delete-event],[data-delete-season],[data-delete-venue],[data-family-category],[data-edit-category-video],[data-delete-category-video]');if(!t)return;const id=t.dataset.editPlayer;if(id)openPlayer(players.find(x=>x.id===id));const c=t.dataset.editCategory;if(c)openCategory(categories.find(x=>x.id===c));const vc=t.dataset.viewCategory;if(vc)openCategoryDetail(vc);const v=t.dataset.editVenue;if(v)openVenue(venues.find(x=>x.id===v));const ev=t.dataset.editEvent;if(ev)openEvent(events.find(x=>x.id===ev)||trainerEvents.find(x=>x.id===ev));const ss=t.dataset.editSeason;if(ss)openSeason(seasons.find(x=>x.id===ss));const tr=t.dataset.editTraining;if(tr)openTraining(trainingSeries.find(x=>x.id===tr));const tx=t.dataset.trainingException;if(tx)openTrainingException(trainingSeries.find(x=>x.id===tx));const tf=t.dataset.trainingFuture;if(tf)openTrainingFuture(trainingSeries.find(x=>x.id===tf));if(t.dataset.copyAddress){navigator.clipboard?.writeText(t.dataset.copyAddress);toast('Dirección copiada.')}const a=t.dataset.editAnnouncement;if(a)openAnnouncement(announcements.find(x=>x.id===a));const ch=t.dataset.editCharge;if(ch)openCharge(charges.find(x=>x.id===ch));const ap=t.dataset.approveSinpe;if(ap)approveSinpe(ap);const rj=t.dataset.rejectSinpe;if(rj)rejectSinpe(rj);const vp=t.dataset.viewPlayer;if(vp)openPlayerDetail(vp);const al=t.dataset.approveLink;if(al)approveLink(al);const rl=t.dataset.rejectLink;if(rl)rejectLink(rl);const af=t.dataset.addPlayerFamily;if(af)openFamilyMemberPicker(af);const mf=t.dataset.manageFamilyMembers;if(mf)openFamilyMemberPicker(mf);const vu=t.dataset.viewUser;if(vu)openUserDetail(vu);const mr=t.dataset.manageRole;if(mr)openRoleManager(allUsers.find(u=>u.id===mr));const vf=t.dataset.viewFamily;if(vf)openFamilyDetail(vf);const ef=t.dataset.editFamily;if(ef)openFamily(families.find(x=>x.id===ef));const pf=t.dataset.playerFinances;if(pf)openPlayerFinancialDetail(pf);const et=t.dataset.editTrainer;if(et)openTrainerEditor(trainerUsers.find(u=>u.id===et));const at=t.dataset.approveTrainer;if(at){const u=allUsers.find(x=>x.id===at);if(u){openTrainerEditor(u);$('#trainerRole').value=u.role==='pendingAssistant'?'assistant':'trainer';$('#trainerRole').onchange();}}const rt=t.dataset.rejectTrainer;if(rt){const u=allUsers.find(x=>x.id===rt);if(u&&confirm(`¿Rechazar la solicitud de ${u.role==='pendingAssistant'?'asistente':'entrenador'} de ${u.fullName||u.email}?`)){updateDoc(doc(db,'users',rt),{role:u.role,status:'rejected',updatedAt:serverTimestamp()}).then(()=>toast('Solicitud rechazada.')).catch(x=>alert(err(x)));}}const de=t.dataset.deleteEvent;if(de)deleteEventById(de);const ds=t.dataset.deleteSeason;if(ds)deleteSeason(ds);const dv=t.dataset.deleteVenue;if(dv)deleteVenue(dv);const fc=t.dataset.familyCategory;if(fc)openFamilyCategoryDetail(fc);const fce=t.dataset.familyCalendarEvent;if(fce)downloadSingleEventCalendar(fce);const ecv=t.dataset.editCategoryVideo;if(ecv)openCategoryVideo(categoryVideos.find(v=>v.id===ecv));const dcv=t.dataset.deleteCategoryVideo;if(dcv){const v=categoryVideos.find(x=>x.id===dcv);if(v&&confirm(`¿Está seguro de que desea eliminar el video "${v.title}"?`)){deleteDoc(doc(db,'categoryVideos',dcv)).then(async()=>{await loadAdminData();openCategoryDetail(v.categoryId);toast('Video eliminado.');}).catch(x=>alert(err(x)));}}};
+document.body.onclick=e=>{const t=e.target.closest('[data-edit-player],[data-edit-category],[data-view-category],[data-edit-venue],[data-edit-event],[data-edit-season],[data-edit-training],[data-training-exception],[data-training-future],[data-copy-address],[data-edit-announcement],[data-edit-charge],[data-approve-sinpe],[data-reject-sinpe],[data-view-player],[data-approve-link],[data-reject-link],[data-add-player-family],[data-view-family],[data-edit-family],[data-manage-family-members],[data-view-user],[data-manage-role],[data-player-finances],[data-edit-trainer],[data-approve-trainer],[data-reject-trainer],[data-delete-event],[data-delete-season],[data-delete-venue],[data-family-category],[data-edit-category-video],[data-delete-category-video]');if(!t)return;const id=t.dataset.editPlayer;if(id)openPlayer(players.find(x=>x.id===id));const c=t.dataset.editCategory;if(c)openCategory(categories.find(x=>x.id===c));const vc=t.dataset.viewCategory;if(vc)openCategoryDetail(vc);const v=t.dataset.editVenue;if(v)openVenue(venues.find(x=>x.id===v));const ev=t.dataset.editEvent;if(ev)openEvent(events.find(x=>x.id===ev));const ss=t.dataset.editSeason;if(ss)openSeason(seasons.find(x=>x.id===ss));const tr=t.dataset.editTraining;if(tr)openTraining(trainingSeries.find(x=>x.id===tr));const tx=t.dataset.trainingException;if(tx)openTrainingException(trainingSeries.find(x=>x.id===tx));const tf=t.dataset.trainingFuture;if(tf)openTrainingFuture(trainingSeries.find(x=>x.id===tf));if(t.dataset.copyAddress){navigator.clipboard?.writeText(t.dataset.copyAddress);toast('Dirección copiada.')}const a=t.dataset.editAnnouncement;if(a)openAnnouncement(announcements.find(x=>x.id===a));const ch=t.dataset.editCharge;if(ch)openCharge(charges.find(x=>x.id===ch));const ap=t.dataset.approveSinpe;if(ap)approveSinpe(ap);const rj=t.dataset.rejectSinpe;if(rj)rejectSinpe(rj);const vp=t.dataset.viewPlayer;if(vp)openPlayerDetail(vp);const al=t.dataset.approveLink;if(al)approveLink(al);const rl=t.dataset.rejectLink;if(rl)rejectLink(rl);const af=t.dataset.addPlayerFamily;if(af)openFamilyMemberPicker(af);const mf=t.dataset.manageFamilyMembers;if(mf)openFamilyMemberPicker(mf);const vu=t.dataset.viewUser;if(vu)openUserDetail(vu);const mr=t.dataset.manageRole;if(mr)openRoleManager(allUsers.find(u=>u.id===mr));const vf=t.dataset.viewFamily;if(vf)openFamilyDetail(vf);const ef=t.dataset.editFamily;if(ef)openFamily(families.find(x=>x.id===ef));const pf=t.dataset.playerFinances;if(pf)openPlayerFinancialDetail(pf);const et=t.dataset.editTrainer;if(et)openTrainerEditor(trainerUsers.find(u=>u.id===et));const at=t.dataset.approveTrainer;if(at){const u=allUsers.find(x=>x.id===at);if(u){openTrainerEditor(u);$('#trainerRole').value=u.role==='pendingAssistant'?'assistant':'trainer';$('#trainerRole').onchange();}}const rt=t.dataset.rejectTrainer;if(rt){const u=allUsers.find(x=>x.id===rt);if(u&&confirm(`¿Rechazar la solicitud de ${u.role==='pendingAssistant'?'asistente':'entrenador'} de ${u.fullName||u.email}?`)){updateDoc(doc(db,'users',rt),{role:u.role,status:'rejected',updatedAt:serverTimestamp()}).then(()=>toast('Solicitud rechazada.')).catch(x=>alert(err(x)));}}const de=t.dataset.deleteEvent;if(de)deleteEventById(de);const ds=t.dataset.deleteSeason;if(ds)deleteSeason(ds);const dv=t.dataset.deleteVenue;if(dv)deleteVenue(dv);const fc=t.dataset.familyCategory;if(fc)openFamilyCategoryDetail(fc);const fce=t.dataset.familyCalendarEvent;if(fce)downloadSingleEventCalendar(fce);const ecv=t.dataset.editCategoryVideo;if(ecv)openCategoryVideo(categoryVideos.find(v=>v.id===ecv));const dcv=t.dataset.deleteCategoryVideo;if(dcv){const v=categoryVideos.find(x=>x.id===dcv);if(v&&confirm(`¿Está seguro de que desea eliminar el video "${v.title}"?`)){deleteDoc(doc(db,'categoryVideos',dcv)).then(async()=>{await loadAdminData();openCategoryDetail(v.categoryId);toast('Video eliminado.');}).catch(x=>alert(err(x)));}}};
 
 $('#familyForm').onsubmit=async e=>{e.preventDefault();try{const id=$('#familyDocId').value,memberUserIds=$$('#familyUsersEditor input:checked').map(i=>i.value),playerIds=$$('#familyPlayersEditor input:checked').map(i=>i.value),data={orgId:ORG_ID,familyCode:$('#familyCode').value.trim(),name:$('#familyName').value.trim(),phone:$('#familyPhone').value.trim(),address:$('#familyAddress').value.trim(),notes:$('#familyNotes').value.trim(),status:$('#familyStatus').value,memberUserIds,playerIds,updatedAt:serverTimestamp()};let familyId=id;if(id)await updateDoc(doc(db,'families',id),data);else{const ref=await addDoc(collection(db,'families'),{...data,createdAt:serverTimestamp()});familyId=ref.id}const old=families.find(f=>f.id===id),oldUsers=new Set(old?.memberUserIds||[]),oldPlayers=new Set(old?.playerIds||[]),newUsers=new Set(memberUserIds),newPlayers=new Set(playerIds),batch=writeBatch(db);let operations=0;for(const u of familyUsers){if(newUsers.has(u.id)){batch.update(doc(db,'users',u.id),{familyId,updatedAt:serverTimestamp()});operations++;}else if(oldUsers.has(u.id)&&u.familyId===familyId){batch.update(doc(db,'users',u.id),{familyId:'',updatedAt:serverTimestamp()});operations++;}}for(const p of players){if(newPlayers.has(p.id)){const linkedUserIds=[...new Set(memberUserIds)];batch.update(doc(db,'players',p.id),{familyId,linkedUserIds,updatedAt:serverTimestamp()});operations++;charges.filter(c=>c.playerId===p.id).forEach(c=>{batch.update(doc(db,'charges',c.id),{userIds:linkedUserIds,updatedAt:serverTimestamp()});operations++;});}else if(oldPlayers.has(p.id)&&p.familyId===familyId){batch.update(doc(db,'players',p.id),{familyId:'',linkedUserIds:[],updatedAt:serverTimestamp()});operations++;charges.filter(c=>c.playerId===p.id).forEach(c=>{batch.update(doc(db,'charges',c.id),{userIds:[],updatedAt:serverTimestamp()});operations++;});}}if(operations)await batch.commit();$('#familyDialog').close();await loadAdminData();toast('Familia guardada.')}catch(x){alert(err(x))}};
 
@@ -2968,13 +2927,11 @@ $('#venueForm').onsubmit=async e=>{e.preventDefault();try{const id=$('#venueDocI
 $('#eventForm').onsubmit=async e=>{
   e.preventDefault();
   try{
-    const id=$('#eventDocId').value,coaching=isCoachingRole(profile?.role),categoryIds=$$('#eventCategoriesEditor input:checked').map(i=>i.value);
-    if(!categoryIds.length)return alert('Selecciona al menos una categoría.');
-    if(coaching&&categoryIds.some(id=>!(profile.assignedCategoryIds||[]).includes(id)))return alert('Solo puedes crear o editar eventos de tus categorías asignadas.');
-    const categoryId=categoryIds[0];
-    const data={orgId:ORG_ID,categoryId,categoryIds,seasonId:$('#eventSeason').value,type:$('#eventType').value,title:$('#eventTitle').value.trim(),opponent:$('#eventOpponent').value.trim(),date:$('#eventDate').value,startTime:$('#eventStart').value,endTime:$('#eventEnd').value,homeAway:$('#eventHomeAway').value,venueId:$('#eventHomeAway').value==='away'?'':$('#eventVenue').value,awayVenueName:$('#eventAwayVenueName').value.trim(),awayAddress:$('#eventAwayAddress').value.trim(),locationUrl:$('#eventLocationUrl').value.trim(),uniform:$('#eventUniform').value,status:$('#eventStatus').value,notes:$('#eventNotes').value.trim(),updatedAt:serverTimestamp()};
-    let eventId=id;if(id){const existing=events.find(x=>x.id===id)||trainerEvents.find(x=>x.id===id);if(coaching&&(!existing||sportsCategoryIds(existing).some(id=>!(profile.assignedCategoryIds||[]).includes(id))))return alert('No tienes permiso para editar este evento.');await updateDoc(doc(db,'events',id),data);}else{const ref=await addDoc(collection(db,'events'),{...data,createdBy:auth.currentUser.uid,createdByRole:profile?.role||'',createdAt:serverTimestamp()});eventId=ref.id}
-    for(const cid of categoryIds)await createCategoryNotification({kind:'event',categoryId:cid,title:id?'Evento actualizado':`Nuevo ${typeLabel(data.type).toLowerCase()}`,body:`${data.title} · ${data.date}${data.startTime?' · '+data.startTime:''}${data.homeAway==='away'?' · Visitante':''}`,sourceId:eventId});
+    const id=$('#eventDocId').value,categoryId=$('#eventCategory').value,coaching=isCoachingRole(profile?.role);
+    if(coaching&&!(profile.assignedCategoryIds||[]).includes(categoryId))return alert('Solo puedes crear o editar eventos de tus categorías asignadas.');
+    const data={orgId:ORG_ID,categoryId,seasonId:$('#eventSeason').value,type:$('#eventType').value,title:$('#eventTitle').value.trim(),opponent:$('#eventOpponent').value.trim(),date:$('#eventDate').value,startTime:$('#eventStart').value,endTime:$('#eventEnd').value,homeAway:$('#eventHomeAway').value,venueId:$('#eventHomeAway').value==='away'?'':$('#eventVenue').value,awayVenueName:$('#eventAwayVenueName').value.trim(),awayAddress:$('#eventAwayAddress').value.trim(),locationUrl:$('#eventLocationUrl').value.trim(),uniform:$('#eventUniform').value,status:$('#eventStatus').value,notes:$('#eventNotes').value.trim(),updatedAt:serverTimestamp()};
+    let eventId=id;if(id){const existing=events.find(x=>x.id===id)||trainerEvents.find(x=>x.id===id);if(coaching&&(!existing||!(profile.assignedCategoryIds||[]).includes(existing.categoryId)))return alert('No tienes permiso para editar este evento.');await updateDoc(doc(db,'events',id),data);}else{const ref=await addDoc(collection(db,'events'),{...data,createdBy:auth.currentUser.uid,createdByRole:profile?.role||'',createdAt:serverTimestamp()});eventId=ref.id}
+    await createCategoryNotification({kind:'event',categoryId,title:id?'Evento actualizado':`Nuevo ${typeLabel(data.type).toLowerCase()}`,body:`${data.title} · ${data.date}${data.startTime?' · '+data.startTime:''}${data.homeAway==='away'?' · Visitante':''}`,sourceId:eventId});
     $('#eventDialog').close();
     if(coaching){await loadTrainerData();renderTrainerEvents();}else{await loadAdminData();}
     toast('Evento guardado.');
@@ -2982,7 +2939,7 @@ $('#eventForm').onsubmit=async e=>{
   }catch(x){alert(err(x))}
 };
 $('#seasonForm').onsubmit=async e=>{e.preventDefault();try{const id=$('#seasonDocId').value,isCurrent=$('#seasonCurrent').checked,batch=writeBatch(db);if(isCurrent)seasons.filter(s=>s.isCurrent&&s.id!==id).forEach(s=>batch.update(doc(db,'seasons',s.id),{isCurrent:false,updatedAt:serverTimestamp()}));const data={orgId:ORG_ID,name:$('#seasonName').value.trim(),startDate:$('#seasonStart').value,endDate:$('#seasonEnd').value,status:$('#seasonStatus').value,isCurrent,updatedAt:serverTimestamp()};if(id)batch.update(doc(db,'seasons',id),data);else batch.set(doc(collection(db,'seasons')),{...data,createdAt:serverTimestamp()});await batch.commit();$('#seasonDialog').close();await loadAdminData();toast('Temporada guardada.')}catch(x){alert(err(x))}};
-$('#trainingForm').onsubmit=async e=>{e.preventDefault();try{const id=$('#trainingDocId').value,days=$$('input[name="trainingDay"]:checked').map(i=>Number(i.value)),categoryIds=$$('#trainingCategoriesEditor input:checked').map(i=>i.value);if(!categoryIds.length)return alert('Selecciona al menos una categoría.');if(!days.length)return alert('Selecciona al menos un día de entrenamiento.');const data={orgId:ORG_ID,categoryId:categoryIds[0],categoryIds,seasonId:$('#trainingSeason').value,days,startTime:$('#trainingStartTime').value,endTime:$('#trainingEndTime').value,startDate:$('#trainingStartDate').value,endDate:$('#trainingEndDate').value,venueId:$('#trainingVenue').value,status:$('#trainingStatus').value,notes:$('#trainingNotes').value.trim(),updatedAt:serverTimestamp()};if(id)await updateDoc(doc(db,'trainingSeries',id),data);else await addDoc(collection(db,'trainingSeries'),{...data,createdAt:serverTimestamp()});$('#trainingDialog').close();await loadAdminData();toast('Entrenamiento recurrente guardado.');if($('#categoryDialog')?.open)renderCategoryEditorRelations($('#categoryDocId').value);}catch(x){alert(err(x))}};
+$('#trainingForm').onsubmit=async e=>{e.preventDefault();try{const id=$('#trainingDocId').value,days=$$('input[name="trainingDay"]:checked').map(i=>Number(i.value));if(!days.length)return alert('Selecciona al menos un día de entrenamiento.');const data={orgId:ORG_ID,categoryId:$('#trainingCategory').value,seasonId:$('#trainingSeason').value,days,startTime:$('#trainingStartTime').value,endTime:$('#trainingEndTime').value,startDate:$('#trainingStartDate').value,endDate:$('#trainingEndDate').value,venueId:$('#trainingVenue').value,status:$('#trainingStatus').value,notes:$('#trainingNotes').value.trim(),updatedAt:serverTimestamp()};if(id)await updateDoc(doc(db,'trainingSeries',id),data);else await addDoc(collection(db,'trainingSeries'),{...data,createdAt:serverTimestamp()});$('#trainingDialog').close();await loadAdminData();toast('Entrenamiento recurrente guardado.');if($('#categoryDialog')?.open)renderCategoryEditorRelations($('#categoryDocId').value);}catch(x){alert(err(x))}};
 $('#trainingExceptionForm').onsubmit=async e=>{e.preventDefault();try{const seriesId=$('#trainingExceptionSeriesId').value,date=$('#trainingExceptionDate').value,existing=trainingExceptions.find(x=>x.seriesId===seriesId&&x.date===date);const data={orgId:ORG_ID,seriesId,date,action:$('#trainingExceptionAction').value,startTime:$('#trainingExceptionStart').value,endTime:$('#trainingExceptionEnd').value,venueId:$('#trainingExceptionVenue').value,notes:$('#trainingExceptionNotes').value.trim(),updatedAt:serverTimestamp()};if(existing)await updateDoc(doc(db,'trainingExceptions',existing.id),data);else await addDoc(collection(db,'trainingExceptions'),{...data,createdAt:serverTimestamp()});$('#trainingExceptionDialog').close();await loadAdminData();toast('Excepción guardada.')}catch(x){alert(err(x))}};
 $('#trainingFutureForm').onsubmit=async e=>{e.preventDefault();try{const id=$('#trainingFutureSeriesId').value,t=trainingSeries.find(x=>x.id===id),from=$('#trainingFutureDate').value;if(!t||from<=t.startDate||from>t.endDate)return alert('La fecha debe estar dentro de la serie y ser posterior al inicio.');const batch=writeBatch(db);batch.update(doc(db,'trainingSeries',id),{endDate:datePlus(from,-1),updatedAt:serverTimestamp()});const {id:oldId,createdAt:oldCreated,updatedAt:oldUpdated,...base}=t;batch.set(doc(collection(db,'trainingSeries')),{...base,startDate:from,startTime:$('#trainingFutureStart').value,endTime:$('#trainingFutureEnd').value,venueId:$('#trainingFutureVenue').value,createdAt:serverTimestamp(),updatedAt:serverTimestamp()});await batch.commit();$('#trainingFutureDialog').close();await loadAdminData();toast('Cambios aplicados a los entrenamientos siguientes.')}catch(x){alert(err(x))}};
 $('#announcementForm').onsubmit=async e=>{e.preventDefault();try{const id=$('#announcementDocId').value,data={orgId:ORG_ID,title:$('#announcementTitle').value.trim(),categoryId:$('#announcementCategory').value,body:$('#announcementBody').value.trim(),status:$('#announcementStatus').value,updatedAt:serverTimestamp()};let announcementId=id;if(id)await updateDoc(doc(db,'announcements',id),data);else{const ref=await addDoc(collection(db,'announcements'),{...data,createdAt:serverTimestamp()});announcementId=ref.id}if(data.status==='published')await createCategoryNotification({kind:'announcement',categoryId:data.categoryId,title:id?'Comunicado actualizado':'Nuevo comunicado',body:data.title,sourceId:announcementId});$('#announcementDialog').close();await loadAdminData();toast('Comunicado guardado.')}catch(x){alert(err(x))}};
