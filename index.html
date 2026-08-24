@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore Security 1.0 · UI 2.14.13</title>
+  <title>VolleyCore Security 1.0 · UI 2.14.14</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260812-ui2135">
 
@@ -249,7 +249,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore Security 1.0 · UI 2.14.13</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore Security 1.0 · UI 2.14.14</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button></div>
@@ -276,9 +276,11 @@
     </section>
 
     <section id="view-trainings" class="view hidden">
-      <div class="page-head"><div><span class="eyebrow">RUTINAS</span><h2>Entrenamientos recurrentes</h2></div><button id="newTrainingButton" class="btn primary">Nuevo entrenamiento</button></div>
-      <div class="filters"><select id="trainingCategoryFilter"><option value="">Todas las categorías</option></select><select id="trainingSeasonFilter"><option value="">Todas las temporadas</option></select></div>
-      <div id="trainingsList" class="cards-list"></div>
+      <div class="page-head"><div><span class="eyebrow">PLANIFICACIÓN DEPORTIVA</span><h2>Entrenamientos</h2><p class="muted">Vista semanal consolidada de la operación deportiva.</p></div><button id="newTrainingButton" class="btn primary">+ Programar entrenamiento</button></div>
+      <div id="trainingStats" class="stats training-stats"></div>
+      <div class="training-toolbar"><div class="filters training-filters"><select id="trainingCategoryFilter"><option value="">Todas las categorías</option></select><select id="trainingVenueFilter"><option value="">Todos los gimnasios</option></select><select id="trainingSeasonFilter"><option value="">Todas las temporadas</option></select></div><div class="training-week-nav"><button id="trainingPrevWeek" class="action" type="button">‹ Semana anterior</button><button id="trainingTodayWeek" class="action" type="button">Esta semana</button><button id="trainingNextWeek" class="action" type="button">Semana siguiente ›</button></div></div>
+      <div class="training-view-tabs"><button class="action active" data-training-view="week" type="button">Semana</button><button class="action" data-training-view="list" type="button">Lista</button></div>
+      <div id="trainingWeekLabel" class="training-week-label"></div><div id="trainingCalendar" class="training-calendar"></div><div id="trainingsList" class="cards-list hidden"></div>
     </section>
 
     <section id="view-events" class="view hidden">
@@ -1054,7 +1056,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.14.13.js?v=20260821-ui21411"></script>
+<script type="module" src="app-ui-2.14.14.js?v=20260821-ui21411"></script>
 
 
 <script>
