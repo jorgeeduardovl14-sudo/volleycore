@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore Security 1.0 · UI 2.14.17</title>
+  <title>VolleyCore Security 1.0 · UI 2.14.18</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-refresh.css?v=20260812-ui2135">
 
@@ -249,7 +249,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore Security 1.0 · UI 2.14.17</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore Security 1.0 · UI 2.14.18</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button></div>
@@ -912,6 +912,21 @@
   <div id="categoryDetailContent" class="dialog-content"></div>
   <div class="dialog-actions dialog-pad"><button id="categoryCalendarButton" class="btn secondary" type="button">📅 Importar calendario de categoría</button><button id="addCategoryVideoButton" class="btn primary" type="button">Agregar video</button><button class="btn secondary close-dialog" type="button">Cerrar</button></div>
 </dialog>
+
+<dialog id="categoryCalendarImportDialog" class="wide-dialog">
+  <div class="dialog-head"><div><span class="eyebrow">IMPORTACIÓN DE CALENDARIO</span><h3 id="calendarImportTitle">Importar calendario</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
+  <input id="calendarImportCategoryId" type="hidden">
+  <article class="panel">
+    <p class="muted">El archivo pertenece únicamente a la categoría seleccionada. Revisa la vista previa antes de guardar.</p>
+    <div class="actions"><button id="downloadCalendarTemplateButton" class="btn secondary" type="button">Descargar plantilla Excel</button></div>
+    <label>Archivo<input id="categoryCalendarImportFile" type="file" accept=".xlsx,.xls,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv"></label>
+    <div class="actions"><button id="previewCategoryCalendarButton" class="btn primary" type="button">Revisar archivo</button><button id="confirmCategoryCalendarButton" class="btn secondary" type="button" disabled>Importar eventos válidos</button></div>
+  </article>
+  <div id="categoryCalendarImportSummary" class="stats small"></div>
+  <div id="categoryCalendarImportPreview" class="table-wrap"></div>
+  <div class="dialog-actions"><button class="btn secondary close-dialog" type="button">Cerrar</button></div>
+</dialog>
+
 <dialog id="categoryVideoDialog">
   <form id="categoryVideoForm">
     <div class="dialog-head"><h3>Partido grabado</h3><button class="icon-button close-dialog" type="button">×</button></div>
@@ -1060,7 +1075,7 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.14.17.js?v=20260821-ui21411"></script>
+<script type="module" src="app-ui-2.14.18.js?v=20260821-ui21411"></script>
 
 
 <script>

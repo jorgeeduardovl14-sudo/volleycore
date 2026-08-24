@@ -143,6 +143,9 @@ export default async (request)=>{
     const target=await getDocument("users",uid);
     if(!target)return json(404,{error:"No se encontró el usuario."});
     if(target.orgId!=="asbavol")return json(403,{error:"El usuario pertenece a otra organización."});
+    const callerSuper=callerProfile.isSuperAdmin===true;
+    if(target.role==="admin"&&target.isSuperAdmin===true)return json(403,{error:"Las cuentas Super Administrador están protegidas y no pueden eliminarse desde VolleyCore."});
+    if(target.role==="admin"&&!callerSuper)return json(403,{error:"Solo un Super Administrador puede eliminar a otro Administrador."});
 
     const [players,privates,families,charges]=await Promise.all([
       runArrayContains("players","linkedUserIds",uid),

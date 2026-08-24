@@ -8,9 +8,10 @@ service cloud.firestore {
     function userDoc(){ return get(userPath()); }
     function sameOrg(){ return hasProfile() && userDoc().data.orgId == 'asbavol'; }
     function isAdmin(){ return sameOrg() && userDoc().data.role == 'admin'; }
+    function isSuperAdmin(){ return isAdmin() && ('isSuperAdmin' in userDoc().data) && userDoc().data.isSuperAdmin == true; }
     function isTreasurer(){ return sameOrg() && userDoc().data.role == 'treasurer'; }
     function isFinance(){ return isAdmin() || isTreasurer(); }
-    function isRoleAdmin(){ return sameOrg() && userDoc().data.role == 'admin'; }
+    function isRoleAdmin(){ return isSuperAdmin(); }
     function isPortalUser(){ return sameOrg() && userDoc().data.role in ['family','player']; }
     function isMarketing(){ return signedIn() && userDoc().data.role == 'marketing'; }
     function marketingHasCategory(categoryId){ return isMarketing() && categoryId in userDoc().data.get('assignedCategoryIds', []); }
@@ -37,10 +38,12 @@ service cloud.firestore {
       allow read: if ownUser(uid) || isAdmin();
       allow update: if isRoleAdmin()
         || (isAdmin()
+          && resource.data.role != 'admin'
+          && request.resource.data.role != 'admin'
           && request.resource.data.orgId == resource.data.orgId
           && request.resource.data.email == resource.data.email
-          && request.resource.data.role == resource.data.role
-          && request.resource.data.accountType == resource.data.accountType)
+          && request.resource.data.accountType == resource.data.accountType
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['role','accountType','status','assignedCategoryIds','playerId','permissions','trainerLevel','familyId','fullName','phone','updatedAt']))
         || (ownUser(uid)
           && request.resource.data.orgId == resource.data.orgId
           && request.resource.data.email == resource.data.email
@@ -79,7 +82,12 @@ service cloud.firestore {
     match /venues/{id} {
       allow read: if sameOrg() && resource.data.orgId == 'asbavol';
       allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
-      allow delete: if false;
+      allow delete: if isAdmin() && resource.data.orgId == 'asbavol';
+    }
+    match /adminAudit/{id} {
+      allow read: if isSuperAdmin();
+      allow create: if isAdmin() && request.resource.data.orgId == 'asbavol' && request.resource.data.actorId == request.auth.uid;
+      allow update, delete: if false;
     }
     match /events/{id} {
       allow read: if (isAdmin() || trainerHasCategory(resource.data.categoryId) || isPortalUser()) && resource.data.orgId == 'asbavol';
