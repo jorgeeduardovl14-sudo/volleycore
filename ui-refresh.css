@@ -1601,3 +1601,19 @@ html[data-theme="dark"] .link-admin-summary.selected{outline-color:rgba(114,216,
 .sports-detail-event>.actions{flex:0 0 auto}
 .danger-action.btn{border-color:#b91c1c;color:#991b1b}
 .danger-action.btn:hover{background:#fee2e2}
+
+/* =========================================================
+   VolleyCore UI 2.14.24 — sidebar + dashboard + festival grouping
+   ========================================================= */
+/* Keep the session identity inside the normal sidebar flow so it never
+   overlays navigation options at any scroll position. */
+.nav:not(.hidden){padding-bottom:18px!important}
+.vc-sidebar-user{
+  position:relative!important;
+  left:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  margin:16px -14px -18px!important;
+  padding:13px 15px!important;
+}
+.vc-dashboard-rail .panel:first-child{min-height:0}
