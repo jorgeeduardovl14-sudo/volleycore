@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#7f1d1d">
-  <title>VolleyCore UI 2.13.4</title>
+  <title>VolleyCore Security 1.0 · UI 2.14.25</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="ui-refresh.css?v=20260809-ui212">
+  <link rel="stylesheet" href="ui-refresh.css?v=20260812-ui2135">
 
 <style>
 .month-checkbox-panel{grid-column:1/-1;border:1px solid #d6d9df;border-radius:14px;padding:14px;background:#fff}
@@ -105,31 +105,23 @@
         <span><i></i>LA GRAN FAMILIA<i></i></span>
         <small>ASBAVOL</small>
       </div>
-      <div class="vc-brand-divider"></div>
-      <div class="vc-product-wordmark"><b>Volley</b><strong>Core</strong><span>PLATAFORMA DE GESTIÓN</span></div>
     </div>
     <div class="top-actions">
       <button id="themeToggleButton" class="icon-button ui-theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema">◐</button>
       <button id="notificationBellButton" class="vc-notification vc-notification-button" type="button" aria-label="Notificaciones" title="Notificaciones">🔔<span id="notificationCount" class="notification-count hidden">0</span></button>
+      <img src="volleycore-logo.png" class="vc-volleycore-mark" alt="VolleyCore">
       <span id="roleBadge" class="badge vc-role-hidden">Familia</span>
-      <div class="vc-header-product-logo" aria-label="VolleyCore">
-        <img src="volleycore-logo.png" alt="VolleyCore">
-      </div>
+      <button id="logoutButton" class="vc-logout-link vc-top-logout-hidden" type="button" tabindex="-1" aria-hidden="true">Salir</button>
     </div>
   </header>
   <aside id="notificationPanel" class="notification-panel hidden" aria-label="Centro de notificaciones">
     <div class="notification-panel-head"><div><span class="eyebrow">NOTIFICACIONES</span><h3>Actividad de tus categorías</h3></div><button id="closeNotificationPanel" class="icon-button" type="button">×</button></div>
     <div id="notificationList" class="notification-list"></div>
-    <div class="notification-panel-actions"><button id="markAllNotificationsRead" class="btn secondary" type="button">Marcar todas como leídas</button></div>
+    <div class="notification-panel-actions"><button id="markAllNotificationsRead" class="btn secondary" type="button">Marcar todas como leídas</button><button id="clearReadNotifications" class="btn secondary" type="button">Limpiar leídas</button></div>
   </aside>
   <nav id="adminNav" class="nav hidden">
-    <div class="vc-sidebar-brand">
+    <div class="vc-sidebar-brand vc-sidebar-shield-only">
       <img src="santa-barbara-shield-white.png" alt="Escudo Santa Bárbara">
-      <div class="vc-sidebar-wordmark">
-        <strong>SANTA<br>BÁRBARA</strong>
-        <span>LA GRAN FAMILIA</span>
-        <small>ASBAVOL</small>
-      </div>
     </div>
     <button data-view="dashboard" class="active"><span class="nav-icon">⌂</span>Inicio</button>
     <div class="nav-section-label">DEPORTIVO</div>
@@ -137,19 +129,21 @@
     <button data-view="players"><span class="nav-icon">♙</span>Jugadoras</button>
     <button data-view="trainers"><span class="nav-icon">♟</span>Entrenadores</button>
     <button data-view="attendance"><span class="nav-icon">☑</span>Asistencia</button>
-    <button data-view="trainings"><span class="nav-icon">◷</span>Entrenamientos</button>
-    <button data-view="events"><span class="nav-icon">□</span>Eventos</button>
+    <button data-view="trainings"><span class="nav-icon">📅</span>Calendario Deportivo</button>
     <button data-view="seasons"><span class="nav-icon">◫</span>Temporadas</button>
     <button data-view="venues"><span class="nav-icon">⌖</span>Gimnasios</button>
     <div class="nav-section-label">FINANZAS</div>
-    <button data-view="sinpeAdmin"><span class="nav-icon">▣</span>Pagos</button>
-    <button data-view="finances"><span class="nav-icon">₡</span>Mensualidades</button>
+    <button data-view="sinpeAdmin"><span class="nav-icon">▣</span>Registro de pagos</button>
+    <button data-view="finances"><span class="nav-icon">₡</span>Control de mensualidades</button>
     <button data-view="reports"><span class="nav-icon">▥</span>Reportes</button>
     <div class="nav-section-label">FAMILIAS</div>
     <button data-view="users"><span class="nav-icon">♣</span>Familias</button>
     <div class="nav-section-label">ADMINISTRACIÓN</div>
     <button data-view="userAdmin"><span class="nav-icon">👥</span>Administración de usuarios</button>
+    <button data-view="linkAdmin"><span class="nav-icon">🔗</span>Solicitudes de vinculación <span id="linkAdminNavBadge" class="nav-count-badge hidden">0</span></button>
+    <button data-view="offboarding"><span class="nav-icon">↪</span>Bitácora de bajas</button>
     <button data-view="shirtAdmin"><span class="nav-icon">👕</span>Solicitudes de camisetas</button>
+    <button data-view="pilotAdmin"><span class="nav-icon">✦</span>Piloto y feedback</button>
     <button data-view="announcements"><span class="nav-icon">✦</span>Comunicados</button>
     <button data-view="import"><span class="nav-icon">⇧</span>Importar jugadoras</button>
     <button data-view="about"><span class="nav-icon">ⓘ</span>Acerca de</button>
@@ -160,28 +154,22 @@
       <div><strong class="vc-session-user-name">Usuario</strong><small class="vc-session-user-role">Perfil</small></div>
       <span>⌄</span>
     </div></nav>
-  <nav id="familyNav" class="nav hidden"><div class="vc-sidebar-brand">
+  <nav id="marketingNav" class="nav hidden">
+    <div class="vc-sidebar-brand vc-sidebar-shield-only"><img src="./santa-barbara-shield-white.png" alt="Santa Bárbara"></div>
+    <button data-view="marketingHome">Dashboard</button><button data-view="marketingCalendar">Calendario</button><button data-view="marketingEvents">Eventos</button><button data-view="marketingAnnouncements">Comunicados</button><button data-view="marketingRoster">Jugadoras / Rosters</button><button data-view="marketingContent">Contenido</button><button data-view="profile">Mi perfil</button><button data-view="about">Acerca de</button>
+  </nav>
+  <nav id="familyNav" class="nav hidden"><div class="vc-sidebar-brand vc-sidebar-shield-only">
       <img src="santa-barbara-shield-white.png" alt="Escudo Santa Bárbara">
-      <div class="vc-sidebar-wordmark">
-        <strong>SANTA<br>BÁRBARA</strong>
-        <span>LA GRAN FAMILIA</span>
-        <small>ASBAVOL</small>
-      </div>
     </div>
-    <button data-view="familyHome" class="active">Inicio</button><button data-view="familyCategories">Mis categorías</button><button data-view="familyLink">Vincular jugadora</button><button data-view="familyTrainings">Entrenamientos</button><button data-view="familyEvents">Eventos</button><button data-view="familyPayments">Mensualidades</button><button data-view="familyAnnouncements">Comunicados</button><button data-view="profile">Mi perfil</button>
+    <button data-view="familyHome" class="active">Inicio</button><button data-view="familyCategories">Mis categorías</button><button data-view="familyLink">Vincular jugadora</button><button data-view="familyTrainings">Entrenamientos</button><button data-view="familyEvents">Eventos</button><button data-view="familyPayments">Control de mensualidades</button><button data-view="familyAnnouncements">Comunicados</button><button class="pilot-survey-nav" data-view="pilotSurvey">Evaluación piloto</button><button class="pilot-feature-nav" data-view="pilotFeature">Solicitar mejora</button><button data-view="profile">Mi perfil</button>
   <button class="mobile-logout-button" type="button">⇥ Cerrar sesión</button>
   <div class="vc-sidebar-user">
       <div class="vc-sidebar-avatar">VC</div>
       <div><strong class="vc-session-user-name">Usuario</strong><small class="vc-session-user-role">Perfil</small></div>
       <span>⌄</span>
     </div></nav>
-  <nav id="trainerNav" class="nav hidden"><div class="vc-sidebar-brand">
+  <nav id="trainerNav" class="nav hidden"><div class="vc-sidebar-brand vc-sidebar-shield-only">
       <img src="santa-barbara-shield-white.png" alt="Escudo Santa Bárbara">
-      <div class="vc-sidebar-wordmark">
-        <strong>SANTA<br>BÁRBARA</strong>
-        <span>LA GRAN FAMILIA</span>
-        <small>ASBAVOL</small>
-      </div>
     </div>
     <button data-view="trainerHome" class="active">Inicio</button>
     <button data-view="trainerPlayers">Mi equipo</button>
@@ -189,15 +177,16 @@
     <button data-view="trainerAttendance">Asistencia</button>
     <button data-view="trainerEvents">Eventos</button>
     <button data-view="trainerAnnouncements">Comunicados</button>
+    <button class="pilot-survey-nav" data-view="pilotSurvey">Evaluación piloto</button>
+    <button class="pilot-feature-nav" data-view="pilotFeature">Solicitar mejora</button>
     <button data-view="profile">Mi perfil</button>
   <button class="mobile-logout-button" type="button">⇥ Cerrar sesión</button>
   <div class="vc-sidebar-user">
       <div class="vc-sidebar-avatar">VC</div>
       <div><strong class="vc-session-user-name">Usuario</strong><small class="vc-session-user-role">Perfil</small></div>
       <span>⌄</span>
-    </div></nav><nav id="pendingTrainerNav" class="nav hidden"><div class="vc-sidebar-brand">
+    </div></nav><nav id="pendingTrainerNav" class="nav hidden"><div class="vc-sidebar-brand vc-sidebar-shield-only">
       <img src="santa-barbara-shield-white.png" alt="Escudo Santa Bárbara">
-      <div class="vc-sidebar-wordmark"><strong>SANTA<br>BÁRBARA</strong><span>LA GRAN FAMILIA</span><small>ASBAVOL</small></div>
     </div>
     <button data-view="trainerPending" class="active"><span class="nav-icon">◷</span>Solicitud</button>
     <button data-view="profile"><span class="nav-icon">⚙</span>Mi perfil</button>
@@ -215,18 +204,18 @@
               <h2 id="dashboardGreeting">¡Bienvenido!</h2>
               <p class="page-subtitle">Aquí tienes un resumen de lo más importante del club.</p>
             </div>
-            <div class="home-actions"><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button><div id="dashboardToday" class="vc-date-chip">Hoy</div></div>
+            <div class="home-actions"><div id="dashboardToday" class="vc-date-chip">Hoy</div></div>
           </div>
 
           <div id="summaryCards" class="stats vc-kpi-grid"></div>
 
           <div class="vc-feature-grid">
-            <article class="panel vc-feature-card vc-feature-training">
-              <div class="vc-feature-title"><span class="vc-round-icon cyan">◉</span><strong>PRÓXIMO ENTRENAMIENTO</strong></div>
+            <article class="panel vc-feature-card vc-feature-training clickable-card" data-dashboard-view="trainings" role="button" tabindex="0">
+              <div class="vc-feature-title"><span class="vc-round-icon cyan">◉</span><strong>ENTRENAMIENTOS</strong></div>
               <div id="dashboardNextTraining"></div>
             </article>
-            <article class="panel vc-feature-card vc-feature-match">
-              <div class="vc-feature-title"><span class="vc-round-icon red">▣</span><strong>PRÓXIMO PARTIDO</strong></div>
+            <article class="panel vc-feature-card vc-feature-match clickable-card" data-dashboard-view="events" role="button" tabindex="0">
+              <div class="vc-feature-title"><span class="vc-round-icon red">▣</span><strong>PRÓXIMOS EVENTOS</strong></div>
               <div id="dashboardNextMatch"></div>
             </article>
           </div>
@@ -238,11 +227,6 @@
         </div>
 
         <aside class="vc-dashboard-rail">
-          <article class="panel">
-            <div class="vc-section-heading"><h3>Próximos eventos</h3><button id="dashboardOpenEvents" class="link-button" type="button">Ver calendario →</button></div>
-            <div id="upcomingEvents"></div>
-          </article>
-
           <article class="panel">
             <div class="vc-section-heading"><h3>Actividad reciente</h3></div>
             <div id="recentPlayers"></div>
@@ -259,7 +243,7 @@
           </article>
         </aside>
       </div>
-    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore UI 2.13.4</span></div>
+    </section><div class="vc-dashboard-footer"><span>© 2026 ASBAVOL - Santa Bárbara. Todos los derechos reservados.</span><span>VolleyCore Security 1.0 · UI 2.14.25</span></div>
 
     <section id="view-trainerPending" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">PERSONAL DEPORTIVO</span><h2 id="trainerPendingTitle">Solicitud pendiente</h2><p class="page-subtitle">Tu cuenta fue creada correctamente. Un administrador debe aprobar tu perfil deportivo y asignarte las categorías correspondientes.</p></div><button class="btn primary shirt-request-launch" type="button">👕 Solicitud de camiseta</button></div>
@@ -286,9 +270,15 @@
     </section>
 
     <section id="view-trainings" class="view hidden">
-      <div class="page-head"><div><span class="eyebrow">RUTINAS</span><h2>Entrenamientos recurrentes</h2></div><button id="newTrainingButton" class="btn primary">Nuevo entrenamiento</button></div>
-      <div class="filters"><select id="trainingCategoryFilter"><option value="">Todas las categorías</option></select><select id="trainingSeasonFilter"><option value="">Todas las temporadas</option></select></div>
-      <div id="trainingsList" class="cards-list"></div>
+      <div class="page-head"><div><span class="eyebrow">PLANIFICACIÓN DEPORTIVA</span><h2>Calendario Deportivo</h2><p class="muted">Entrenamientos, partidos, festivales y actividades de todas las categorías en una sola vista.</p></div><div class="actions"><button id="downloadFullSportsCalendar" class="btn secondary" type="button">📅 Descargar calendario completo</button><button id="newSportsActivityButton" class="btn primary" type="button">+ Crear</button></div></div>
+      <div id="trainingStats" class="stats training-stats"></div>
+      <div class="training-toolbar"><div class="filters training-filters"><select id="trainingCategoryFilter"><option value="">Todas las categorías</option></select><select id="trainingVenueFilter"><option value="">Todos los gimnasios</option></select><select id="sportsActivityTypeFilter"><option value="">Todas las actividades</option><option value="training">Entrenamientos</option><option value="match">Partidos</option><option value="festival">Festivales</option><option value="other">Otros eventos</option></select><select id="trainingSeasonFilter"><option value="">Todas las temporadas</option></select></div><div class="training-week-nav"><button id="trainingPrevWeek" class="action" type="button">‹ Semana anterior</button><button id="trainingTodayWeek" class="action" type="button">Esta semana</button><button id="trainingNextWeek" class="action" type="button">Semana siguiente ›</button></div></div>
+      <div class="training-view-tabs"><button class="action active" data-training-view="week" type="button">Semana</button><button class="action" data-training-view="month" type="button">Mes</button><button class="action" data-training-view="list" type="button">Lista</button></div>
+      <div id="trainingLegend" class="training-legend"></div>
+      <div id="trainingWeekLabel" class="training-week-label"></div>
+      <div id="trainingCalendar" class="training-calendar"></div>
+      <div id="trainingMonthCalendar" class="training-month-calendar hidden"></div>
+      <div id="trainingsList" class="cards-list hidden"></div>
     </section>
 
     <section id="view-events" class="view hidden">
@@ -315,7 +305,7 @@
     </section>
 
     <section id="view-finances" class="view hidden">
-      <div class="page-head"><div><span class="eyebrow">FINANZAS</span><h2>Mensualidades</h2></div><button id="generateChargesButton" class="btn primary">Generar mensualidades</button></div>
+      <div class="page-head"><div><span class="eyebrow">FINANZAS</span><h2>Control de mensualidades</h2></div><button id="generateChargesButton" class="btn primary">Generar mensualidades</button></div>
       <div class="filters finance-filters"><input id="chargeMonthFilter" type="month" aria-label="Mes"><select id="chargeCategoryFilter" aria-label="Categoría"><option value="">Todas las categorías</option></select><select id="chargeStatusFilter" aria-label="Estado"><option value="">Todos los estados</option><option value="overdue">Morosos</option><option value="pending">Pendiente dentro del plazo</option><option value="partial">Parcial</option><option value="paid">Pagado</option><option value="exempt">Exonerado</option></select></div>
       <div id="financeSummary" class="stats small"></div>
       <div class="table-wrap"><table><thead><tr><th>Jugadora</th><th>Categoría</th><th>Mes</th><th>Monto</th><th>Pagado</th><th>Estado</th><th></th></tr></thead><tbody id="chargesBody"></tbody></table></div>
@@ -428,10 +418,39 @@
       <div id="familiesSummary" class="stats small"></div><div id="familiesList" class="cards-grid"></div><article class="panel"><h3>Solicitudes de vinculación</h3><div id="linkRequestsAdmin" class="cards-list"></div></article>
     </section>
 
+    <section id="view-linkAdmin" class="view hidden">
+      <div class="page-head">
+        <div><span class="eyebrow">ADMINISTRACIÓN</span><h2>Solicitudes de vinculación</h2><p class="muted">Revisa y procesa solicitudes enviadas por padres, encargados y jugadoras.</p></div>
+      </div>
+      <div id="linkAdminSummary" class="stats small"></div>
+      <div class="filters">
+        <input id="linkAdminSearch" type="search" placeholder="Buscar padre, jugadora o Player ID">
+        <select id="linkAdminStatusFilter">
+          <option value="pending">Pendientes</option>
+          <option value="">Todas</option>
+          <option value="approved">Aprobadas</option>
+          <option value="rejected">Rechazadas</option>
+        </select>
+        <select id="linkAdminCategoryFilter"><option value="">Todas las categorías</option></select>
+      </div>
+      <div id="linkAdminList" class="cards-list"></div>
+    </section>
+
+    <section id="view-offboarding" class="view hidden">
+      <div class="page-head"><div><span class="eyebrow">ADMINISTRACIÓN</span><h2>Bitácora de bajas</h2><p class="muted">Historial de salidas e inactivaciones de jugadoras, usuarios y personal deportivo.</p></div></div>
+      <div id="offboardingSummary" class="stats small"></div>
+      <div class="filters offboarding-filters">
+        <input id="offboardingSearch" type="search" placeholder="Buscar persona, motivo o equipo destino">
+        <select id="offboardingEntityFilter"><option value="">Todos los tipos</option><option value="player">Jugadoras</option><option value="user">Usuarios</option><option value="trainer">Personal deportivo</option></select>
+        <select id="offboardingReasonFilter"><option value="">Todos los motivos</option></select>
+      </div>
+      <div id="offboardingList" class="cards-list"></div>
+    </section>
+
     <section id="view-userAdmin" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">ADMINISTRACIÓN</span><h2>Administración de usuarios</h2><p class="muted">Gestiona roles, estado y acceso de las cuentas registradas en VolleyCore.</p></div></div>
       <div id="userAdminSummary" class="stats small"></div>
-      <div class="filters"><input id="userAdminSearch" type="search" placeholder="Buscar por nombre o correo"><select id="userAdminRoleFilter"><option value="">Todos los roles</option><option value="admin">Administrador</option><option value="treasurer">Tesorería</option><option value="trainer">Entrenador</option><option value="assistant">Asistente</option><option value="player">Jugadora</option><option value="family">Familia</option></select><select id="userAdminStatusFilter"><option value="">Todos los estados</option><option value="active">Activo</option><option value="inactive">Inactivo</option><option value="pending">Pendiente</option><option value="rejected">Rechazado</option></select></div>
+      <div class="filters"><input id="userAdminSearch" type="search" placeholder="Buscar por nombre o correo"><select id="userAdminRoleFilter"><option value="">Todos los roles</option><option value="admin">Administrador</option><option value="treasurer">Tesorería</option><option value="trainer">Entrenador</option><option value="assistant">Asistente</option><option value="marketing">Mercadeo</option><option value="player">Jugadora</option><option value="family">Familia</option></select><select id="userAdminStatusFilter"><option value="">Todos los estados</option><option value="active">Activo</option><option value="inactive">Inactivo</option><option value="pending">Pendiente</option><option value="rejected">Rechazado</option></select></div>
       <div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Rol</th><th>Jugadoras vinculadas</th><th>Estado</th><th></th></tr></thead><tbody id="userAdminBody"></tbody></table></div>
     </section>
 
@@ -453,7 +472,7 @@
           <select id="attendanceCategory"><option value="">Selecciona categoría</option></select>
           <input id="attendanceDate" type="date">
           <button id="loadAttendanceButton" class="btn secondary" type="button">Cargar roster</button>
-          <button id="markAllPresentButton" class="btn secondary" type="button">Marcar todas presentes</button>
+          <button id="markAllPresentButton" class="btn secondary" type="button">Seleccionar todas · Presentes</button>
           <button id="saveAttendanceButton" class="btn primary" type="button">Guardar asistencia</button>
         </div>
         <div id="attendanceRoster" class="attendance-list"></div>
@@ -471,7 +490,7 @@
           <select id="trainerAttendanceCategory"><option value="">Selecciona categoría</option></select>
           <input id="trainerAttendanceDate" type="date">
           <button id="trainerLoadAttendanceButton" class="btn secondary" type="button">Cargar roster</button>
-          <button id="trainerMarkAllPresentButton" class="btn secondary" type="button">Marcar todas presentes</button>
+          <button id="trainerMarkAllPresentButton" class="btn secondary" type="button">Seleccionar todas · Presentes</button>
           <button id="trainerSaveAttendanceButton" class="btn primary" type="button">Guardar asistencia</button>
         </div>
         <div id="trainerAttendanceRoster" class="attendance-list"></div>
@@ -479,6 +498,91 @@
       <article class="panel">
         <div class="page-head compact-head"><div><h3>Resumen mensual</h3></div><input id="trainerAttendanceSummaryMonth" type="month"></div>
         <div id="trainerAttendanceSummary"></div>
+      </article>
+    </section>
+
+
+    <section id="view-marketingHome" class="view hidden"><div class="page-head"><div><span class="eyebrow">MERCADEO</span><h2>Dashboard de Mercadeo</h2><p class="muted">Eventos, comunicación y contenido de las categorías asignadas.</p></div></div><div id="marketingSummary" class="stats small"></div><div class="grid two"><article class="panel"><h3>Próximos eventos</h3><div id="marketingUpcomingEvents"></div></article><article class="panel"><h3>Contenido pendiente</h3><div id="marketingPendingContent"></div></article></div></section>
+<section id="view-marketingCalendar" class="view hidden"><div class="page-head"><div><span class="eyebrow">MERCADEO</span><h2>Calendario</h2></div></div><article class="panel"><div id="marketingCalendarList"></div></article></section>
+<section id="view-marketingEvents" class="view hidden"><div class="page-head"><div><span class="eyebrow">MERCADEO</span><h2>Eventos</h2><p class="muted">Vista de eventos de las categorías asignadas.</p></div></div><article class="panel"><div id="marketingEventsList"></div></article></section>
+<section id="view-marketingAnnouncements" class="view hidden"><div class="page-head"><div><span class="eyebrow">MERCADEO</span><h2>Comunicados</h2></div></div><article class="panel"><div id="marketingAnnouncementsList"></div></article></section>
+<section id="view-marketingRoster" class="view hidden"><div class="page-head"><div><span class="eyebrow">MERCADEO</span><h2>Jugadoras / Rosters</h2><p class="muted">Vista deportiva limitada; sin información financiera, médica, familiar o administrativa privada.</p></div></div><div class="filters"><select id="marketingRosterCategory"></select><input id="marketingRosterSearch" type="search" placeholder="Buscar jugadora"></div><div id="marketingRosterList" class="cards-grid"></div></section>
+<section id="view-marketingContent" class="view hidden"><div class="page-head"><div><span class="eyebrow">MERCADEO</span><h2>Contenido</h2><p class="muted">Content Planner para piezas asociadas a la actividad deportiva.</p></div></div><article class="panel"><div class="filters"><select id="marketingContentStatus"><option value="">Todos los estados</option><option value="pending">Pendiente</option><option value="preparing">En preparación</option><option value="published">Publicado</option></select></div><div id="marketingContentList"></div></article></section>
+<section id="view-pilotSurvey" class="view hidden">
+      <div class="page-head">
+        <div><span class="eyebrow">PILOTO VOLLEYCORE</span><h2>Evaluación de la herramienta</h2><p class="muted">Tu experiencia nos ayuda a validar la plataforma antes del lanzamiento general.</p></div>
+      </div>
+      <article class="panel pilot-form-card">
+        <form id="pilotSurveyForm">
+          <div class="grid two">
+            <label>Categoría<select id="pilotSurveyCategory" required></select></label>
+            <label>Tu rol<input id="pilotSurveyRole" readonly></label>
+          </div>
+          <div class="pilot-rating-grid">
+            <label>Facilidad de uso<select id="pilotEase" required><option value="">Valorar…</option><option value="1">1 · Muy baja</option><option value="2">2</option><option value="3">3 · Regular</option><option value="4">4</option><option value="5">5 · Excelente</option></select></label>
+            <label>Claridad y navegación<select id="pilotNavigation" required><option value="">Valorar…</option><option value="1">1 · Muy baja</option><option value="2">2</option><option value="3">3 · Regular</option><option value="4">4</option><option value="5">5 · Excelente</option></select></label>
+            <label>Utilidad<select id="pilotUsefulness" required><option value="">Valorar…</option><option value="1">1 · Muy baja</option><option value="2">2</option><option value="3">3 · Regular</option><option value="4">4</option><option value="5">5 · Excelente</option></select></label>
+            <label>Velocidad / desempeño<select id="pilotPerformance" required><option value="">Valorar…</option><option value="1">1 · Muy baja</option><option value="2">2</option><option value="3">3 · Regular</option><option value="4">4</option><option value="5">5 · Excelente</option></select></label>
+            <label>Confianza en la información<select id="pilotTrust" required><option value="">Valorar…</option><option value="1">1 · Muy baja</option><option value="2">2</option><option value="3">3 · Regular</option><option value="4">4</option><option value="5">5 · Excelente</option></select></label>
+            <label>Satisfacción general<select id="pilotSatisfaction" required><option value="">Valorar…</option><option value="1">1 · Muy baja</option><option value="2">2</option><option value="3">3 · Regular</option><option value="4">4</option><option value="5">5 · Excelente</option></select></label>
+          </div>
+          <label>¿Qué fue lo más útil?<textarea id="pilotMostUseful" required></textarea></label>
+          <label>¿Qué fue lo más difícil o confuso?<textarea id="pilotMostDifficult"></textarea></label>
+          <label>Si pudieras cambiar una cosa, ¿qué cambiarías?<textarea id="pilotOneChange"></textarea></label>
+          <div class="dialog-actions"><button class="btn primary" type="submit">Enviar evaluación</button></div>
+        </form>
+      </article>
+      <article class="panel"><div class="page-head compact-head"><div><h3>Mis evaluaciones</h3><p class="muted">Tus respuestas anteriores permanecen disponibles como referencia.</p></div></div><div id="pilotMySurveyHistory" class="cards-list"></div></article>
+    </section>
+
+    <section id="view-pilotFeature" class="view hidden">
+      <div class="page-head">
+        <div><span class="eyebrow">MEJORA CONTINUA</span><h2>Feature Request</h2><p class="muted">Describe el problema o mejora. La solicitud será analizada antes de decidir si se incorpora.</p></div>
+      </div>
+      <article class="panel pilot-form-card">
+        <form id="pilotFeatureForm">
+          <div class="grid two">
+            <label>Categoría<select id="pilotFeatureCategory" required></select></label>
+            <label>Módulo afectado<select id="pilotFeatureModule" required>
+              <option value="">Seleccionar…</option><option>Inicio / Dashboard</option><option>Jugadoras</option><option>Entrenadores</option><option>Asistencia</option><option>Entrenamientos</option><option>Eventos</option><option>Mensualidades</option><option>Pagos</option><option>Notificaciones</option><option>Perfil / Acceso</option><option>Otro</option>
+            </select></label>
+          </div>
+          <label>Título de la solicitud<input id="pilotFeatureTitle" required maxlength="100" placeholder="Ej. Ver asistencia semanal desde el teléfono"></label>
+          <label>¿Qué problema estás intentando resolver?<textarea id="pilotFeatureProblem" required></textarea></label>
+          <label>¿Cómo te gustaría que funcionara?<textarea id="pilotFeatureProposal" required></textarea></label>
+          <div class="grid two">
+            <label>¿Quién se beneficiaría?<select id="pilotFeatureBeneficiary" required><option value="">Seleccionar…</option><option value="parents">Padres / encargados</option><option value="players">Jugadoras</option><option value="coaches">Entrenadores</option><option value="admin">Administración</option><option value="all">Todos</option></select></label>
+            <label>Importancia para ti<select id="pilotFeatureUrgency" required><option value="">Seleccionar…</option><option value="low">Baja</option><option value="medium">Media</option><option value="high">Alta</option></select></label>
+          </div>
+          <div class="dialog-actions"><button class="btn primary" type="submit">Enviar solicitud</button></div>
+        </form>
+      </article>
+      <article class="panel"><div class="page-head compact-head"><div><h3>Mis solicitudes</h3><p class="muted">Puedes revisar el estado de las ideas que has enviado.</p></div></div><div id="pilotMyFeatureHistory" class="cards-list"></div></article>
+    </section>
+
+    <section id="view-pilotAdmin" class="view hidden">
+      <div class="page-head"><div><span class="eyebrow">ADMINISTRACIÓN</span><h2>Piloto y feedback</h2><p class="muted">Controla la visibilidad del piloto, analiza valoraciones y gestiona solicitudes de mejora.</p></div></div>
+      <div id="pilotAdminSummary" class="stats small"></div>
+
+      <article class="panel">
+        <div class="page-head compact-head"><div><span class="eyebrow">CONFIGURACIÓN</span><h3>Visibilidad por categoría</h3><p class="muted">Por defecto ambos módulos están visibles para todas las categorías. Puedes limitar cada uno de forma independiente.</p></div></div>
+        <div class="grid two pilot-setting-columns">
+          <section class="pilot-setting-box"><div class="pilot-setting-head"><strong>Evaluación piloto</strong><label class="switch-line"><input id="pilotSurveyEnabled" type="checkbox"><span>Habilitado</span></label></div><label>Alcance<select id="pilotSurveyScope"><option value="all">Todas las categorías</option><option value="selected">Categorías específicas</option></select></label><div id="pilotSurveyCategorySettings" class="check-list pilot-category-settings"></div></section>
+          <section class="pilot-setting-box"><div class="pilot-setting-head"><strong>Feature Requests</strong><label class="switch-line"><input id="pilotFeatureEnabled" type="checkbox"><span>Habilitado</span></label></div><label>Alcance<select id="pilotFeatureScope"><option value="all">Todas las categorías</option><option value="selected">Categorías específicas</option></select></label><div id="pilotFeatureCategorySettings" class="check-list pilot-category-settings"></div></section>
+        </div>
+        <div class="actions"><button id="savePilotSettings" class="btn primary" type="button">Guardar configuración</button></div>
+      </article>
+
+      <article class="panel">
+        <div class="page-head compact-head"><div><span class="eyebrow">SURVEY</span><h3>Evaluaciones recibidas</h3></div></div>
+        <div class="filters"><input id="pilotFeedbackSearch" type="search" placeholder="Buscar comentario o usuario"><select id="pilotFeedbackRoleFilter"><option value="">Todos los roles</option><option value="family">Padres / encargados</option><option value="player">Jugadoras</option><option value="trainer">Entrenadores</option><option value="assistant">Asistentes</option></select><select id="pilotFeedbackReviewFilter"><option value="">Todos los estados</option><option value="new">Nuevas</option><option value="reviewed">Revisadas</option><option value="actioned">Con acción</option></select></div>
+        <div id="pilotFeedbackList" class="cards-list"></div>
+      </article>
+
+      <article class="panel">
+        <div class="page-head compact-head"><div><span class="eyebrow">FEATURE REQUESTS</span><h3>Solicitudes de mejora</h3></div></div>
+        <div class="filters"><input id="pilotFeatureSearch" type="search" placeholder="Buscar solicitud"><select id="pilotFeatureStatusFilter"><option value="">Todos los estados</option><option value="new">Nuevas</option><option value="review">En revisión</option><option value="approved">Aprobadas</option><option value="planned">Planificadas</option><option value="implemented">Implementadas</option><option value="declined">No aprobadas</option></select><select id="pilotFeatureClassFilter"><option value="">Todas las clasificaciones</option><option value="unclassified">Sin clasificar</option><option value="bug">Bug</option><option value="ux">Mejora UX</option><option value="feature">Nueva funcionalidad</option><option value="training">Capacitación / uso</option><option value="out_of_scope">Fuera de alcance</option></select></div>
+        <div id="pilotFeatureAdminList" class="cards-list"></div>
       </article>
     </section>
 
@@ -541,7 +645,28 @@
       <div id="familyEventsList" class="cards-list"></div>
     </section>
 
-    <section id="view-familyPayments" class="view hidden"><div class="page-head"><div><span class="eyebrow">FINANZAS</span><h2>Mis mensualidades</h2></div><button id="openSinpeButton" class="btn primary">Reportar pago</button></div><div id="familyChargesList" class="cards-list"></div></section>
+    <section id="view-familyPayments" class="view hidden">
+      <div class="page-head">
+        <div><span class="eyebrow">FINANZAS</span><h2>Mis mensualidades</h2><p class="muted">Aquí aparecen primero únicamente las mensualidades que requieren tu atención.</p></div>
+        <button id="openSinpeButton" class="btn primary">Reportar pago</button>
+      </div>
+      <div class="family-payment-tabs" role="tablist" aria-label="Vista de mensualidades">
+        <button id="familyPaymentsPendingTab" class="family-payment-tab active" type="button" data-family-payment-view="pending" role="tab" aria-selected="true">Pendientes <span id="familyPaymentsPendingCount">0</span></button>
+        <button id="familyPaymentsHistoryTab" class="family-payment-tab" type="button" data-family-payment-view="history" role="tab" aria-selected="false">Historial</button>
+      </div>
+      <div id="familyPaymentHistoryFilters" class="filters family-payment-history-filters hidden">
+        <select id="familyPaymentHistoryStatus" aria-label="Filtrar historial por estado">
+          <option value="">Todos los estados</option>
+          <option value="paid">Pagadas</option>
+          <option value="pending">Pendientes</option>
+          <option value="partial">Parciales</option>
+          <option value="exempt">Exoneradas</option>
+        </select>
+        <select id="familyPaymentHistoryPlayer" aria-label="Filtrar historial por jugadora"><option value="">Todas las jugadoras</option></select>
+        <input id="familyPaymentHistoryMonth" type="month" aria-label="Filtrar historial por mes">
+      </div>
+      <div id="familyChargesList" class="cards-list"></div>
+    </section>
     <section id="view-familyAnnouncements" class="view hidden"><div class="page-head"><div><span class="eyebrow">INFORMACIÓN</span><h2>Comunicados</h2></div></div><div id="familyAnnouncementsList" class="cards-list"></div></section>
 
     <section id="view-about" class="view hidden"><div class="page-head"><div><span class="eyebrow">SISTEMA</span><h2>Acerca de VolleyCore</h2></div></div><article class="panel"><p><strong>Versión:</strong> UI 2.13</p><p><strong>Build:</strong> 2026-08-07 · Attendance Justification</p><p><strong>Organización:</strong> ASBAVOL</p><p><strong>Base de datos:</strong> Firebase Firestore</p></article></section>
@@ -590,7 +715,7 @@
       <div class="grid two"><article class="panel"><dl class="details"><div><dt>Nombre</dt><dd id="profileName">—</dd></div><div><dt>Correo</dt><dd id="profileEmail">—</dd></div><div><dt>Teléfono</dt><dd id="profilePhone">—</dd></div><div><dt>Rol</dt><dd id="profileRole">—</dd></div></dl></article><article class="panel"><form id="profileForm"><label>Nombre completo<input id="editFullName" required></label><label>Teléfono<input id="editPhone" required></label><button class="btn primary">Guardar cambios</button></form></article></div>
     </section>
   </section>
-<dialog id="playerDetailDialog"><div class="dialog-head"><h3 id="playerDetailTitle">Perfil de jugadora</h3><button class="icon-button close-dialog" type="button">×</button></div><div id="playerDetailContent"></div></dialog>
+<dialog id="playerDetailDialog"><div class="dialog-head"><h3 id="playerDetailTitle">Perfil de jugadora</h3><button class="icon-button close-dialog" type="button">×</button></div><div id="playerDetailContent"></div><div class="dialog-actions dialog-pad"><button id="deletePlayerFromDetail" class="btn danger hidden" type="button">Eliminar jugadora</button><button class="btn secondary close-dialog" type="button">Cerrar</button></div></dialog>
 <dialog id="playerFinancialDialog">
   <div class="dialog-head dialog-pad">
     <div><span class="eyebrow">ESTADO FINANCIERO</span><h3 id="playerFinancialTitle">Mensualidades</h3></div>
@@ -604,6 +729,42 @@
 </dialog>
 </main>
 
+<dialog id="offboardingDetailDialog">
+  <div class="dialog-head dialog-pad"><div><span class="eyebrow">BITÁCORA DE BAJAS</span><h3 id="offboardingDetailTitle">Detalle de baja</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
+  <div id="offboardingDetailContent" class="dialog-content"></div>
+  <div class="dialog-actions dialog-pad"><button class="btn secondary close-dialog" type="button">Cerrar</button></div>
+</dialog>
+<dialog id="shirtRequestDetailDialog">
+  <div class="dialog-head dialog-pad"><div><span class="eyebrow">SOLICITUD DE CAMISETA</span><h3 id="shirtRequestDetailTitle">Detalle de solicitud</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
+  <div id="shirtRequestDetailContent" class="dialog-content"></div>
+  <div class="dialog-actions dialog-pad"><button class="btn secondary close-dialog" type="button">Cerrar</button></div>
+</dialog>
+<dialog id="offboardingDialog">
+  <form id="offboardingForm">
+    <div class="dialog-head"><div><span class="eyebrow">BITÁCORA DE BAJA</span><h3 id="offboardingDialogTitle">Registrar baja</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
+    <input id="offboardingEntityType" type="hidden"><input id="offboardingEntityId" type="hidden"><input id="offboardingEntityName" type="hidden">
+    <p class="notice warning">Para inactivar este registro debemos documentar el motivo. La información quedará en la bitácora administrativa.</p>
+    <div class="grid two">
+      <label>Fecha efectiva<input id="offboardingEffectiveDate" type="date" required></label>
+      <label>Tipo de baja<select id="offboardingExitType" required><option value="definitive">Definitiva</option><option value="temporary">Temporal</option></select></label>
+      <label>Motivo principal<select id="offboardingReason" required>
+        <option value="">Seleccionar…</option>
+        <option value="team_change">Cambio de equipo</option><option value="relocation">Mudanza</option><option value="study">Estudios</option><option value="injury">Lesión</option>
+        <option value="financial">Razones económicas</option><option value="schedule">Incompatibilidad de horarios</option>
+        <option value="sport_dissatisfaction">Insatisfacción deportiva</option><option value="administrative_dissatisfaction">Insatisfacción administrativa</option>
+        <option value="family_decision">Decisión familiar</option><option value="retirement">Retiro del deporte</option><option value="employment_end">Fin de relación / función</option><option value="other">Otro</option>
+      </select></label>
+      <label id="offboardingDestinationTeamField" class="hidden">Equipo destino<input id="offboardingDestinationTeam" placeholder="Nombre del equipo"></label>
+      <label id="offboardingDissatisfactionField" class="hidden">Área de insatisfacción<select id="offboardingDissatisfaction">
+        <option value="">Seleccionar…</option><option value="coach">Entrenador/a</option><option value="playing_time">Tiempo de juego</option><option value="communication">Comunicación</option><option value="treatment">Trato</option><option value="organization">Organización</option><option value="facilities">Instalaciones</option><option value="costs">Costos / pagos</option><option value="schedule">Horarios</option><option value="team_environment">Ambiente de equipo</option><option value="other">Otro</option>
+      </select></label>
+    </div>
+    <label>Detalle / contexto<textarea id="offboardingDetails" required placeholder="Explica brevemente qué ocurrió y cualquier información útil para seguimiento."></textarea></label>
+    <label>Observaciones adicionales<textarea id="offboardingNotes"></textarea></label>
+    <div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Registrar baja y continuar</button></div>
+  </form>
+</dialog>
+
 <dialog id="familyDialog"><form id="familyForm"><div class="dialog-head"><h3 id="familyDialogTitle">Nueva familia</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="familyDocId" type="hidden"><div class="grid two"><label>Código familiar<input id="familyCode" required placeholder="FAM-0001"></label><label>Nombre de la familia<input id="familyName" required placeholder="Familia Vargas Molina"></label><label>Teléfono principal<input id="familyPhone"></label><label>Estado<select id="familyStatus"><option value="active">Activa</option><option value="inactive">Inactiva</option></select></label></div><label>Dirección<textarea id="familyAddress"></textarea></label><label>Observaciones<textarea id="familyNotes"></textarea></label><div class="grid two"><fieldset><legend>Usuarios de la familia</legend><div id="familyUsersEditor" class="check-list"></div></fieldset><fieldset><legend>Jugadoras de la familia</legend><div id="familyPlayersEditor" class="check-list"></div></fieldset></div><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar familia</button></div></form></dialog>
 
 <dialog id="familyDetailDialog"><div class="dialog-head dialog-pad"><div><span id="familyDetailCode" class="eyebrow"></span><h3 id="familyDetailTitle">Familia</h3></div><button class="icon-button close-dialog" type="button">×</button></div><div id="familyDetailContent" class="dialog-content"></div><div class="dialog-actions dialog-pad"><button id="manageFamilyMembersFromDetail" class="btn secondary" type="button">Gestionar miembros</button><button id="editFamilyFromDetail" class="btn primary" type="button">Editar datos</button><button class="btn secondary close-dialog" type="button">Cerrar</button></div></dialog>
@@ -611,7 +772,7 @@
 
 <dialog id="familyMemberPickerDialog"><div class="dialog-head dialog-pad"><div><span class="eyebrow">GRUPO FAMILIAR</span><h3 id="familyMemberPickerTitle">Gestionar miembros</h3></div><button class="icon-button close-dialog" type="button">×</button></div><div class="dialog-content"><div class="picker-toolbar"><label>Buscar<input id="familyMemberSearch" type="search" placeholder="Nombre, correo, teléfono o Player ID"></label><label>Categoría<select id="familyMemberCategory"><option value="">Todas las categorías</option></select></label><label class="picker-check"><input id="familyMemberOnlyUnassigned" type="checkbox"> Solo mostrar personas sin familia</label></div><div class="grid two picker-columns"><fieldset><legend>Jugadoras</legend><div id="familyMemberPlayers" class="picker-list"></div></fieldset><fieldset><legend>Usuarios</legend><div id="familyMemberUsers" class="picker-list"></div></fieldset></div><p class="notice info">Marca las personas que deben pertenecer a esta familia. Si una persona ya está en otro grupo, VolleyCore pedirá confirmación antes de moverla.</p></div><div class="dialog-actions dialog-pad"><button class="btn secondary close-dialog" type="button">Cancelar</button><button id="saveFamilyMembersButton" class="btn primary" type="button">Guardar miembros</button></div></dialog>
 
-<dialog id="userDetailDialog"><div class="dialog-head dialog-pad"><h3 id="userDetailTitle">Perfil de usuario</h3><button class="icon-button close-dialog" type="button">×</button></div><div id="userDetailContent" class="dialog-content"></div><div class="dialog-actions dialog-pad"><button class="btn secondary close-dialog" type="button">Cerrar</button></div></dialog>
+<dialog id="userDetailDialog"><div class="dialog-head dialog-pad"><h3 id="userDetailTitle">Perfil de usuario</h3><button class="icon-button close-dialog" type="button">×</button></div><div id="userDetailContent" class="dialog-content"></div><div class="dialog-actions dialog-pad"><button id="deleteUserFromDetail" class="btn danger hidden" type="button">Eliminar usuario</button><button class="btn secondary close-dialog" type="button">Cerrar</button></div></dialog>
 <dialog id="roleManagerDialog" class="wide-dialog">
   <form id="roleManagerForm">
     <div class="dialog-head"><div><span class="eyebrow">ADMINISTRACIÓN</span><h3>Gestionar rol de usuario</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
@@ -622,7 +783,7 @@
         <option value="family">Familia / encargado</option>
         <option value="player">Jugadora</option>
         <option value="trainer">Entrenador</option>
-        <option value="assistant">Asistente</option>
+        <option value="assistant">Asistente</option><option value="marketing">Mercadeo</option>
         <option value="treasurer">Tesorería</option>
         <option value="admin">Administrador</option>
       </select></label>
@@ -640,7 +801,7 @@
     </fieldset>
     <p id="roleManagerPlayerNote" class="notice info hidden">Para el rol Jugadora es obligatorio vincular una ficha de jugadora. Las categorías se tomarán directamente de esa ficha.</p>
     <p class="notice warning">Los cambios de rol afectan inmediatamente el acceso del usuario. Solo un Administrador puede realizar cambios de rol.</p>
-    <div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button id="saveRoleManagerButton" class="btn primary" type="submit">Guardar rol</button></div>
+    <div class="dialog-actions"><button id="deleteUserFromRoleManager" type="button" class="btn danger">Eliminar usuario</button><button type="button" class="btn secondary close-dialog">Cancelar</button><button id="saveRoleManagerButton" class="btn primary" type="submit">Guardar rol</button></div>
   </form>
 </dialog>
 <dialog id="trainerDialog">
@@ -648,8 +809,8 @@
     <div class="dialog-head"><h3>Asignar perfil de entrenador</h3><button class="icon-button close-dialog" type="button">×</button></div>
     <label>Usuario<select id="trainerUserId" required></select></label>
     <div class="grid two">
-      <label>Rol<select id="trainerRole"><option value="trainer">Entrenador</option><option value="assistant">Asistente</option></select></label>
-      <label>Nivel<select id="trainerLevel"><option value="head">Entrenador principal</option><option value="assistant">Asistente</option><option value="coordinator">Coordinador deportivo</option></select></label>
+      <label>Rol<select id="trainerRole"><option value="trainer">Entrenador</option><option value="assistant">Asistente</option><option value="marketing">Mercadeo</option></select></label>
+      <label>Nivel<select id="trainerLevel"><option value="head">Entrenador principal</option><option value="assistant">Asistente</option><option value="marketing">Mercadeo</option><option value="coordinator">Coordinador deportivo</option></select></label>
       <label>Estado<select id="trainerStatus"><option value="active">Activo</option><option value="inactive">Inactivo</option></select></label>
     </div>
     <fieldset><legend>Categorías asignadas</legend><div id="trainerCategoriesEditor" class="check-list"></div></fieldset>
@@ -736,15 +897,32 @@
   </section>
 
   <label>Observaciones<textarea id="playerNotes"></textarea></label>
-  <div class="dialog-actions sticky-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div>
+  <div class="dialog-actions sticky-actions"><button id="deletePlayerFromEdit" type="button" class="btn danger hidden">Eliminar jugadora</button><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div>
 </form>
 </dialog>
 
 <dialog id="categoryDetailDialog">
   <div class="dialog-head dialog-pad"><div><span class="eyebrow">FICHA DE CATEGORÍA</span><h3 id="categoryDetailTitle">Categoría</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
   <div id="categoryDetailContent" class="dialog-content"></div>
-  <div class="dialog-actions dialog-pad"><button id="categoryCalendarButton" class="btn secondary" type="button">📅 Importar calendario de categoría</button><button id="addCategoryVideoButton" class="btn primary" type="button">Agregar video</button><button class="btn secondary close-dialog" type="button">Cerrar</button></div>
+  <div class="dialog-actions dialog-pad"><button id="categoryCalendarDownloadButton" class="btn secondary" type="button">📅 Descargar calendario</button><button id="categoryCalendarButton" class="btn secondary" type="button">⇧ Importar calendario</button><button id="addCategoryVideoButton" class="btn primary" type="button">Agregar video</button><button class="btn secondary close-dialog" type="button">Cerrar</button></div>
 </dialog>
+
+<dialog id="categoryCalendarImportDialog" class="wide-dialog">
+  <div class="dialog-head"><div><span class="eyebrow">IMPORTACIÓN DE CALENDARIO</span><h3 id="calendarImportTitle">Importar calendario</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
+  <input id="calendarImportCategoryId" type="hidden">
+  <article class="panel">
+    <p class="muted">El archivo pertenece únicamente a la categoría seleccionada. Revisa la vista previa antes de guardar. Se aceptan Excel, CSV y PDF con tablas de calendario.</p>
+    <div class="actions"><button id="downloadCalendarTemplateButton" class="btn secondary" type="button">Descargar plantilla Excel</button></div>
+    <label>Equipo a localizar en el PDF<input id="calendarImportTeamAlias" value="SANTA BARBARA" placeholder="Ej. SANTA BARBARA"></label>
+    <p class="muted">En PDF, VolleyCore buscará únicamente las filas donde aparezca este equipo y determinará automáticamente rival, Casa/Visita, fecha, hora y sede.</p>
+    <label>Archivo<input id="categoryCalendarImportFile" type="file" accept=".xlsx,.xls,.csv,.pdf,application/pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv"></label>
+    <div class="actions"><button id="previewCategoryCalendarButton" class="btn primary" type="button">Interpretar y revisar</button><button id="confirmCategoryCalendarButton" class="btn secondary" type="button" disabled>Importar eventos válidos</button></div>
+  </article>
+  <div id="categoryCalendarImportSummary" class="stats small"></div>
+  <div id="categoryCalendarImportPreview" class="table-wrap"></div>
+  <div class="dialog-actions"><button class="btn secondary close-dialog" type="button">Cerrar</button></div>
+</dialog>
+
 <dialog id="categoryVideoDialog">
   <form id="categoryVideoForm">
     <div class="dialog-head"><h3>Partido grabado</h3><button class="icon-button close-dialog" type="button">×</button></div>
@@ -818,16 +996,32 @@
 
 <dialog id="venueDialog"><form id="venueForm"><div class="dialog-head"><h3 id="venueDialogTitle">Nuevo lugar</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="venueDocId" type="hidden"><label>Nombre<input id="venueName" required></label><label>Dirección<textarea id="venueAddress" required></textarea></label><label>Enlace de Google Maps<input id="venueMapUrl" type="url" placeholder="https://maps.google.com/..."></label><label>Indicaciones<textarea id="venueDirections"></textarea></label><label>Estado<select id="venueStatus"><option value="active">Activo</option><option value="inactive">Inactivo</option></select></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
 
-<dialog id="eventDialog"><form id="eventForm"><div class="dialog-head"><h3 id="eventDialogTitle">Nuevo evento</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="eventDocId" type="hidden"><div class="grid two"><label>Categoría<select id="eventCategory" required></select></label><label>Temporada<select id="eventSeason" required></select></label><label>Tipo<select id="eventType"><option value="match">Partido</option><option value="tournament">Torneo</option><option value="festival">Festival</option><option value="meeting">Reunión</option><option value="trip">Gira</option><option value="other">Otra actividad</option></select></label><label>Título<input id="eventTitle" required></label><label>Rival<input id="eventOpponent"></label><label>Fecha<input id="eventDate" type="date" required></label><label>Hora de inicio<input id="eventStart" type="time" required></label><label>Hora final<input id="eventEnd" type="time"></label><label>Casa / visita<select id="eventHomeAway"><option value="">No aplica</option><option value="home">Casa</option><option value="away">Visitante</option></select></label>
+
+<dialog id="sportsCreateDialog">
+  <div class="dialog-head"><div><span class="eyebrow">CALENDARIO DEPORTIVO</span><h3>¿Qué deseas crear?</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
+  <div class="dialog-content sports-create-grid">
+    <button class="panel sports-create-option" type="button" data-create-sports="training"><strong>🏐 Entrenamiento</strong><span>Crear una serie recurrente.</span></button>
+    <button class="panel sports-create-option" type="button" data-create-sports="match"><strong>🏠 Partido</strong><span>Programar un partido.</span></button>
+    <button class="panel sports-create-option" type="button" data-create-sports="festival"><strong>🏆 Festival</strong><span>Crear una jornada o festival.</span></button>
+    <button class="panel sports-create-option" type="button" data-create-sports="other"><strong>📌 Otro evento</strong><span>Reunión, gira u otra actividad.</span></button>
+  </div>
+</dialog>
+
+<dialog id="sportsDayDetailDialog" class="wide-dialog">
+  <div class="dialog-head"><div><span class="eyebrow">CALENDARIO DEPORTIVO</span><h3 id="sportsDayDetailTitle">Detalle de jornada</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
+  <div id="sportsDayDetailContent" class="dialog-content"></div>
+  <div class="dialog-actions"><button class="btn secondary close-dialog" type="button">Cerrar</button></div>
+</dialog>
+<dialog id="eventDialog"><form id="eventForm"><div class="dialog-head"><h3 id="eventDialogTitle">Nuevo evento</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="eventDocId" type="hidden"><div class="grid two"><label class="hidden">Categoría principal<select id="eventCategory"></select></label><fieldset class="field-span compact-fieldset"><legend>Categoría(s) *</legend><p class="muted">Selecciona una o varias categorías.</p><div id="eventCategoriesEditor" class="check-list"></div></fieldset><label>Temporada<select id="eventSeason" required></select></label><label>Tipo<select id="eventType"><option value="match">Partido</option><option value="tournament">Torneo</option><option value="festival">Festival</option><option value="meeting">Reunión</option><option value="trip">Gira</option><option value="other">Otra actividad</option></select></label><label>Título<input id="eventTitle" required></label><label>Rival<input id="eventOpponent"></label><label>Fecha<input id="eventDate" type="date" required></label><label>Hora de inicio<input id="eventStart" type="time" required></label><label>Hora final<input id="eventEnd" type="time"></label><label>Casa / visita<select id="eventHomeAway"><option value="">No aplica</option><option value="home">Casa</option><option value="away">Visitante</option></select></label>
 <label id="eventVenueRegisteredField">Sede registrada<select id="eventVenue"></select></label>
 <label id="eventAwayVenueField" class="hidden">Lugar / gimnasio visitante<input id="eventAwayVenueName" placeholder="Ej. Gimnasio Municipal de Cartago"></label>
 <label id="eventAwayAddressField" class="hidden">Dirección visitante<input id="eventAwayAddress" placeholder="Dirección o referencia"></label>
-<label>Enlace de ubicación<input id="eventLocationUrl" type="url" placeholder="https://waze.com/… o https://maps.google.com/…"></label><label>Uniforme<select id="eventUniform"><option value="">Por definir</option><option value="red">Rojo</option><option value="black">Negro</option><option value="white">Blanco</option><option value="cyan_fuchsia">Celeste / Fucsia</option></select></label><label>Estado<select id="eventStatus"><option value="scheduled">Programado</option><option value="changed">Modificado</option><option value="cancelled">Cancelado</option><option value="completed">Completado</option></select></label></div><label>Observaciones<textarea id="eventNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
+<label>Enlace de ubicación<input id="eventLocationUrl" type="url" placeholder="https://waze.com/… o https://maps.google.com/…"></label><label>Uniforme<select id="eventUniform"><option value="">Por definir</option><option value="red">Rojo</option><option value="black">Negro</option><option value="white">Blanco</option><option value="cyan_fuchsia">Celeste / Fucsia</option></select></label><label>Estado<select id="eventStatus"><option value="scheduled">Programado</option><option value="changed">Modificado</option><option value="cancelled">Cancelado</option><option value="completed">Completado</option></select></label></div><label>Observaciones<textarea id="eventNotes"></textarea></label><div class="dialog-actions"><button id="deleteEventFromEditor" type="button" class="btn secondary danger-action hidden">Eliminar evento</button><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar cambios</button></div></form></dialog>
 
 <dialog id="eventDetailDialog" class="wide-dialog">
   <div class="dialog-head"><h3 id="eventDetailTitle">Detalle del evento</h3><button class="icon-button close-dialog" type="button">×</button></div>
   <div id="eventDetailContent"></div>
-  <div class="dialog-actions"><button id="eventCalendarButton" type="button" class="btn secondary">📅 Agregar al calendario</button><button type="button" class="btn secondary close-dialog">Cerrar</button><button id="editEventFromDetail" type="button" class="btn primary">Editar evento</button></div>
+  <div class="dialog-actions"><button id="eventCalendarButton" type="button" class="btn secondary">📅 Agregar al calendario</button><button id="deleteEventFromDetail" type="button" class="btn secondary danger-action hidden">Eliminar evento</button><button type="button" class="btn secondary close-dialog">Cerrar</button><button id="editEventFromDetail" type="button" class="btn primary">Editar evento</button></div>
 </dialog>
 
 <dialog id="calendarChoiceDialog" class="calendar-choice-dialog">
@@ -864,8 +1058,17 @@
 
 <dialog id="seasonDialog"><form id="seasonForm"><div class="dialog-head"><h3 id="seasonDialogTitle">Nueva temporada</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="seasonDocId" type="hidden"><div class="grid two"><label>Nombre<input id="seasonName" placeholder="2027" required></label><label>Estado<select id="seasonStatus"><option value="active">Activa</option><option value="closed">Cerrada</option></select></label><label>Fecha de inicio<input id="seasonStart" type="date" required></label><label>Fecha final<input id="seasonEnd" type="date" required></label></div><label><span class="check-inline"><input id="seasonCurrent" type="checkbox"> Marcar como temporada actual</span></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar</button></div></form></dialog>
 
-<dialog id="trainingDialog"><form id="trainingForm"><div class="dialog-head"><h3 id="trainingDialogTitle">Nuevo entrenamiento recurrente</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="trainingDocId" type="hidden"><div class="grid two"><label>Categoría<select id="trainingCategory" required></select></label><label>Temporada<select id="trainingSeason" required></select></label><label>Hora de inicio<input id="trainingStartTime" type="time" required></label><label>Hora final<input id="trainingEndTime" type="time" required></label><label>Fecha de inicio<input id="trainingStartDate" type="date" required></label><label>Fecha final<input id="trainingEndDate" type="date" required></label><label>Gimnasio<select id="trainingVenue"></select></label><label>Estado<select id="trainingStatus"><option value="active">Activo</option><option value="inactive">Inactivo</option></select></label></div><fieldset><legend>Días de la semana</legend><div class="weekday-grid"><label><input type="checkbox" name="trainingDay" value="1"> Lunes</label><label><input type="checkbox" name="trainingDay" value="2"> Martes</label><label><input type="checkbox" name="trainingDay" value="3"> Miércoles</label><label><input type="checkbox" name="trainingDay" value="4"> Jueves</label><label><input type="checkbox" name="trainingDay" value="5"> Viernes</label><label><input type="checkbox" name="trainingDay" value="6"> Sábado</label><label><input type="checkbox" name="trainingDay" value="0"> Domingo</label></div></fieldset><label>Observaciones<textarea id="trainingNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar serie</button></div></form></dialog>
+<dialog id="trainingDialog"><form id="trainingForm"><div class="dialog-head"><h3 id="trainingDialogTitle">Nuevo entrenamiento recurrente</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="trainingDocId" type="hidden"><div class="grid two"><label class="hidden">Categoría principal<select id="trainingCategory"></select></label><fieldset class="field-span compact-fieldset"><legend>Categoría(s) *</legend><p class="muted">Selecciona una o varias categorías.</p><div id="trainingCategoriesEditor" class="check-list"></div></fieldset><label>Temporada<select id="trainingSeason" required></select></label><label>Hora de inicio<input id="trainingStartTime" type="time" required></label><label>Hora final<input id="trainingEndTime" type="time" required></label><label>Fecha de inicio<input id="trainingStartDate" type="date" required></label><label>Fecha final<input id="trainingEndDate" type="date" required></label><label>Gimnasio<select id="trainingVenue"></select></label><label>Estado<select id="trainingStatus"><option value="active">Activo</option><option value="inactive">Inactivo</option></select></label></div><fieldset><legend>Días de la semana</legend><div class="weekday-grid"><label><input type="checkbox" name="trainingDay" value="1"> Lunes</label><label><input type="checkbox" name="trainingDay" value="2"> Martes</label><label><input type="checkbox" name="trainingDay" value="3"> Miércoles</label><label><input type="checkbox" name="trainingDay" value="4"> Jueves</label><label><input type="checkbox" name="trainingDay" value="5"> Viernes</label><label><input type="checkbox" name="trainingDay" value="6"> Sábado</label><label><input type="checkbox" name="trainingDay" value="0"> Domingo</label></div></fieldset><label>Observaciones<textarea id="trainingNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar serie</button></div></form></dialog>
 
+<dialog id="trainingOccurrenceChoiceDialog">
+  <div class="dialog-head"><div><span class="eyebrow">ENTRENAMIENTO</span><h3 id="trainingOccurrenceChoiceTitle">Modificar entrenamiento</h3></div><button class="icon-button close-dialog" type="button">×</button></div>
+  <input id="trainingOccurrenceSeriesId" type="hidden"><input id="trainingOccurrenceDate" type="hidden">
+  <div class="dialog-content sports-create-grid">
+    <button class="panel sports-create-option" type="button" data-training-choice="single"><strong>Solo este día</strong><span>Cambiar o cancelar únicamente esta fecha.</span></button>
+    <button class="panel sports-create-option" type="button" data-training-choice="future"><strong>Este y los siguientes</strong><span>Crear un nuevo horario desde esta fecha.</span></button>
+    <button class="panel sports-create-option" type="button" data-training-choice="series"><strong>Toda la serie</strong><span>Editar la programación recurrente completa.</span></button>
+  </div>
+</dialog>
 <dialog id="trainingExceptionDialog"><form id="trainingExceptionForm"><div class="dialog-head"><h3>Modificar una fecha</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="trainingExceptionSeriesId" type="hidden"><label>Fecha<input id="trainingExceptionDate" type="date" required></label><label>Acción<select id="trainingExceptionAction"><option value="cancelled">Cancelar entrenamiento</option><option value="changed">Cambiar horario o sede</option></select></label><div class="grid two"><label>Nueva hora de inicio<input id="trainingExceptionStart" type="time"></label><label>Nueva hora final<input id="trainingExceptionEnd" type="time"></label><label>Nueva sede<select id="trainingExceptionVenue"></select></label></div><label>Motivo / observaciones<textarea id="trainingExceptionNotes"></textarea></label><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Guardar excepción</button></div></form></dialog>
 
 <dialog id="trainingFutureDialog"><form id="trainingFutureForm"><div class="dialog-head"><h3>Cambiar desde una fecha</h3><button class="icon-button close-dialog" type="button">×</button></div><input id="trainingFutureSeriesId" type="hidden"><label>Aplicar cambios desde<input id="trainingFutureDate" type="date" required></label><div class="grid two"><label>Nueva hora de inicio<input id="trainingFutureStart" type="time" required></label><label>Nueva hora final<input id="trainingFutureEnd" type="time" required></label><label>Nueva sede<select id="trainingFutureVenue"></select></label></div><p class="muted">La serie actual terminará el día anterior y se creará una nueva serie desde esta fecha.</p><div class="dialog-actions"><button type="button" class="btn secondary close-dialog">Cancelar</button><button class="btn primary" type="submit">Aplicar a siguientes</button></div></form></dialog>
@@ -893,7 +1096,9 @@
 
 <div id="toast" class="toast hidden"></div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script type="module" src="app-ui-2.13.4.js?v=20260807-stable342"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>if(window.pdfjsLib){window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";}</script>
+<script type="module" src="app-ui-2.14.25.js?v=20260824-ui21425"></script>
 
 
 <script>

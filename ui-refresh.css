@@ -1353,25 +1353,267 @@ html[data-theme="dark"] .onvo-payment-card{background:#20252d!important;color:#f
 .badge.injured,.visual-status-badge.injured{background:#fff0f0;color:#8f1015;border:1px solid #e31b23}
 @media(max-width:650px){.shirt-catalog-grid{grid-template-columns:1fr}.shirt-product-preview img,.shirt-photo-placeholder{width:90px;height:90px}}
 
-/* UI 2.13.5 — Header cleanup and VolleyCore branding */
-.vc-header-product-logo{
-  display:flex;
+/* =========================================================
+   VolleyCore UI 2.13.6 — final VolleyCore logo integration
+   Keeps the approved interface palette intact.
+   ========================================================= */
+.vc-brand-header{
+  display:grid!important;
+  grid-template-columns:1fr auto 1fr!important;
+  align-items:center!important;
+}
+.vc-club-lockup{
+  grid-column:2!important;
+  justify-self:center!important;
+  justify-content:center!important;
+  gap:16px!important;
+}
+.vc-header-shield{width:72px!important;height:88px!important}
+.vc-club-wordmark{min-width:340px!important;max-width:380px!important}
+.vc-brand-divider,.vc-product-wordmark{display:none!important}
+.top-actions{
+  grid-column:3!important;
+  justify-self:end!important;
+  margin-left:0!important;
+  display:flex!important;
+  align-items:center!important;
+}
+.vc-top-user,.vc-top-logout-hidden{display:none!important}
+.vc-volleycore-mark{
+  display:block!important;
+  width:76px!important;
+  height:76px!important;
+  object-fit:contain!important;
+  margin-left:4px!important;
+}
+.vc-sidebar-brand.vc-sidebar-shield-only{
+  min-height:128px!important;
+  padding:7px 8px 12px!important;
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:center!important;
+}
+.vc-sidebar-brand.vc-sidebar-shield-only img{
+  width:82px!important;
+  height:100px!important;
+  margin:0 auto!important;
+  transform:translateX(6px);
+  object-fit:contain!important;
+}
+@media(max-width:760px){
+  .vc-brand-header{display:flex!important;justify-content:space-between!important}
+  .vc-club-lockup{display:flex!important;justify-content:flex-start!important;gap:8px!important}
+  .vc-volleycore-mark{width:52px!important;height:52px!important}
+  .vc-sidebar-brand.vc-sidebar-shield-only{display:none!important}
+}
+
+/* UI 2.14.2 — trainer summary interaction */
+.trainer-summary-stat{
+  width:100%;
+  border:0;
+  font:inherit;
+  text-align:left;
+  cursor:pointer;
+  appearance:none;
+}
+.trainer-summary-stat:hover,
+.trainer-summary-stat:focus-visible{
+  transform:translateY(-1px);
+  outline:2px solid color-mix(in srgb, var(--primary, #b11f24) 35%, transparent);
+  outline-offset:2px;
+}
+.trainer-summary-stat.selected{
+  box-shadow:0 0 0 2px color-mix(in srgb, var(--primary, #b11f24) 35%, transparent);
+}
+
+/* UI 2.14.6 — Linking requests administration */
+.nav-count-badge{
+  margin-left:auto;
+  min-width:22px;
+  height:22px;
+  padding:0 6px;
+  border-radius:999px;
+  display:inline-flex;
   align-items:center;
   justify-content:center;
-  width:54px;
-  height:54px;
-  flex:0 0 54px;
-  overflow:hidden;
+  font-size:.75rem;
+  font-weight:800;
+  background:#b51e2b;
+  color:#fff;
+}
+.link-admin-summary{width:100%;border:0;font:inherit;text-align:left;cursor:pointer;appearance:none}
+.link-admin-summary.selected{outline:2px solid rgba(181,30,43,.32);outline-offset:2px}
+.link-request-card .grid.two{align-items:start}
+html[data-theme="dark"] .link-admin-summary.selected{outline-color:rgba(114,216,233,.45)}
+
+
+/* UI 2.14.7 — Parent monthly-fee focus */
+.family-payment-tabs{
+  display:flex;
+  gap:8px;
+  margin:0 0 16px;
+  padding:5px;
+  width:max-content;
+  max-width:100%;
+  background:var(--vc-surface-2);
+  border:1px solid var(--vc-border);
   border-radius:14px;
 }
-.vc-header-product-logo img{
-  display:block;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center 39%;
-  transform:scale(1.34);
+.family-payment-tab{
+  border:1px solid transparent;
+  border-radius:10px;
+  background:transparent;
+  color:var(--vc-muted);
+  min-height:40px;
+  padding:8px 14px;
+  font-weight:800;
+  cursor:pointer;
 }
-@media (max-width:760px){
-  .vc-header-product-logo{width:44px;height:44px;flex-basis:44px;border-radius:11px}
+.family-payment-tab.active{
+  background:var(--vc-surface);
+  color:var(--vc-text);
+  border-color:var(--vc-border);
+  box-shadow:0 3px 10px rgba(15,23,42,.06);
 }
+.family-payment-tab span{
+  display:inline-flex;
+  min-width:22px;
+  height:22px;
+  align-items:center;
+  justify-content:center;
+  margin-left:5px;
+  padding:0 6px;
+  border-radius:999px;
+  background:var(--vc-red-soft);
+  color:var(--vc-red);
+  font-size:.72rem;
+}
+.family-payment-history-filters{
+  grid-template-columns:1fr 1fr 1fr!important;
+}
+@media(max-width:700px){
+  .family-payment-tabs{width:100%}
+  .family-payment-tab{flex:1}
+  .family-payment-history-filters{grid-template-columns:1fr!important}
+}
+
+/* UI 2.14.8 — Offboarding / retention log */
+.offboarding-card{position:relative}
+.offboarding-filters{grid-template-columns:2fr 1fr 1fr!important}
+@media(max-width:800px){.offboarding-filters{grid-template-columns:1fr!important}}
+
+/* UI 2.14.9 — interaction consistency audit */
+.clickable-card,.clickable-row,.clickable-stat,[data-dashboard-view]{cursor:pointer}
+.clickable-card:hover,.clickable-stat:hover,.vc-feature-card[data-dashboard-view]:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(15,23,42,.09)}
+.clickable-row:hover td{background:rgba(15,23,42,.035)}
+.clickable-card:focus-visible,.clickable-row:focus-visible,.clickable-stat:focus-visible,[data-dashboard-view]:focus-visible{outline:3px solid rgba(38,180,196,.35);outline-offset:2px}
+.clickable-stat{appearance:none;width:100%;font:inherit;text-align:left}
+.vc-card-link{display:inline-block;margin-top:12px;font-weight:800}
+.vc-dashboard-match-list{display:grid;gap:10px}
+.vc-dashboard-match-row{display:grid;gap:2px;padding-bottom:9px;border-bottom:1px solid var(--vc-border)}
+.vc-dashboard-match-row:last-child{border-bottom:0;padding-bottom:0}
+.vc-dashboard-match-row span{font-weight:700}
+.vc-dashboard-match-row small{color:var(--vc-muted)}
+.notification-row{display:grid;grid-template-columns:minmax(0,1fr) 34px;align-items:stretch;border-bottom:1px solid var(--vc-border)}
+.notification-row .notification-item{border-bottom:0}
+.notification-dismiss{border:0;background:transparent;cursor:pointer;font-size:1.25rem;color:var(--vc-muted);border-radius:8px;margin:6px 4px}
+.notification-dismiss:hover{background:var(--vc-surface-2);color:var(--vc-text)}
+.notification-panel-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* UI 2.14.10 — interaction consistency */
+.finance-summary-card{cursor:pointer}
+.finance-summary-card:hover,.offboarding-card:hover,.shirt-admin-card:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(15,23,42,.09)}
+.detail-stack{display:grid;gap:10px}
+.detail-stack p{margin:0;padding:10px 0;border-bottom:1px solid var(--vc-border)}
+.detail-stack p:last-child{border-bottom:0}
+
+/* =========================================================
+   UI 2.14.12 — Pilot feedback + confirmed KPI interaction
+   ========================================================= */
+.offboarding-summary-card,.shirt-summary-card{cursor:pointer!important}
+.offboarding-summary-card:hover,.shirt-summary-card:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(15,23,42,.10)}
+.pilot-form-card form{display:grid;gap:14px}
+.pilot-rating-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.pilot-score-line{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.pilot-score-line span{padding:7px 10px;border-radius:10px;background:var(--vc-surface-2);border:1px solid var(--vc-border)}
+.pilot-setting-columns section{display:grid;gap:8px;align-content:start}
+.pilot-category-settings{max-height:260px;overflow:auto;padding:8px;border:1px solid var(--vc-border);border-radius:12px}
+.pilot-settings-disabled{opacity:.45;pointer-events:none}
+.pilot-feedback-card,.pilot-feature-card{border-left:3px solid var(--vc-cyan)}
+@media(max-width:850px){.pilot-rating-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.pilot-rating-grid{grid-template-columns:1fr}}
+
+/* UI 2.14.13 */
+.pilot-summary-card{cursor:pointer!important}.pilot-setting-box{border:1px solid var(--vc-border);border-radius:14px;padding:14px}.pilot-setting-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.switch-line{display:flex!important;align-items:center;gap:7px}.public-player-card{text-align:center}
+
+/* UI 2.14.14 Trainings v1 */
+.training-toolbar{display:flex;justify-content:space-between;gap:16px;align-items:center;margin:16px 0;flex-wrap:wrap}.training-filters{margin:0;flex:1}.training-week-nav,.training-view-tabs{display:flex;gap:8px;flex-wrap:wrap}.training-view-tabs{margin:8px 0 12px}.training-view-tabs .active{background:var(--vc-primary);color:#fff}.training-week-label{font-weight:800;margin:8px 0 12px}.training-calendar{display:grid;grid-template-columns:repeat(7,minmax(145px,1fr));gap:10px;overflow-x:auto;padding-bottom:8px}.training-day{min-width:145px;border:1px solid var(--vc-border);border-radius:14px;background:var(--vc-surface);overflow:hidden}.training-day>header{padding:11px 12px;border-bottom:1px solid var(--vc-border);display:flex;justify-content:space-between;gap:8px}.training-day>header span{font-size:12px;opacity:.7}.training-day-body{padding:8px;min-height:260px;display:flex;flex-direction:column;gap:8px}.training-block{width:100%;text-align:left;border:0;border-left:5px solid var(--training-color);border-radius:10px;padding:10px;background:color-mix(in srgb,var(--training-color) 10%,white);cursor:pointer;display:flex;flex-direction:column;gap:3px;color:#172033}.training-block:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(15,23,42,.12)}.training-block small{opacity:.78}.training-block em{font-size:11px;font-style:normal;font-weight:800}.training-category-dot{width:8px;height:8px;border-radius:50%;background:var(--training-color)}.training-empty{font-size:12px;opacity:.55;padding:10px 4px}.training-list-card{border-left:5px solid var(--training-color)}@media(max-width:1000px){.training-calendar{grid-template-columns:repeat(7,170px)}}
+
+/* UI 2.14.16 */
+.training-stat-card{cursor:pointer!important}.training-stat-card:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(15,23,42,.10)}
+.training-legend{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:6px 0 14px}.training-legend-item{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800}.training-legend-item i{width:10px;height:10px;border-radius:50%;background:var(--training-color)}.training-match-legend{padding-left:8px;border-left:1px solid var(--vc-border)}
+.training-match-block{border-style:solid;border-left-width:5px;background:color-mix(in srgb,var(--training-color) 16%,white)}.training-match-block>span:first-child{font-size:10px;font-weight:900;letter-spacing:.05em}
+.training-month-calendar{overflow-x:auto}.training-month-weekdays,.training-month-grid{display:grid;grid-template-columns:repeat(7,minmax(130px,1fr));min-width:910px}.training-month-weekdays strong{padding:9px;text-align:center;font-size:12px}.training-month-day{min-height:138px;border:1px solid var(--vc-border);padding:7px;background:var(--vc-surface)}.training-month-day.outside-month{opacity:.48;background:var(--vc-surface-2)}.training-month-day>header{font-weight:900;font-size:12px;margin-bottom:6px}.training-month-items{display:flex;flex-direction:column;gap:5px}.training-month-item{border:0;border-left:4px solid var(--training-color);border-radius:7px;padding:6px 7px;text-align:left;cursor:pointer;background:color-mix(in srgb,var(--training-color) 10%,white);display:flex;flex-direction:column;gap:2px;font-size:10px;color:#172033}.training-month-item.match{background:color-mix(in srgb,var(--training-color) 18%,white)}.training-month-item:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(15,23,42,.12)}
+
+/* UI 2.14.17 */
+.training-stats{gap:8px!important;margin-bottom:10px!important}.compact-training-stat{min-height:68px!important;padding:10px 14px!important}.compact-training-stat strong{font-size:1.35rem!important;line-height:1!important}.compact-training-stat span{font-size:.72rem!important;margin-top:4px!important}.training-festival-block{border-style:dashed!important}.training-month-item.festival{border-style:dashed}.training-block[style*="#111827"],.training-month-item[style*="#111827"]{color:#fff}.training-block[style*="#111827"] small,.training-month-item[style*="#111827"] span{color:#e5e7eb}
+
+/* UI 2.14.20 — grouped competition dates */
+.training-event-group{
+  border-left:5px solid var(--training-color);
+  border-radius:10px;
+  background:color-mix(in srgb,var(--training-color) 10%,white);
+  overflow:hidden;
+}
+.training-event-group>header{
+  display:flex;align-items:center;gap:7px;padding:8px 9px 6px;font-size:12px;
+}
+.training-event-group-list{display:flex;flex-direction:column}
+.training-group-event-row{
+  border:0;border-top:1px solid color-mix(in srgb,var(--training-color) 24%,transparent);
+  background:transparent;text-align:left;padding:7px 9px;cursor:pointer;color:inherit;
+  display:flex;flex-direction:column;gap:3px;width:100%;
+}
+.training-group-event-row:hover{background:color-mix(in srgb,var(--training-color) 10%,transparent)}
+.training-group-event-main{display:flex;flex-direction:column;gap:2px;font-size:11px}
+.training-group-event-main b{font-size:10px;letter-spacing:.03em}
+.training-group-event-row small{opacity:.75}
+.training-event-group.month-group{border-left-width:4px;border-radius:7px}
+.training-event-group.month-group>header{padding:5px 6px 4px;font-size:10px}
+.training-event-group.month-group .training-group-event-row{padding:5px 6px}
+.training-event-group.month-group .training-group-event-main{font-size:9px}
+.training-event-group.month-group .training-group-event-main b{font-size:9px}
+
+/* UI 2.14.21 — Unified Sports Calendar */
+.sports-create-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.sports-create-option{cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:5px;min-height:100px}
+.sports-create-option strong{font-size:1.05rem}.sports-create-option span{font-size:.85rem;opacity:.75}
+.training-event-group{width:100%;border:0;text-align:left;cursor:pointer;color:inherit}
+.training-event-group:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(15,23,42,.12)}
+.sports-group-venue{display:block;padding:0 9px 6px;opacity:.75}
+.training-group-event-row{cursor:default}
+.sports-detail-event{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.compact-fieldset{padding:10px 12px}
+@media(max-width:700px){.sports-create-grid{grid-template-columns:1fr}.page-head>.actions{width:100%}}
+
+/* UI 2.14.22 — event editing/deletion */
+#deleteEventFromEditor,#deleteEventFromDetail{margin-right:auto}
+.sports-detail-event>.actions{flex:0 0 auto}
+.danger-action.btn{border-color:#b91c1c;color:#991b1b}
+.danger-action.btn:hover{background:#fee2e2}
+
+/* =========================================================
+   VolleyCore UI 2.14.24 — sidebar + dashboard + festival grouping
+   ========================================================= */
+/* Keep the session identity inside the normal sidebar flow so it never
+   overlays navigation options at any scroll position. */
+.nav:not(.hidden){padding-bottom:18px!important}
+.vc-sidebar-user{
+  position:relative!important;
+  left:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  margin:16px -14px -18px!important;
+  padding:13px 15px!important;
+}
+.vc-dashboard-rail .panel:first-child{min-height:0}

@@ -7,9 +7,14 @@ service cloud.firestore {
     function hasProfile(){ return signedIn() && exists(userPath()); }
     function userDoc(){ return get(userPath()); }
     function sameOrg(){ return hasProfile() && userDoc().data.orgId == 'asbavol'; }
-    function isAdmin(){ return sameOrg() && userDoc().data.role in ['admin','treasurer']; }
-    function isRoleAdmin(){ return sameOrg() && userDoc().data.role == 'admin'; }
+    function isAdmin(){ return sameOrg() && userDoc().data.role == 'admin'; }
+    function isSuperAdmin(){ return isAdmin() && ('isSuperAdmin' in userDoc().data) && userDoc().data.isSuperAdmin == true; }
+    function isTreasurer(){ return sameOrg() && userDoc().data.role == 'treasurer'; }
+    function isFinance(){ return isAdmin() || isTreasurer(); }
+    function isRoleAdmin(){ return isSuperAdmin(); }
     function isPortalUser(){ return sameOrg() && userDoc().data.role in ['family','player']; }
+    function isMarketing(){ return signedIn() && userDoc().data.role == 'marketing'; }
+    function marketingHasCategory(categoryId){ return isMarketing() && categoryId in userDoc().data.get('assignedCategoryIds', []); }
     function isTrainer(){ return sameOrg() && userDoc().data.role in ['trainer','assistant'] && userDoc().data.status == 'active'; }
     function trainerCategories(){ return isTrainer() && ('assignedCategoryIds' in userDoc().data) ? userDoc().data.assignedCategoryIds : []; }
     function trainerHasCategory(categoryId){ return isTrainer() && categoryId in trainerCategories(); }
@@ -33,10 +38,12 @@ service cloud.firestore {
       allow read: if ownUser(uid) || isAdmin();
       allow update: if isRoleAdmin()
         || (isAdmin()
+          && resource.data.role != 'admin'
+          && request.resource.data.role != 'admin'
           && request.resource.data.orgId == resource.data.orgId
           && request.resource.data.email == resource.data.email
-          && request.resource.data.role == resource.data.role
-          && request.resource.data.accountType == resource.data.accountType)
+          && request.resource.data.accountType == resource.data.accountType
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['role','accountType','status','assignedCategoryIds','playerId','permissions','trainerLevel','familyId','fullName','phone','updatedAt']))
         || (ownUser(uid)
           && request.resource.data.orgId == resource.data.orgId
           && request.resource.data.email == resource.data.email
@@ -60,7 +67,7 @@ service cloud.firestore {
     match /seasons/{id} {
       allow read: if sameOrg() && resource.data.orgId == 'asbavol';
       allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
-      allow delete: if false;
+      allow delete: if isAdmin() && resource.data.orgId == 'asbavol';
     }
     match /trainingSeries/{id} {
       allow read: if (isAdmin() || trainerHasCategory(resource.data.categoryId) || isPortalUser()) && resource.data.orgId == 'asbavol';
@@ -75,7 +82,12 @@ service cloud.firestore {
     match /venues/{id} {
       allow read: if sameOrg() && resource.data.orgId == 'asbavol';
       allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
-      allow delete: if false;
+      allow delete: if isAdmin() && resource.data.orgId == 'asbavol';
+    }
+    match /adminAudit/{id} {
+      allow read: if isSuperAdmin();
+      allow create: if isAdmin() && request.resource.data.orgId == 'asbavol' && request.resource.data.actorId == request.auth.uid;
+      allow update, delete: if false;
     }
     match /events/{id} {
       allow read: if (isAdmin() || trainerHasCategory(resource.data.categoryId) || isPortalUser()) && resource.data.orgId == 'asbavol';
@@ -86,7 +98,8 @@ service cloud.firestore {
           || (isTrainer()
             && trainerHasCategory(resource.data.categoryId)
             && trainerHasCategory(request.resource.data.categoryId)));
-      allow delete: if false;
+      allow delete: if resource.data.orgId == 'asbavol'
+        && (isAdmin() || (isTrainer() && trainerHasCategory(resource.data.categoryId)));
     }
     match /notifications/{id} {
       allow read: if sameOrg() && resource.data.orgId == 'asbavol';
@@ -98,9 +111,101 @@ service cloud.firestore {
           && request.resource.data.targetRole == 'admin'
           && request.resource.data.createdBy == request.auth.uid
           && request.resource.data.categoryId == '')
+        || (isPortalUser()
+          && request.resource.data.kind == 'link_request'
+          && request.resource.data.targetRole == 'admin'
+          && request.resource.data.createdBy == request.auth.uid
+          && request.resource.data.categoryId == ''
+          && request.resource.data.sourceId is string)
       );
-      allow update: if sameOrg() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['readBy']) && request.resource.data.readBy.hasAll(resource.data.readBy) && request.auth.uid in request.resource.data.readBy;
+      allow update: if sameOrg() && (
+        (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['readBy'])
+          && request.resource.data.get('readBy', []).hasAll(resource.data.get('readBy', []))
+          && request.resource.data.get('readBy', []).size() == resource.data.get('readBy', []).size() + 1
+          && request.auth.uid in request.resource.data.get('readBy', [])
+        )
+        || (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['hiddenBy'])
+          && request.resource.data.get('hiddenBy', []).hasAll(resource.data.get('hiddenBy', []))
+          && request.resource.data.get('hiddenBy', []).size() == resource.data.get('hiddenBy', []).size() + 1
+          && request.auth.uid in request.resource.data.get('hiddenBy', [])
+        )
+      );
       allow delete: if false;
+    }
+
+    function pilotSettingsPath(){ return /databases/$(database)/documents/pilotSettings/main; }
+    function surveyPilotAllowed(categoryId){
+      return !exists(pilotSettingsPath())
+        || (
+          get(pilotSettingsPath()).data.orgId == 'asbavol'
+          && get(pilotSettingsPath()).data.surveyEnabled == true
+          && (
+            !('surveyCategoryIds' in get(pilotSettingsPath()).data)
+            || get(pilotSettingsPath()).data.surveyCategoryIds.size() == 0
+            || categoryId in get(pilotSettingsPath()).data.surveyCategoryIds
+          )
+        );
+    }
+    function featurePilotAllowed(categoryId){
+      return !exists(pilotSettingsPath())
+        || (
+          get(pilotSettingsPath()).data.orgId == 'asbavol'
+          && get(pilotSettingsPath()).data.featureEnabled == true
+          && (
+            !('featureCategoryIds' in get(pilotSettingsPath()).data)
+            || get(pilotSettingsPath()).data.featureCategoryIds.size() == 0
+            || categoryId in get(pilotSettingsPath()).data.featureCategoryIds
+          )
+        );
+    }
+    match /marketingContent/{id} {
+      allow read: if isAdmin() || (sameOrg() && isMarketing() && marketingHasCategory(resource.data.categoryId));
+      allow create: if sameOrg() && isMarketing() && request.resource.data.createdBy == request.auth.uid && marketingHasCategory(request.resource.data.categoryId);
+      allow update: if sameOrg() && isMarketing() && request.resource.data.categoryId == resource.data.categoryId && request.resource.data.createdBy == resource.data.createdBy && marketingHasCategory(resource.data.categoryId);
+      allow delete: if isAdmin();
+    }
+
+    match /pilotSettings/{id} {
+      allow read: if sameOrg();
+      allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow delete: if false;
+    }
+    match /pilotFeedback/{id} {
+      allow read: if isAdmin() || (sameOrg() && resource.data.createdBy == request.auth.uid);
+      allow create: if sameOrg()
+        && request.resource.data.orgId == 'asbavol'
+        && request.resource.data.createdBy == request.auth.uid
+        && surveyPilotAllowed(request.resource.data.categoryId)
+        && (
+          isPortalUser()
+          || (isTrainer() && trainerHasCategory(request.resource.data.categoryId))
+        );
+      allow update: if isAdmin() && request.resource.data.orgId == resource.data.orgId && request.resource.data.createdBy == resource.data.createdBy;
+      allow delete: if false;
+    }
+    match /featureRequests/{id} {
+      allow read: if isAdmin() || (sameOrg() && resource.data.createdBy == request.auth.uid);
+      allow create: if sameOrg()
+        && request.resource.data.orgId == 'asbavol'
+        && request.resource.data.createdBy == request.auth.uid
+        && featurePilotAllowed(request.resource.data.categoryId)
+        && (
+          isPortalUser()
+          || (isTrainer() && trainerHasCategory(request.resource.data.categoryId))
+        );
+      allow update: if isAdmin() && request.resource.data.orgId == resource.data.orgId && request.resource.data.createdBy == resource.data.createdBy;
+      allow delete: if false;
+    }
+
+    match /exitRecords/{id} {
+      allow read: if isAdmin() && resource.data.orgId == 'asbavol';
+      allow create: if isAdmin()
+        && request.resource.data.orgId == 'asbavol'
+        && request.resource.data.processedBy == request.auth.uid
+        && request.resource.data.entityType in ['player','user','trainer'];
+      allow update, delete: if false;
     }
     match /shirtCatalog/{id} {
       allow read: if sameOrg() && resource.data.orgId == 'asbavol';
@@ -118,19 +223,22 @@ service cloud.firestore {
       allow delete: if false;
     }
     match /announcements/{id} {
-      allow read: if isAdmin()
+      allow read: if isFinance()
         || (isPortalUser() && resource.data.orgId == 'asbavol' && resource.data.status == 'published')
         || (isTrainer() && resource.data.orgId == 'asbavol' && resource.data.status == 'published' && trainerHasCategory(resource.data.categoryId));
       allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
       allow delete: if false;
     }
     match /players/{id} {
-      allow read: if isAdmin()
+      function hasPrivateFields(data){
+        return data.keys().hasAny(['identificationNumber','phone','email','province','cantonDistrict','address','emergencyContact','insured','insurance','guardians']);
+      }
+      allow read: if isAdmin() || isTreasurer()
         || (isPortalUser() && resource.data.orgId == 'asbavol'
           && (request.auth.uid in resource.data.linkedUserIds || userDoc().data.playerId == id))
         || (isTrainer() && resource.data.orgId == 'asbavol' && trainerHasAnyCategory(resource.data.categoryIds));
-      allow create: if isAdmin() && request.resource.data.orgId == 'asbavol';
-      allow update: if (isAdmin() && request.resource.data.orgId == 'asbavol')
+      allow create: if isAdmin() && request.resource.data.orgId == 'asbavol' && !hasPrivateFields(request.resource.data);
+      allow update: if (isAdmin() && request.resource.data.orgId == 'asbavol' && !hasPrivateFields(request.resource.data))
         || (isPortalUser()
           && userDoc().data.playerId == id
           && resource.data.orgId == 'asbavol'
@@ -140,27 +248,41 @@ service cloud.firestore {
           && request.auth.uid in request.resource.data.linkedUserIds
           && request.resource.data.linkedUserIds.hasAll(resource.data.linkedUserIds)
           && request.resource.data.linkedUserIds.size() == resource.data.linkedUserIds.size() + 1);
-      allow delete: if false;
+      allow delete: if isAdmin();
+    }
+    match /playerPrivate/{id} {
+      allow read: if isAdmin()
+        || (isPortalUser() && resource.data.orgId == 'asbavol'
+          && (request.auth.uid in resource.data.linkedUserIds || userDoc().data.playerId == id))
+        || (isTrainer()
+          && resource.data.orgId == 'asbavol'
+          && ('categoryIds' in resource.data)
+          && trainerHasAnyCategory(resource.data.categoryIds));
+      allow create, update: if isAdmin()
+        && request.resource.data.orgId == 'asbavol'
+        && request.resource.data.playerId == id
+        && ('categoryIds' in request.resource.data);
+      allow delete: if isAdmin();
     }
     match /charges/{id} {
-      allow read: if isAdmin()
+      allow read: if isFinance()
         || (isGuardian() && resource.data.orgId == 'asbavol' && request.auth.uid in resource.data.userIds)
         || (trainerCanSeeFinancial() && resource.data.orgId == 'asbavol' && trainerHasCategory(resource.data.categoryId));
-      allow create, update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow create, update: if isFinance() && request.resource.data.orgId == 'asbavol';
       allow delete: if false;
     }
     match /onvoPayments/{id} {
-      allow read: if isAdmin()
+      allow read: if isFinance()
         || (isPortalUser() && resource.data.orgId == 'asbavol' && resource.data.userId == request.auth.uid);
       allow create, update, delete: if false;
     }
     match /sinpeReports/{id} {
-      allow read: if isAdmin() || (isGuardian() && resource.data.orgId == 'asbavol' && resource.data.userId == request.auth.uid);
+      allow read: if isFinance() || (isGuardian() && resource.data.orgId == 'asbavol' && resource.data.userId == request.auth.uid);
       allow create: if isGuardian()
         && request.resource.data.orgId == 'asbavol'
         && request.resource.data.userId == request.auth.uid
         && request.resource.data.status == 'reported';
-      allow update: if isAdmin() && request.resource.data.orgId == 'asbavol';
+      allow update: if isFinance() && request.resource.data.orgId == 'asbavol';
       allow delete: if false;
     }
     match /linkRequests/{id} {

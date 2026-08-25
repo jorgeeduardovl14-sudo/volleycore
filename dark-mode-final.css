@@ -531,3 +531,134 @@ html[data-theme="dark"] .shirt-catalog-item,
 html[data-theme="dark"] .shirt-catalog-image{background:var(--dm-surface)!important;color:var(--dm-text)!important;border-color:var(--dm-border)!important}
 html[data-theme="dark"] .shirt-photo-placeholder{background:var(--dm-surface-2)!important;color:var(--dm-text)!important}
 html[data-theme="dark"] #appScreen :where(.badge.active,.badge.inactive,.badge.injured,.badge.pending,.badge.paid,.badge.partial,.badge.overdue,.badge.reported,.badge.approved,.badge.rejected,.badge.cancelled,.badge.exempt,.badge.scheduled,.badge.changed,.badge.completed,.badge.published,.badge.draft,.badge.closed,.badge.present,.badge.absent){text-shadow:none!important}
+
+
+/* =========================================================
+   VolleyCore UI 2.14.7 — dark-mode contrast hardening
+   Catch legacy/dynamic elements that still carried black text.
+   ========================================================= */
+html[data-theme="dark"] #appScreen .container .view :where(
+  .panel,.stat,.table-wrap,.recent-item,.person-row,.family-charge-card,
+  .cards-list>*,.cards-grid>*,.filters,.family-payment-tabs,.family-payment-history-filters,
+  .payment-meta,.charge-values,.details,.profile-data-list,.check-list,.picker-list
+) :where(h1,h2,h3,h4,h5,h6,p,div,span,strong,label,legend,dt,dd,td,th){
+  color:var(--dm-text)!important;
+}
+html[data-theme="dark"] #appScreen .container .view :where(
+  .panel,.stat,.table-wrap,.recent-item,.person-row,.family-charge-card,
+  .cards-list>*,.cards-grid>*,.filters,.family-payment-tabs,.family-payment-history-filters
+) :where(.muted,.subtitle,.page-subtitle,small){
+  color:var(--dm-muted)!important;
+}
+html[data-theme="dark"] #appScreen .container .view .eyebrow{color:var(--dm-link)!important}
+html[data-theme="dark"] #appScreen .container .view :where(a,.link-button){color:var(--dm-link)!important}
+
+/* Preserve status/button semantics after the universal contrast rule. */
+html[data-theme="dark"] #appScreen .container .view .btn.primary,
+html[data-theme="dark"] #appScreen .container .view .btn.primary *{color:#fff!important}
+html[data-theme="dark"] #appScreen .container .view .btn.secondary,
+html[data-theme="dark"] #appScreen .container .view .btn.secondary *{color:var(--dm-text)!important}
+
+html[data-theme="dark"] #appScreen .container .view .badge.paid,
+html[data-theme="dark"] #appScreen .container .view .badge.approved,
+html[data-theme="dark"] #appScreen .container .view .badge.active{color:#74e39c!important}
+html[data-theme="dark"] #appScreen .container .view .badge.pending,
+html[data-theme="dark"] #appScreen .container .view .badge.reported,
+html[data-theme="dark"] #appScreen .container .view .badge.partial{color:#ffd37a!important}
+html[data-theme="dark"] #appScreen .container .view .badge.overdue,
+html[data-theme="dark"] #appScreen .container .view .badge.rejected,
+html[data-theme="dark"] #appScreen .container .view .badge.inactive{color:#ff9a9a!important}
+html[data-theme="dark"] #appScreen .container .view .badge.exempt,
+html[data-theme="dark"] #appScreen .container .view .badge.neutral{color:#c8d0dc!important}
+
+/* Family payment tabs */
+html[data-theme="dark"] .family-payment-tab{
+  background:var(--dm-surface-2)!important;
+  color:var(--dm-text)!important;
+  border-color:var(--dm-border)!important;
+}
+html[data-theme="dark"] .family-payment-tab.active{
+  background:#23343a!important;
+  color:#9be8f3!important;
+  border-color:#4b9cac!important;
+}
+
+/* =========================================================
+   VolleyCore UI 2.14.8 — FULL DARK MODE CONTRAST AUDIT
+   Final module-wide rules; loaded last.
+   ========================================================= */
+html[data-theme="dark"] #appScreen .container .view{color:var(--dm-text)!important}
+html[data-theme="dark"] #appScreen .container .view :where(h1,h2,h3,h4,h5,h6,p,label,legend,summary,dt,dd,td,th,strong,.field-label,.profile-label,.charge-values,.payment-meta,.person-row,.recent-item,.family-card,.family-charge-card,.athlete-card,.event-card,.offboarding-card,.trainer-request-card,.trainer-event-card){color:var(--dm-text)!important}
+html[data-theme="dark"] #appScreen .container .view :where(.muted,.subtitle,.page-subtitle,small,.helper-text){color:var(--dm-muted)!important}
+html[data-theme="dark"] #appScreen .container .view :where(.panel,.stat,.table-wrap,.filters,.cards-list>*,.cards-grid>*,.recent-item,.person-row,.check-item,.picker-item,.guardian-row,.attendance-row,.player-editor-section,.category-editor-section,.family-charge-card,.offboarding-card,.trainer-request-card,.trainer-event-card){background-color:var(--dm-surface)!important;border-color:var(--dm-border)!important}
+html[data-theme="dark"] #appScreen .container .view :where(input,select,textarea){background:var(--dm-surface-2)!important;color:var(--dm-text)!important;border-color:var(--dm-border)!important}
+html[data-theme="dark"] #appScreen .container .view :where(input,textarea)::placeholder{color:#929cab!important}
+html[data-theme="dark"] #appScreen .container .view table,html[data-theme="dark"] #appScreen .container .view tbody,html[data-theme="dark"] #appScreen .container .view tr,html[data-theme="dark"] #appScreen .container .view td{color:var(--dm-text)!important;border-color:var(--dm-border)!important}
+html[data-theme="dark"] #appScreen .container .view thead th{background:#282e38!important;color:#eef1f5!important}
+html[data-theme="dark"] #appScreen .container .view .eyebrow,html[data-theme="dark"] #appScreen .container .view :where(a,.link-button){color:#72d8e9!important}
+
+/* Explicit status palette: readable regardless of inherited legacy colors. */
+html[data-theme="dark"] #appScreen .badge{background:#2b3039!important;color:#eef1f5!important;border:1px solid #414957!important}
+html[data-theme="dark"] #appScreen .badge:is(.active,.approved,.paid,.insured,.ready){background:#123421!important;color:#8ef0ad!important;border-color:#285c3a!important}
+html[data-theme="dark"] #appScreen .badge:is(.pending,.reported,.partial,.processing){background:#3a2c0d!important;color:#ffd77f!important;border-color:#6a5222!important}
+html[data-theme="dark"] #appScreen .badge:is(.overdue,.morosa,.rejected,.inactive,.cancelled,.injured){background:#42191d!important;color:#ff9ea3!important;border-color:#713139!important}
+html[data-theme="dark"] #appScreen .badge:is(.exempt,.neutral,.scheduled){background:#27303a!important;color:#d7e0ea!important;border-color:#485462!important}
+html[data-theme="dark"] #appScreen .badge.national-team-badge{background:#163248!important;color:#a9dcff!important;border-color:#315d79!important}
+
+html[data-theme="dark"] #appScreen .btn.primary,html[data-theme="dark"] #appScreen .btn.primary *{color:#fff!important}
+html[data-theme="dark"] #appScreen :where(.btn.secondary,.action,.icon-button,.multi-select-toggle),html[data-theme="dark"] #appScreen :where(.btn.secondary,.action,.icon-button,.multi-select-toggle) *{background-color:var(--dm-surface-2)!important;color:var(--dm-text)!important;border-color:var(--dm-border)!important}
+
+/* Dialog audit */
+html[data-theme="dark"] dialog,html[data-theme="dark"] dialog form,html[data-theme="dark"] dialog :where(section,fieldset,.dialog-head,.dialog-actions,.dialog-content){background:var(--dm-surface)!important;color:var(--dm-text)!important;border-color:var(--dm-border)!important}
+html[data-theme="dark"] dialog :where(h1,h2,h3,h4,h5,h6,p,label,legend,dt,dd,strong,span){color:var(--dm-text)!important}
+html[data-theme="dark"] dialog :where(.muted,small){color:var(--dm-muted)!important}
+html[data-theme="dark"] dialog .eyebrow{color:#72d8e9!important}
+html[data-theme="dark"] dialog :where(input,select,textarea){background:var(--dm-surface-2)!important;color:var(--dm-text)!important;border-color:var(--dm-border)!important}
+
+/* UI 2.14.9 — interaction audit dark mode */
+html[data-theme="dark"] .clickable-row:hover td{background:#292f38!important}
+html[data-theme="dark"] .vc-dashboard-match-row{border-color:var(--dm-border)!important}
+html[data-theme="dark"] .vc-dashboard-match-row small{color:var(--dm-muted)!important}
+html[data-theme="dark"] .notification-row{border-color:var(--dm-border)!important}
+html[data-theme="dark"] .notification-dismiss{color:var(--dm-muted)!important}
+html[data-theme="dark"] .notification-dismiss:hover{background:var(--dm-surface-2)!important;color:var(--dm-text)!important}
+
+/* UI 2.14.10 — new clickable/detail elements */
+html[data-theme="dark"] .detail-stack p{border-color:var(--dm-border)!important;color:var(--dm-text)!important}
+html[data-theme="dark"] .finance-summary-card:hover,
+html[data-theme="dark"] .offboarding-card:hover,
+html[data-theme="dark"] .shirt-admin-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.34)!important}
+
+/* UI 2.14.12 — pilot modules dark mode */
+html[data-theme="dark"] .pilot-score-line span{background:var(--dm-surface-2)!important;border-color:var(--dm-border)!important;color:var(--dm-text)!important}
+html[data-theme="dark"] .pilot-category-settings{border-color:var(--dm-border)!important}
+html[data-theme="dark"] .pilot-feedback-card,
+html[data-theme="dark"] .pilot-feature-card{background:var(--dm-surface)!important;color:var(--dm-text)!important}
+
+html[data-theme="dark"] .pilot-setting-box{border-color:var(--dm-border)!important;background:var(--dm-surface)!important}
+
+html[data-theme="dark"] .training-day{background:var(--dm-surface)!important;border-color:var(--dm-border)!important}html[data-theme="dark"] .training-day>header{border-color:var(--dm-border)!important}html[data-theme="dark"] .training-block{background:color-mix(in srgb,var(--training-color) 20%,#151922)!important;color:var(--dm-text)!important}
+
+html[data-theme="dark"] .training-month-day{background:var(--dm-surface)!important;border-color:var(--dm-border)!important}
+html[data-theme="dark"] .training-month-day.outside-month{background:var(--dm-surface-2)!important}
+html[data-theme="dark"] .training-month-item,html[data-theme="dark"] .training-match-block{background:color-mix(in srgb,var(--training-color) 22%,#151922)!important;color:var(--dm-text)!important}
+html[data-theme="dark"] .training-match-legend{border-color:var(--dm-border)!important}
+
+/* UI 2.14.17 */
+html[data-theme="dark"] .training-block[style*="#111827"],html[data-theme="dark"] .training-month-item[style*="#111827"]{background:#111827!important;color:#fff!important;border-color:#f8fafc!important}html[data-theme="dark"] .training-block[style*="#facc15"],html[data-theme="dark"] .training-month-item[style*="#facc15"]{color:#111827!important}
+
+/* UI 2.14.20 */
+html[data-theme="dark"] .training-event-group{
+  background:color-mix(in srgb,var(--training-color) 20%,#151922)!important;
+  color:var(--dm-text)!important;
+}
+html[data-theme="dark"] .training-event-group[style*="#111827"]{
+  background:#111827!important;color:#fff!important;border-color:#f8fafc!important;
+}
+
+/* UI 2.14.21 */
+html[data-theme="dark"] .sports-create-option{background:var(--dm-surface)!important;border-color:var(--dm-border)!important;color:var(--dm-text)!important}
+
+/* UI 2.14.22 */
+html[data-theme="dark"] .danger-action.btn{border-color:#ef4444!important;color:#fecaca!important}
+html[data-theme="dark"] .danger-action.btn:hover{background:#3f1717!important}

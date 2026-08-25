@@ -101,7 +101,7 @@ export async function verifyFirebaseUser(request) {
   return {uid:u.localId,email:u.email||"",emailVerified:!!u.emailVerified};
 }
 
-function projectId() {
+export function projectId() {
   return serviceAccount().project_id;
 }
 function docName(collection, id) {
@@ -149,6 +149,37 @@ export async function getDocument(collection,id) {
   const data = await res.json().catch(()=>({}));
   if (!res.ok) throw new Error(data.error?.message || `Firestore get failed (${res.status}).`);
   return {id, ...decodeFields(data.fields||{})};
+}
+
+export async function queryDocuments(collectionName, fieldPath, op, value) {
+  const token = await getServiceAccessToken();
+  const url = `https://firestore.googleapis.com/v1/projects/${projectId()}/databases/(default)/documents:runQuery`;
+  const structuredQuery = {
+    from:[{collectionId:collectionName}],
+    where:{
+      fieldFilter:{
+        field:{fieldPath},
+        op,
+        value:encodeValue(value),
+      }
+    }
+  };
+  const res = await fetch(url,{
+    method:"POST",
+    headers:{authorization:`Bearer ${token}`,"content-type":"application/json"},
+    body:JSON.stringify({structuredQuery}),
+  });
+  const data = await res.json().catch(()=>[]);
+  if (!res.ok) throw new Error(data.error?.message || `Firestore query failed (${res.status}).`);
+  return (Array.isArray(data)?data:[]).filter(x=>x.document).map(x=>{
+    const name=x.document.name||"";
+    const id=name.split("/").pop();
+    return {id,...decodeFields(x.document.fields||{})};
+  });
+}
+
+export function deleteWrite(collection,id) {
+  return {delete:docName(collection,id)};
 }
 
 export function updateWrite(collection,id,fields,maskFields=null,precondition=null) {
