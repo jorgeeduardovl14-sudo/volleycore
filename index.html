@@ -306,9 +306,9 @@
 
     <section id="view-finances" class="view hidden">
       <div class="page-head"><div><span class="eyebrow">FINANZAS</span><h2>Finanzas</h2><p class="muted">Mensualidades, ingresos, gastos y conciliación en una sola vista organizada.</p></div><button id="generateChargesButton" class="btn primary">Generar mensualidades</button></div>
-      <article class="panel finance-period-bar"><div class="filters finance-filters"><label>Desde<select id="financePeriodFrom"></select></label><label>Hasta<select id="financePeriodTo"></select></label><label>Categoría<select id="financeGlobalCategory"><option value="">Todas las categorías</option></select></label><div class="finance-filter-actions"><button id="applyFinanceFilters" class="btn primary" type="button">Aplicar filtros</button><button id="clearFinanceFilters" class="btn secondary" type="button">Limpiar filtros</button></div></div><p id="financeActiveFilters" class="finance-active-filter">Mostrando resultados: —</p></article>
       <nav class="finance-tabs" aria-label="Secciones de finanzas"><button type="button" class="active" data-finance-tab="summary">Resumen</button><button type="button" data-finance-tab="dues">Mensualidades</button><button type="button" data-finance-tab="income">Ingresos</button><button type="button" data-finance-tab="expenses">Gastos</button><button type="button" data-finance-tab="reconciliation">Conciliación</button></nav>
-
+      <article class="panel finance-period-bar"><div class="filters finance-filters"><label>Desde<select id="financePeriodFrom"></select></label><label>Hasta<select id="financePeriodTo"></select></label><label>Categoría<select id="financeGlobalCategory"><option value="">Todas las categorías</option></select></label><div class="finance-filter-actions"><button id="applyFinanceFilters" class="btn primary" type="button">Aplicar filtros</button><button id="clearFinanceFilters" class="btn secondary" type="button">Limpiar filtros</button></div></div><p id="financeActiveFilters" class="finance-active-filter">Mostrando resultados: —</p></article>
+      
       <div class="finance-tab-panel" data-finance-panel="summary">
         <div id="financeInsightsSummary" class="stats small"></div>
         <article class="panel finance-insights-panel"><div class="page-head compact-head"><div><span class="eyebrow">RESULTADO REAL</span><h3>Ingresos por categoría</h3></div></div><div class="table-wrap"><table><thead><tr><th>Categoría</th><th>Pagos recibidos</th><th>Patrocinios</th><th>Ingreso real</th></tr></thead><tbody id="categoryIncomeBody"></tbody></table></div></article>
@@ -337,6 +337,7 @@
       <div class="page-head">
         <div><span class="eyebrow">FINANZAS</span><h2>Centro de control de pagos</h2><p class="muted">Consulta saldos, morosidad, pagos recibidos y operaciones que requieren revisión.</p></div>
       </div>
+      <nav class="payment-registry-tabs finance-tabs" aria-label="Secciones de registro de pagos"><button type="button" class="active" data-payment-registry-tab="pending">Pendientes</button><button type="button" data-payment-registry-tab="approved">Aprobados</button><button type="button" data-payment-registry-tab="rejected">Rechazados</button><button type="button" data-payment-registry-tab="history">Historial</button></nav>
 
       <div id="paymentControlCards" class="stats payment-control-cards"></div>
 
@@ -668,6 +669,7 @@
     </section>
 
     <section id="view-familyPayments" class="view hidden">
+      <div id="familyPaymentConfirmation" class="notice success hidden" role="status"></div>
       <div class="page-head">
         <div><span class="eyebrow">FINANZAS</span><h2>Mis mensualidades</h2><p class="muted">Aquí aparecen primero únicamente las mensualidades que requieren tu atención.</p></div>
         <button id="openSinpeButton" class="btn primary">Reportar pago</button>
@@ -691,7 +693,7 @@
     </section>
     <section id="view-familyAnnouncements" class="view hidden"><div class="page-head"><div><span class="eyebrow">INFORMACIÓN</span><h2>Comunicados</h2></div></div><div id="familyAnnouncementsList" class="cards-list"></div></section>
 
-    <section id="view-about" class="view hidden"><div class="page-head"><div><span class="eyebrow">SISTEMA</span><h2>Acerca de VolleyCore</h2></div></div><article class="panel"><p><strong>Versión:</strong> UI 2.14.28</p><p><strong>Build:</strong> 2026-08-26 · Family Bulk Payments & Finance UX</p><p><strong>Organización:</strong> ASBAVOL</p><p><strong>Base de datos:</strong> Firebase Firestore</p></article></section>
+    <section id="view-about" class="view hidden"><div class="page-head"><div><span class="eyebrow">SISTEMA</span><h2>Acerca de VolleyCore</h2></div></div><article class="panel"><p><strong>Versión:</strong> UI 2.14.29</p><p><strong>Build:</strong> 2026-08-26 · Family Bulk Payments & Finance UX</p><p><strong>Organización:</strong> ASBAVOL</p><p><strong>Base de datos:</strong> Firebase Firestore</p></article></section>
 
     <section id="view-trainers" class="view hidden">
       <div class="page-head">
@@ -1120,7 +1122,7 @@
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>if(window.pdfjsLib){window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";}</script>
-<script type="module" src="app-ui-2.14.28.js?v=20260824-ui21425"></script>
+<script type="module" src="app-ui-2.14.29.js?v=20260824-ui21425"></script>
 
 
 <script>
