@@ -134,7 +134,7 @@
     <button data-view="venues"><span class="nav-icon">⌖</span>Gimnasios</button>
     <div class="nav-section-label">FINANZAS</div>
     <button data-view="sinpeAdmin"><span class="nav-icon">▣</span>Registro de pagos</button>
-    <button data-view="finances"><span class="nav-icon">₡</span>Control de mensualidades</button>
+    <button data-view="finances"><span class="nav-icon">₡</span>Finanzas</button>
     <button data-view="reports"><span class="nav-icon">▥</span>Reportes</button>
     <div class="nav-section-label">FAMILIAS</div>
     <button data-view="users"><span class="nav-icon">♣</span>Familias</button>
@@ -305,13 +305,32 @@
     </section>
 
     <section id="view-finances" class="view hidden">
-      <div class="page-head"><div><span class="eyebrow">FINANZAS</span><h2>Control de mensualidades</h2></div><button id="generateChargesButton" class="btn primary">Generar mensualidades</button></div>
-      <div class="filters finance-filters"><input id="chargeMonthFilter" type="month" aria-label="Mes"><select id="chargeCategoryFilter" aria-label="Categoría"><option value="">Todas las categorías</option></select><select id="chargeStatusFilter" aria-label="Estado"><option value="">Todos los estados</option><option value="overdue">Morosos</option><option value="pending">Pendiente dentro del plazo</option><option value="partial">Parcial</option><option value="paid">Pagado</option><option value="exempt">Exonerado</option></select></div>
-      <div id="financeSummary" class="stats small"></div><article class="panel finance-insights-panel"><div class="page-head compact-head"><div><span class="eyebrow">RESULTADO REAL</span><h3>Ingresos y gastos por categoría</h3></div></div><div class="filters finance-filters"><input id="financeInsightsMonth" type="month"><select id="financeInsightsCategory"><option value="">Todas las categorías</option></select></div><div id="financeInsightsSummary" class="stats small"></div><div class="table-wrap"><table><thead><tr><th>Categoría</th><th>Pagos recibidos</th><th>Patrocinios</th><th>Ingreso real</th></tr></thead><tbody id="categoryIncomeBody"></tbody></table></div></article>
-<div class="grid two finance-extension-grid"><article class="panel"><h3>Gastos fijos mensuales</h3><form id="fixedExpenseForm"><div class="grid two"><label>Gasto<input id="fixedExpenseName" required></label><label>Monto<input id="fixedExpenseAmount" type="number" min="0" required></label><label>Día de pago<input id="fixedExpenseDueDay" type="number" min="1" max="31" value="1"></label><label>Categoría<select id="fixedExpenseCategory"><option value="">General / todas</option></select></label></div><label>Notas<input id="fixedExpenseNotes"></label><button class="btn primary" type="submit">Guardar gasto fijo</button></form><div id="fixedExpensesList" class="cards-list compact-list"></div></article>
-<article class="panel"><h3>Ingresos de patrocinadores</h3><form id="sponsorIncomeForm"><div class="grid two"><label>Patrocinador<input id="sponsorName" required></label><label>Monto recibido<input id="sponsorAmount" type="number" min="0" required></label><label>Fecha<input id="sponsorDate" type="date" required></label><label>Categoría<select id="sponsorCategory"><option value="">General / todas</option></select></label><label>Concepto<input id="sponsorConcept"></label><label>Referencia<input id="sponsorReference"></label></div><button class="btn primary" type="submit">Registrar ingreso</button></form><div id="sponsorIncomeList" class="cards-list compact-list"></div></article></div>
-<article class="panel"><div class="page-head compact-head"><div><span class="eyebrow">CONCILIACIÓN</span><h3>Banco vs VolleyCore</h3><p class="muted">Carga un CSV del banco para comparar movimientos con pagos aprobados.</p></div><label class="btn secondary">Cargar CSV<input id="bankStatementFile" type="file" accept=".csv,text/csv" hidden></label></div><div id="bankReconciliationSummary" class="stats small"></div><div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Descripción</th><th>Referencia</th><th>Monto</th><th>Resultado</th><th>Match</th></tr></thead><tbody id="bankReconciliationBody"><tr><td colspan="6">Carga un CSV para iniciar.</td></tr></tbody></table></div></article>
-      <div class="table-wrap"><table><thead><tr><th>Jugadora</th><th>Categoría</th><th>Mes</th><th>Monto</th><th>Pagado</th><th>Estado</th><th></th></tr></thead><tbody id="chargesBody"></tbody></table></div>
+      <div class="page-head"><div><span class="eyebrow">FINANZAS</span><h2>Finanzas</h2><p class="muted">Mensualidades, ingresos, gastos y conciliación en una sola vista organizada.</p></div><button id="generateChargesButton" class="btn primary">Generar mensualidades</button></div>
+      <article class="panel finance-period-bar"><div class="filters finance-filters"><label>Desde<input id="financePeriodFrom" type="month"></label><label>Hasta<input id="financePeriodTo" type="month"></label><label>Categoría<select id="financeGlobalCategory"><option value="">Todas las categorías</option></select></label></div></article>
+      <nav class="finance-tabs" aria-label="Secciones de finanzas"><button type="button" class="active" data-finance-tab="summary">Resumen</button><button type="button" data-finance-tab="dues">Mensualidades</button><button type="button" data-finance-tab="income">Ingresos</button><button type="button" data-finance-tab="expenses">Gastos</button><button type="button" data-finance-tab="reconciliation">Conciliación</button></nav>
+
+      <div class="finance-tab-panel" data-finance-panel="summary">
+        <div id="financeInsightsSummary" class="stats small"></div>
+        <article class="panel finance-insights-panel"><div class="page-head compact-head"><div><span class="eyebrow">RESULTADO REAL</span><h3>Ingresos por categoría</h3></div></div><div class="table-wrap"><table><thead><tr><th>Categoría</th><th>Pagos recibidos</th><th>Patrocinios</th><th>Ingreso real</th></tr></thead><tbody id="categoryIncomeBody"></tbody></table></div></article>
+      </div>
+
+      <div class="finance-tab-panel hidden" data-finance-panel="dues">
+        <div class="filters finance-filters"><select id="chargeStatusFilter" aria-label="Estado"><option value="">Todos los estados</option><option value="overdue">Morosos</option><option value="pending">Pendiente dentro del plazo</option><option value="partial">Parcial</option><option value="paid">Pagado</option><option value="exempt">Exonerado</option></select></div>
+        <div id="financeSummary" class="stats small"></div>
+        <div class="table-wrap"><table><thead><tr><th>Jugadora</th><th>Categoría</th><th>Mes</th><th>Monto</th><th>Pagado</th><th>Estado</th><th></th></tr></thead><tbody id="chargesBody"></tbody></table></div>
+      </div>
+
+      <div class="finance-tab-panel hidden" data-finance-panel="income">
+        <article class="panel"><h3>Ingresos de patrocinadores</h3><form id="sponsorIncomeForm"><div class="grid two"><label>Patrocinador<input id="sponsorName" required></label><label>Monto recibido<input id="sponsorAmount" type="number" min="0" required></label><label>Fecha<input id="sponsorDate" type="date" required></label><label>Categoría<select id="sponsorCategory"><option value="">General / todas</option></select></label><label>Concepto<input id="sponsorConcept"></label><label>Referencia<input id="sponsorReference"></label></div><button class="btn primary" type="submit">Registrar ingreso</button></form><div id="sponsorIncomeList" class="cards-list compact-list"></div></article>
+      </div>
+
+      <div class="finance-tab-panel hidden" data-finance-panel="expenses">
+        <article class="panel"><h3>Gastos fijos mensuales</h3><form id="fixedExpenseForm"><div class="grid two"><label>Gasto<input id="fixedExpenseName" required></label><label>Monto<input id="fixedExpenseAmount" type="number" min="0" required></label><label>Día de pago<input id="fixedExpenseDueDay" type="number" min="1" max="31" value="1"></label><label>Categoría<select id="fixedExpenseCategory"><option value="">General / todas</option></select></label></div><label>Notas<input id="fixedExpenseNotes"></label><button class="btn primary" type="submit">Guardar gasto fijo</button></form><div id="fixedExpensesList" class="cards-list compact-list"></div></article>
+      </div>
+
+      <div class="finance-tab-panel hidden" data-finance-panel="reconciliation">
+        <article class="panel"><div class="page-head compact-head"><div><span class="eyebrow">CONCILIACIÓN</span><h3>Banco vs VolleyCore</h3><p class="muted">Carga un CSV del banco para comparar movimientos con pagos aprobados.</p></div><label class="btn secondary">Cargar CSV<input id="bankStatementFile" type="file" accept=".csv,text/csv" hidden></label></div><div id="bankReconciliationSummary" class="stats small"></div><div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Descripción</th><th>Referencia</th><th>Monto</th><th>Resultado</th><th>Match</th></tr></thead><tbody id="bankReconciliationBody"><tr><td colspan="6">Carga un CSV para iniciar.</td></tr></tbody></table></div></article>
+      </div>
     </section>
 
     <section id="view-sinpeAdmin" class="view hidden">
@@ -672,7 +691,7 @@
     </section>
     <section id="view-familyAnnouncements" class="view hidden"><div class="page-head"><div><span class="eyebrow">INFORMACIÓN</span><h2>Comunicados</h2></div></div><div id="familyAnnouncementsList" class="cards-list"></div></section>
 
-    <section id="view-about" class="view hidden"><div class="page-head"><div><span class="eyebrow">SISTEMA</span><h2>Acerca de VolleyCore</h2></div></div><article class="panel"><p><strong>Versión:</strong> UI 2.14.26</p><p><strong>Build:</strong> 2026-08-26 · Community & Finance Expansion</p><p><strong>Organización:</strong> ASBAVOL</p><p><strong>Base de datos:</strong> Firebase Firestore</p></article></section>
+    <section id="view-about" class="view hidden"><div class="page-head"><div><span class="eyebrow">SISTEMA</span><h2>Acerca de VolleyCore</h2></div></div><article class="panel"><p><strong>Versión:</strong> UI 2.14.27</p><p><strong>Build:</strong> 2026-08-26 · Finance Tabs & Category Detail Fix</p><p><strong>Organización:</strong> ASBAVOL</p><p><strong>Base de datos:</strong> Firebase Firestore</p></article></section>
 
     <section id="view-trainers" class="view hidden">
       <div class="page-head">
@@ -1101,7 +1120,7 @@
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>if(window.pdfjsLib){window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";}</script>
-<script type="module" src="app-ui-2.14.26.js?v=20260824-ui21425"></script>
+<script type="module" src="app-ui-2.14.27.js?v=20260824-ui21425"></script>
 
 
 <script>
