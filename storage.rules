@@ -31,7 +31,7 @@ service firebase.storage {
       allow write: if isAdmin() && validImage();
     }
     match /orgs/asbavol/categoryGallery/{categoryId}/{uid}/{fileName} { allow read: if sameOrg(); allow write: if sameOrg() && request.auth.uid == uid && validImage(); }
-    match /orgs/asbavol/paymentReceipts/{uid}/{fileName} { allow read: if isAdmin() || isTreasurer() || (isPortalUser() && request.auth.uid == uid); allow write: if isPortalUser() && request.auth.uid == uid && validImage(); }
+    match /orgs/asbavol/paymentReceipts/{uid}/{fileName} { allow read: if sameOrg() && (isAdmin() || isTreasurer() || request.auth.uid == uid); allow create: if sameOrg() && request.auth.uid == uid && validImage(); allow update, delete: if false; }
     match /shirtCatalog/asbavol/{allPaths=**} {
       allow read: if sameOrg();
       allow write: if isAdmin() && validImage();
