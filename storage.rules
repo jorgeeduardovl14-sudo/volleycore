@@ -7,6 +7,7 @@ service firebase.storage {
     function userDoc(){ return firestore.get(userPath()); }
     function sameOrg(){ return hasProfile() && userDoc().data.orgId == 'asbavol'; }
     function isAdmin(){ return sameOrg() && userDoc().data.role == 'admin'; }
+    function isTreasurer(){ return sameOrg() && userDoc().data.role == 'treasurer'; }
     function isPortalUser(){ return sameOrg() && userDoc().data.role in ['family','player']; }
     function isTrainer(){ return sameOrg() && userDoc().data.role in ['trainer','assistant'] && userDoc().data.status == 'active'; }
     function trainerCategories(){ return isTrainer() && ('assignedCategoryIds' in userDoc().data) ? userDoc().data.assignedCategoryIds : []; }
@@ -30,6 +31,7 @@ service firebase.storage {
       allow write: if isAdmin() && validImage();
     }
     match /orgs/asbavol/categoryGallery/{categoryId}/{uid}/{fileName} { allow read: if sameOrg(); allow write: if sameOrg() && request.auth.uid == uid && validImage(); }
+    match /orgs/asbavol/paymentReceipts/{uid}/{fileName} { allow read: if isAdmin() || isTreasurer() || (isPortalUser() && request.auth.uid == uid); allow write: if isPortalUser() && request.auth.uid == uid && validImage(); }
     match /shirtCatalog/asbavol/{allPaths=**} {
       allow read: if sameOrg();
       allow write: if isAdmin() && validImage();
