@@ -308,6 +308,9 @@ service cloud.firestore {
         && request.resource.data.categoryId == resource.data.categoryId;
       allow delete: if isAdmin();
     }
+    match /categoryGallery/{id} { allow read: if sameOrg() && resource.data.orgId == 'asbavol'; allow create: if sameOrg() && request.resource.data.orgId == 'asbavol' && request.resource.data.uploadedBy == request.auth.uid; allow update: if false; allow delete: if isAdmin() && resource.data.orgId == 'asbavol'; }
+    match /fixedExpenses/{id} { allow read: if isFinance() && resource.data.orgId == 'asbavol'; allow create, update: if isFinance() && request.resource.data.orgId == 'asbavol'; allow delete: if isAdmin() && resource.data.orgId == 'asbavol'; }
+    match /sponsorIncome/{id} { allow read: if isFinance() && resource.data.orgId == 'asbavol'; allow create, update: if isFinance() && request.resource.data.orgId == 'asbavol'; allow delete: if isAdmin() && resource.data.orgId == 'asbavol'; }
     match /{document=**} { allow read, write: if false; }
   }
 }

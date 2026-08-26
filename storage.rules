@@ -29,6 +29,7 @@ service firebase.storage {
       allow read: if sameOrg();
       allow write: if isAdmin() && validImage();
     }
+    match /orgs/asbavol/categoryGallery/{categoryId}/{uid}/{fileName} { allow read: if sameOrg(); allow write: if sameOrg() && request.auth.uid == uid && validImage(); }
     match /shirtCatalog/asbavol/{allPaths=**} {
       allow read: if sameOrg();
       allow write: if isAdmin() && validImage();
